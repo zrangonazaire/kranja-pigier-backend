@@ -1,4 +1,4 @@
-package com.pigierbackend.response;
+package com.pigierbackend.utilisateur;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

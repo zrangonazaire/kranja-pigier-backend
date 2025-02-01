@@ -1,11 +1,14 @@
-package com.pigierbackend.request;
+package com.pigierbackend.utilisateur;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthRequest {
+public class AuthenticationRequest {
     private String username;
     private String password;
+
+ 
+
 }
