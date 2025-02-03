@@ -15,19 +15,25 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.GrantedAuthority;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "ROLE")
 @Getter
 @Setter
-public class Role extends AbstractEntity {
+public class Role extends AbstractEntity implements GrantedAuthority {
     String nomRole;
     String descriptionRole;
+
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "ROLE_PRIVILEGE", 
     joinColumns = @JoinColumn(name = "role_id"), 
     inverseJoinColumns = @JoinColumn(name = "privilege_id"))
     List<Privilege> privileges;
 
+    @Override
+    public String getAuthority() {
+        return nomRole; // Return the role name as the authority
+    }
 }
