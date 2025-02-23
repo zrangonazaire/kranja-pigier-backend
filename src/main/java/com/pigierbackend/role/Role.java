@@ -15,14 +15,14 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.core.GrantedAuthority;
+// import org.springframework.security.core.GrantedAuthority;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "ROLE")
 @Getter
 @Setter
-public class Role extends AbstractEntity implements GrantedAuthority {
+public class Role extends AbstractEntity /* implements GrantedAuthority */ {
     String nomRole;
     String descriptionRole;
 
@@ -32,8 +32,8 @@ public class Role extends AbstractEntity implements GrantedAuthority {
     inverseJoinColumns = @JoinColumn(name = "privilege_id"))
     List<Privilege> privileges;
 
-    @Override
-    public String getAuthority() {
-        return nomRole; // Return the role name as the authority
-    }
+    // @Override
+    // public String getAuthority() {
+    //     return nomRole; // Return the role name as the authority
+    // }
 }
