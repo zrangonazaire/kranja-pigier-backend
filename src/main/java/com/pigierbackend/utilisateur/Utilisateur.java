@@ -1,8 +1,11 @@
 package com.pigierbackend.utilisateur;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.annotations.ManyToAny;
+// import org.springframework.security.core.GrantedAuthority;
+// import org.springframework.security.core.userdetails.UserDetails;
 
 import com.pigierbackend.abstractentity.AbstractEntity;
 import com.pigierbackend.role.Role;
@@ -23,7 +26,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "UTILISATEUR")
 @Getter
 @Setter
-public class Utilisateur extends AbstractEntity {
+public class Utilisateur extends AbstractEntity /* implements UserDetails */ {
     @Column(unique = true, nullable = false)
     String username;
     String password;
@@ -33,6 +36,33 @@ public class Utilisateur extends AbstractEntity {
     joinColumns = @JoinColumn(name = "utilisateur_id"), 
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     List<Role> roles;
+    // @Override
+    // public Collection<? extends GrantedAuthority> getAuthorities() {
+    //     return List.of();
+    // }
 
+    // @Override
+    // public String getUsername() {
+    //     return username;
+    // }
 
+    // @Override
+    // public boolean isAccountNonExpired() {
+    //     return true;
+    // }
+
+    // @Override
+    // public boolean isAccountNonLocked() {
+    //     return true;
+    // }
+
+    // @Override
+    // public boolean isCredentialsNonExpired() {
+    //     return true;
+    // }
+
+    // @Override
+    // public boolean isEnabled() {
+    //     return true;
+    // }
 }
