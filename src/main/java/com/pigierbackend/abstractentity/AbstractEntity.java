@@ -13,6 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,8 +29,10 @@ public class AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     Long idCreateur;
     @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date",nullable = false, updatable = false)
     Instant creationDate;
     @LastModifiedDate

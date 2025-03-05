@@ -2,6 +2,7 @@ package com.pigierbackend.etablissementsource;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -19,38 +21,29 @@ public class EtabSourceServiceImpl implements EtabSourceService {
 
     @Override
     public EtabSourceResponseDto creatOrUpdateEtabSource(EtabSourceRequestDto dto) {
-        EtabSource etabSource = etabSourceRepository.findById(dto.getId()).orElse(null);
-        EtabSourceResponseDto etabdto = new EtabSourceResponseDto();
-        if (etabSource != null) {
-            etabSource.setLibEtabSource(dto.getLibEtabSource());
-            etabSourceRepository.save(etabSource);
-            etabdto.setId(dto.getId());
-            etabdto.setLibEtabSource(dto.getLibEtabSource());
-        } else {
-            etabdto.setId(dto.getId());
-            etabdto.setLibEtabSource(dto.getLibEtabSource());
-        }
-        return etabdto;
+        EtabSource etabSource = etabSourceRepository.findById(dto.getId()).orElse(new EtabSource());
+        etabSource.setLibEtabSource(dto.getLibEtabSource());
+        etabSourceRepository.save(etabSource);
+        return etabSourceMapper.fromEtabSource(etabSource);
     }
 
     @Override
     public Boolean deleteEtabSource(Long id) {
-        EtabSource etabSource = etabSourceRepository.findById(id).orElse(null);
-        if (etabSource == null) {
-            return false;
+        Optional<EtabSource> etabSourceOpt = etabSourceRepository.findById(id);
+        if (etabSourceOpt.isPresent()) {
+            etabSourceRepository.delete(etabSourceOpt.get());
+            return true;
         }
-        etabSourceRepository.delete(etabSource);
-        return true;
+        return false;
     }
 
     @Override
-    public List<EtabSourceResponseDto> findAllEtabSour() { 
-       
+    public List<EtabSourceResponseDto> findAllEtabSour() {
         return etabSourceRepository.findAll()
-        .stream()
-        .distinct()
-        .sorted(Comparator.comparing(EtabSource::getLibEtabSource))
-        .map(etabSourceMapper::fromEtabSource)
-        .toList();
+                .stream()
+                .distinct()
+                .sorted(Comparator.comparing(EtabSource::getLibEtabSource))
+                .map(etabSourceMapper::fromEtabSource)
+                .toList();
     }
 }
