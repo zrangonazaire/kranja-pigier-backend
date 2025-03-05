@@ -1,4 +1,4 @@
-package com.pigierbackend.etablissementsource;
+package com.pigierbackend.formation;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,11 +11,10 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EtabSourceRequestDto {
-    Long id;
+public class FormationRequestDto {
+ Long id;
     @NotBlank(message = "Saisie obligatoire.")
     @NotEmpty(message = "Saisie obligatoire.")
     @NotNull(message = "Saisie obligatoire.")
-    String libEtabSource;
-
+    String nomFormation;
 }

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("etablissement")
+@RequestMapping("/api/vi/etablissement")
 @Tag(name = "Etablissement", description = "Etablissement management APIs")
 
 @FieldDefaults(level = AccessLevel.PRIVATE)

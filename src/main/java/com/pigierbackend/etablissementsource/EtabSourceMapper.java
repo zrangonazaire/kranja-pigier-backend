@@ -13,9 +13,9 @@ import lombok.experimental.FieldDefaults;
 @Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EtabSourceMapper {
-    public EtabSourceResponseDto fromEtabSource(EtabSource etabSource){
-        EtabSourceResponseDto etabSourceResponseDto=new EtabSourceResponseDto();
-       BeanUtils.copyProperties(etabSource, etabSourceResponseDto);
+    public EtabSourceResponseDto fromEtabSource(EtabSource etabSource) {
+        EtabSourceResponseDto etabSourceResponseDto = new EtabSourceResponseDto();
+        BeanUtils.copyProperties(etabSource, etabSourceResponseDto);
         return etabSourceResponseDto;
     }
 

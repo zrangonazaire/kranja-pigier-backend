@@ -1,4 +1,4 @@
-package com.pigierbackend.etablissementsource;
+package com.pigierbackend.formation;
 
 import com.pigierbackend.abstractentity.AbstractEntity;
 
@@ -11,13 +11,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-@Table(name = "ETABSOURCE")
+@Table(name = "FORMATION")
 @Getter
 @Setter
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-public class EtabSource extends AbstractEntity {
-    String libEtabSource;
+public class FORMATION extends AbstractEntity {
+    String nomFormation;
+
 }

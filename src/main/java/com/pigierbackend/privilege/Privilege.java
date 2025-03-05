@@ -4,6 +4,7 @@ import com.pigierbackend.abstractentity.AbstractEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +19,6 @@ public class Privilege extends AbstractEntity {
     String nomPrivilege;
     String descriptionPrivilege;
     
+    @Version
+    private Long version;
 }
