@@ -2,6 +2,8 @@ package com.pigierbackend.formation;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,12 +15,12 @@ import lombok.RequiredArgsConstructor;
 public class FormationController {
     final FormationService formationService;
     @RequestMapping("/creerOrUpdateFormation")
-    public FormationResponseDto createOrUpdateFormation(FormationRequestDto dto) {
+    public FormationResponseDto createOrUpdateFormation(@RequestBody FormationRequestDto dto) {
         return formationService.createOrUpdateFormation(dto);
     }
 
     @RequestMapping("/deleteFormation/{id}")
-    public Boolean deleteFormation(Long id) {
+    public Boolean deleteFormation(@PathVariable("id") Long id) {
         return formationService.deleteFormation(id);
     }
 
