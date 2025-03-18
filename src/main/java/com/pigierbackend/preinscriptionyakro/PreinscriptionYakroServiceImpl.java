@@ -1,11 +1,15 @@
 package com.pigierbackend.preinscriptionyakro;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.pigierbackend.etablissementsource.EtabSource;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -47,8 +51,12 @@ public class PreinscriptionYakroServiceImpl implements PreinscriptionYakroServic
 
     @Override
     public Boolean deletePreinscriptionYakro(Long id) {
-        preinscriptionYakroRepository.deleteById(id);
-        return !preinscriptionYakroRepository.existsById(id);
+          Optional<PREINSCRIPTIONYAKRO> preinscYak = preinscriptionYakroRepository.findById(id);
+        if (preinscYak.isPresent()) {
+            preinscriptionYakroRepository.delete(preinscYak.get());
+            return true;
+        }
+        return false;
     }
 
     @Override
