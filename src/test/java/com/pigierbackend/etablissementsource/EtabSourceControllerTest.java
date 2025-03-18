@@ -73,4 +73,5 @@ public class EtabSourceControllerTest {
         mockMvc.perform(get("/api/vi/etablissement/findAllEtabSour"))
                 .andExpect(status().isOk());
     }
+    
 }
