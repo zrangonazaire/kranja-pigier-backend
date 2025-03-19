@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PreinscriptionYakroRequestDto {
 
-    Long id; // Changed from String to Long
+    String id; // Changed from String to Long
     @NotBlank(message = "Saisie obligatoire.")
     @NotEmpty(message = "Saisie obligatoire.")
     @NotNull(message = "Saisie obligatoire.")

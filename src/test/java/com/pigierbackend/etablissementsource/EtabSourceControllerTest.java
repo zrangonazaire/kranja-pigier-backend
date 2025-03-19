@@ -50,7 +50,7 @@ public class EtabSourceControllerTest {
 
         when(etabSourceService.creatOrUpdateEtabSource(requestDto)).thenReturn(responseDto);
 
-        mockMvc.perform(post("/api/vi/etablissement/creerOrUpdateEtable")
+        mockMvc.perform(post("/etablissement/creerOrUpdateEtable")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isCreated());
@@ -62,7 +62,7 @@ public class EtabSourceControllerTest {
 
         when(etabSourceService.deleteEtabSource(id)).thenReturn(true);
 
-        mockMvc.perform(delete("/api/vi/etablissement/deleteEtab/{id}", id))
+        mockMvc.perform(delete("/etablissement/deleteEtab/{id}", id))
                 .andExpect(status().isOk());
     }
 
@@ -70,7 +70,7 @@ public class EtabSourceControllerTest {
     public void testFindAllEtabSour() throws Exception {
         when(etabSourceService.findAllEtabSour()).thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/api/vi/etablissement/findAllEtabSour"))
+        mockMvc.perform(get("/etablissement/findAllEtabSour"))
                 .andExpect(status().isOk());
     }
     

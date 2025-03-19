@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PreinscriptionYakroResponseDto {
-  Long id;
+  String id;
     String nomprenoms; // varchar(150) Checked
     LocalDate datnais; // datetime Checked
 

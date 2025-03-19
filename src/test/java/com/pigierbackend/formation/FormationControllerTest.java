@@ -48,7 +48,7 @@ public class FormationControllerTest {
 
         when(formationService.createOrUpdateFormation(requestDto)).thenReturn(responseDto);
 
-        mockMvc.perform(post("/api/vi/formation/creerOrUpdateFormation")
+        mockMvc.perform(post("/formation/creerOrUpdateFormation")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"field\":\"value\"}"))
                 .andExpect(status().isOk());
@@ -60,7 +60,7 @@ public class FormationControllerTest {
 
         when(formationService.deleteFormation(id)).thenReturn(true);
 
-        mockMvc.perform(delete("/api/vi/formation/deleteFormation/{id}", id))
+        mockMvc.perform(delete("/formation/deleteFormation/{id}", id))
                 .andExpect(status().isOk());
     }
 
@@ -70,7 +70,7 @@ public class FormationControllerTest {
 
         when(formationService.findAllFormation()).thenReturn(responseDtoList);
 
-        mockMvc.perform(get("/api/vi/formation/findAllFormation"))
+        mockMvc.perform(get("/formation/findAllFormation"))
                 .andExpect(status().isOk());
     }
 }

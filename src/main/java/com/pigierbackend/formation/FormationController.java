@@ -2,6 +2,7 @@ package com.pigierbackend.formation;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +16,9 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/vi/formation")
+@RequestMapping("/formation")
 @Tag(name = "FORMATION", description = "Formation Management APIs")
+@CrossOrigin("*")
 public class FormationController {
     final FormationService formationService;
     @PostMapping("/creerOrUpdateFormation")

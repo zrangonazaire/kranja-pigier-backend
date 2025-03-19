@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -15,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-@Table(name = "PREINSCRIPTIONYAKRO")
+@Table(name = "preinscriptionyakro")
 @Getter
 @Setter
 @Entity
@@ -24,8 +22,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 public class PREINSCRIPTIONYAKRO {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id; // Changed from String to Long
+    @Column(length = 12, nullable = false)
+    String id; // Changed from String to Long
     @Column(nullable = false, length = 150)
     String nomprenoms; // varchar(150) Checked
     LocalDate datnais; // datetime Checked
@@ -155,5 +153,6 @@ public class PREINSCRIPTIONYAKRO {
     String anneescolaire; // varchar(10) Checked
     @Column(length = 25)
     String Etab_source; // varchar(25) Checked
+    @Column(length = 25,nullable = true)
     boolean Inscrit_Sous_Titre; // bit Checked
 }

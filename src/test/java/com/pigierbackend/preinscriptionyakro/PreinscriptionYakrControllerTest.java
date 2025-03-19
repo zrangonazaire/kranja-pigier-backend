@@ -47,7 +47,7 @@ public class PreinscriptionYakrControllerTest {
 
         when(preinscriptionYakrService.createOrUpdatePreinscriptionYakro(requestDto)).thenReturn(responseDto);
 
-        mockMvc.perform(post("/api/vi/preinscriptionyakro/creerOrUpdatePreinscYakro")
+        mockMvc.perform(post("/preinscriptionyakro/creerOrUpdatePreinscYakro")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isCreated());
@@ -55,31 +55,31 @@ public class PreinscriptionYakrControllerTest {
 
     @Test
     void testDeleteEtab() throws Exception {
-        Long id = 1L;
+        String id = "1L";
 
         when(preinscriptionYakrService.deletePreinscriptionYakro(id)).thenReturn(true);
 
-        mockMvc.perform(delete("/api/vi/preinscriptionyakro/deletePreinscYakro/{id}", id)
+        mockMvc.perform(delete("/preinscriptionyakro/deletePreinscYakro/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void testFindAllEtab() throws Exception {
-        mockMvc.perform(get("/api/vi/preinscriptionyakro/findAllPreinscYakro")
+        mockMvc.perform(get("/preinscriptionyakro/findAllPreinscYakro/{page}/{size}", 0, 10)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     void testFindEtabById() throws Exception {
-        Long id = 1L;
+        String id = "1L";
 
         PreinscriptionYakroResponseDto responseDto = new PreinscriptionYakroResponseDto();
 
         when(preinscriptionYakrService.getPreinscriptionYakroById(id)).thenReturn(responseDto);
 
-        mockMvc.perform(get("/api/vi/preinscriptionyakro/findPreinscYakroById/{id}",id)
+        mockMvc.perform(get("/preinscriptionyakro/findPreinscYakroById/{id}",id)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -88,7 +88,7 @@ public class PreinscriptionYakrControllerTest {
     void testFindEtabByNom() throws Exception {
         String nomEleve = "nomEleve";
 
-        mockMvc.perform(get("/api/vi/preinscriptionyakro/findPreinscYakroByNomEleve/{nomEleve}", nomEleve)
+        mockMvc.perform(get("/preinscriptionyakro/findPreinscYakroByNomEleve/{nomEleve}", nomEleve)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

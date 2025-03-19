@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/vi/etablissement")
+@RequestMapping("/etablissement")
 @Tag(name = "Etablissement", description = "Etablissement management APIs")
-
+@CrossOrigin("*")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EtabSourceController {
     final EtabSourceService etabSourceService;

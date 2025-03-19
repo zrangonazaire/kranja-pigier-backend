@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.pigierbackend.etablissementsource.EtabSource;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +24,9 @@ public class PreinscriptionYakroServiceImpl implements PreinscriptionYakroServic
     final PreinscriptionYakroMapper preinscriptionYakroMapper;
 
     @Override
-    public List<PreinscriptionYakroResponseDto> getAllPreinscriptionYakro() {
-        return preinscriptionYakroRepository.findAll()
+    public List<PreinscriptionYakroResponseDto> getAllPreinscriptionYakro(int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        return preinscriptionYakroRepository.findAll(pageable)
                 .stream()
                 .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
                 .distinct()
@@ -33,7 +34,7 @@ public class PreinscriptionYakroServiceImpl implements PreinscriptionYakroServic
     }
 
     @Override
-    public PreinscriptionYakroResponseDto getPreinscriptionYakroById(Long id) {
+    public PreinscriptionYakroResponseDto getPreinscriptionYakroById(String id) {
         return preinscriptionYakroRepository.findById(id)
                 .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
                 .orElseThrow(() -> new IllegalArgumentException("La péinscription n'a pas été trouvée"));
@@ -50,7 +51,7 @@ public class PreinscriptionYakroServiceImpl implements PreinscriptionYakroServic
     }
 
     @Override
-    public Boolean deletePreinscriptionYakro(Long id) {
+    public Boolean deletePreinscriptionYakro(String id) {
           Optional<PREINSCRIPTIONYAKRO> preinscYak = preinscriptionYakroRepository.findById(id);
         if (preinscYak.isPresent()) {
             preinscriptionYakroRepository.delete(preinscYak.get());
