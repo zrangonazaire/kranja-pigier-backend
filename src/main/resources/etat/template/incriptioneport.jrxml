@@ -75,7 +75,7 @@
     "Etab_source",
     "Inscrit_Sous_Titre"
 FROM 
-    dbo.preinscription
+    dbo.preinscriptionyakro
 WHERE 
     id = $P{id_param}]]>
 	</queryString>
@@ -374,7 +374,7 @@ WHERE
 			</staticText>
 			<image>
 				<reportElement x="6" y="5" width="50" height="32" uuid="daeb3f32-f2b7-4863-9204-2bbf8de575f7"/>
-				<imageExpression><![CDATA["C:/Users/PIGIERCI/Downloads/droit/logo pigier.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["src/main/resources/etat/image/logo_pigier.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="460" y="3" width="101" height="19" uuid="f3a44289-83ad-44cb-9626-645446c83669"/>
