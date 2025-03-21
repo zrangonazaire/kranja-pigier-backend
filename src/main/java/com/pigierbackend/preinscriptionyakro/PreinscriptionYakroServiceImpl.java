@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,15 +50,14 @@ public class PreinscriptionYakroServiceImpl implements PreinscriptionYakroServic
 
     final PreinscriptionYakroRepository preinscriptionYakroRepository;
     final PreinscriptionYakroMapper preinscriptionYakroMapper;
-    final ResourceLoader resourceLoader;
     final DataSource dataSource;
     @Override
     public List<PreinscriptionYakroResponseDto> getAllPreinscriptionYakro(int page, int size) {
-        PageRequest pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        PageRequest pageable = PageRequest.of(page, size,Sort.by(Sort.Direction.DESC, "datinscrip"));
         return preinscriptionYakroRepository.findAll(pageable)
                 .stream()
                 .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
-                .distinct()
+                .distinct()                
                 .collect(Collectors.toList());
     }
 
