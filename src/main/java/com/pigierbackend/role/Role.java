@@ -12,7 +12,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 // import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +24,9 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "ROLE")
 @Getter
 @Setter
-public class Role extends AbstractEntity /* implements GrantedAuthority */ {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Role extends AbstractEntity  {
     String nomRole;
     String descriptionRole;
 

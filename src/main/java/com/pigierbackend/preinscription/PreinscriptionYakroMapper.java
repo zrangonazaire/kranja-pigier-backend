@@ -1,4 +1,4 @@
-package com.pigierbackend.preinscriptionyakro;
+package com.pigierbackend.preinscription;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public  class PreinscriptionYakroMapper {
-   public PreinscriptionYakroResponseDto fromPreinscriptionYakro(PREINSCRIPTIONYAKRO pre){
+   public PreinscriptionYakroResponseDto fromPreinscriptionYakro(PREINSCRIPTION pre){
         PreinscriptionYakroResponseDto prDto=new PreinscriptionYakroResponseDto();
         BeanUtils.copyProperties(pre,prDto);
         return prDto;

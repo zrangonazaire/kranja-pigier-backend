@@ -1,7 +1,10 @@
-package com.pigierbackend.preinscriptionyakro;
+package com.pigierbackend.preinscription;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +13,12 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PreinscriptionYakroResponseDto {
-  String id;
+public class PreinscriptionYakroRequestDto {
+
+    String id; // Changed from String to Long
+    @NotBlank(message = "Saisie obligatoire.")
+    @NotEmpty(message = "Saisie obligatoire.")
+    @NotNull(message = "Saisie obligatoire.")
     String nomprenoms; // varchar(150) Checked
     LocalDate datnais; // datetime Checked
 
@@ -24,7 +31,9 @@ public class PreinscriptionYakroResponseDto {
     String natident; // varchar(30) Checked
 
     String numidentite; // varchar(50) Checked
-   
+    @NotBlank(message = "Saisie obligatoire.")
+    @NotEmpty(message = "Saisie obligatoire.")
+    @NotNull(message = "Saisie obligatoire.")
     String teletud; // varchar(30) Checked
 
     String celetud; // varchar(30) Checked

@@ -1,4 +1,4 @@
-package com.pigierbackend.preinscriptionyakro;
+package com.pigierbackend.preinscription;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;

@@ -1,30 +1,18 @@
-package com.pigierbackend.preinscriptionyakro;
+package com.pigierbackend.preinscription;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.SimpleDoc;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Copies;
 import javax.sql.DataSource;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.beans.BeanUtils;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +22,6 @@ import org.springframework.util.ResourceUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -71,8 +58,8 @@ public class PreinscriptionYakroServiceImpl implements PreinscriptionYakroServic
     @Override
     public PreinscriptionYakroResponseDto createOrUpdatePreinscriptionYakro(
             PreinscriptionYakroRequestDto preinscriptionYakroRequestDto) {
-        PREINSCRIPTIONYAKRO preinscriptionyakro = preinscriptionYakroRepository
-                .findById(preinscriptionYakroRequestDto.getId()).orElse(new PREINSCRIPTIONYAKRO());
+        PREINSCRIPTION preinscriptionyakro = preinscriptionYakroRepository
+                .findById(preinscriptionYakroRequestDto.getId()).orElse(new PREINSCRIPTION());
         BeanUtils.copyProperties(preinscriptionYakroRequestDto, preinscriptionyakro);
         preinscriptionYakroRepository.save(preinscriptionyakro);
         return preinscriptionYakroMapper.fromPreinscriptionYakro(preinscriptionyakro);
@@ -80,7 +67,7 @@ public class PreinscriptionYakroServiceImpl implements PreinscriptionYakroServic
 
     @Override
     public Boolean deletePreinscriptionYakro(String id) {
-          Optional<PREINSCRIPTIONYAKRO> preinscYak = preinscriptionYakroRepository.findById(id);
+          Optional<PREINSCRIPTION> preinscYak = preinscriptionYakroRepository.findById(id);
         if (preinscYak.isPresent()) {
             preinscriptionYakroRepository.delete(preinscYak.get());
             return true;

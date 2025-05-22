@@ -1,4 +1,4 @@
-package com.pigierbackend.preinscriptionyakro;
+package com.pigierbackend.preinscription;
 
 import static org.mockito.Mockito.when;
 
@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
