@@ -4,9 +4,10 @@ import com.pigierbackend.abstractentity.AbstractEntity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.Version;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
@@ -15,10 +16,10 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "PRIVILEGE")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor // Ajout du constructeur par défaut requis par JPA
 public class Privilege extends AbstractEntity {
     String nomPrivilege;
     String descriptionPrivilege;
     
-    @Version
-    private Long version;
 }
