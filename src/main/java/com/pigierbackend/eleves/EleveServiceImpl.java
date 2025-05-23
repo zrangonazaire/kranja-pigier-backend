@@ -7,9 +7,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,11 +84,19 @@ File file=ResourceUtils.getFile(path+"/fichedeclasse.jrxml");
             
             // Exécuter la requête SQL (adaptez-la selon vos besoins)
             String sql = "SELECT e.Matri_Elev, e.Nom_Elev, e.Lieunais_Elev, e.Datenais_Elev, " +
-                       "e.Sexe_Elev, e.celetud, n.Des_Nat, e.Code_Detcla " +
-                       "FROM Elèves e JOIN Nationalité n ON e.Code_Nat = n.Code_Nat " +
-                       "WHERE e.AnneeSco_Elev = '" + parameters.get("PARAMEANNE") + "' " +
-                       "AND e.Code_Detcla LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
-                       "ORDER BY e.Code_Detcla, e.Nom_Elev";
+                   "e.Sexe_Elev, e.celetud, n.Des_Nat, e.Code_Detcla " +
+                   "FROM \"Nationalité\" n " +
+                   "INNER JOIN \"Elèves\" e ON e.\"Code_Nat\" = n.\"Code_Nat\" " +
+                   "WHERE e.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
+                   "AND e.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
+                   "UNION " +
+                   "SELECT h.\"Matri_Elev\", h.\"Nom_Elev\", h.\"Lieunais_Elev\", h.\"Datenais_Elev\", " +
+                   "h.\"Sexe_Elev\", h.celetud, n.\"Des_Nat\", h.\"Code_Detcla\" " +
+                   "FROM \"Nationalité\" n " +
+                   "INNER JOIN \"Historique\" h ON h.\"Code_Nat\" = n.\"Code_Nat\" " +
+                   "WHERE h.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
+                   "AND h.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
+                   "ORDER BY \"Code_Detcla\", \"Nom_Elev\"";
             
             rs = stmt.executeQuery(sql);
             
