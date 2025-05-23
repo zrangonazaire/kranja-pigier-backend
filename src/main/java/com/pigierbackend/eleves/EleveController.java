@@ -29,17 +29,19 @@ import lombok.extern.slf4j.Slf4j;
 public class EleveController {
 
     final EleveService eleveService;
-@GetMapping("/etatListeEtudiant")
-    public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse, @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin ) throws Exception {
-       try {
-             Map<String, Object> params = new HashMap<>();
-            params.put("PARAMEANNE", paramAnneDebut+"/"+paramAnneFin);
+
+    @GetMapping("/etatListeEtudiant")
+    public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse,
+            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("PARAMEANNE", paramAnneDebut + "/" + paramAnneFin);
             params.put("PARAMCLASSE", paramClasse);
-       
-            log.info("paramClasse: {}" , paramClasse);
+
+            log.info("paramClasse: {}", paramClasse);
             byte[] reportBytes = eleveService.listeEtudiant(params);
 
-             HttpHeaders headers = new HttpHeaders();
+            HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDispositionFormData("filename", "etatListeEtudiant.pdf"); // Nom du fichier
 
@@ -47,24 +49,44 @@ public class EleveController {
                     .headers(headers)
                     .body(reportBytes);
 
-
-       } catch (Exception e) {
-      System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-       }
-       
+        }
 
-       //  return eleveService.listeEtudiant(params);
+        // return eleveService.listeEtudiant(params);
     }
 
+    @GetMapping("/etatListeEtudiantExcel")
+    public ResponseEntity<byte[]> etatListeEtudiantExcel(@RequestParam String paramClasse,
+            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin) throws Exception {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("PARAMEANNE", paramAnneDebut + "/" + paramAnneFin);
+            params.put("PARAMCLASSE", paramClasse);
 
+            log.info("paramClasse: {}", paramClasse);
+            byte[] reportBytes = eleveService.listeEtudiantExcel(params);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("filename", "etatListeEtudiant.xlsx"); // Nom du fichier
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(reportBytes);
+
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     // Add your endpoint methods here
     // For example:
     // @GetMapping("/example")
     // public ResponseEntity<ExampleResponse> getExample() {
-    //     return ResponseEntity.ok(new ExampleResponse("Hello, World!"));
+    // return ResponseEntity.ok(new ExampleResponse("Hello, World!"));
     // }
-
-
 
 }
