@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials", "true")) // Autoriser les cookies
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**","/api/v1/auth/**", "/auth/login","/preinscriptionyakro/**","/encaissement/**").permitAll()
+                .requestMatchers("/api/auth/**","/api/v1/auth/**", "/auth/login","/preinscriptionyakro/**","/encaissement/**","/eleves/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/api/v1/preinscriptionyakro/**").permitAll()
                 .anyRequest().authenticated()
             );

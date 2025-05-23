@@ -208,7 +208,7 @@ ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
 			<expression><![CDATA[new java.util.Date()]]></expression>
 		</element>
 		<element kind="image" uuid="6eb212b4-3d1f-4245-9162-9cc4528e8928" x="2" y="1" width="148" height="50">
-			<expression><![CDATA["C:/PROJET PIGIER NOUVEAU/kranja-pigier-backend/src/main/resources/etat/image/logo_pigier.jpg"]]></expression>
+			<expression><![CDATA["src/main/resources/etat/image/logo_pigier.jpg"]]></expression>
 		</element>
 	</pageHeader>
 	<columnHeader height="50" splitType="Stretch">
