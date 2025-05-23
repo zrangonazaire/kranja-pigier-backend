@@ -59,4 +59,34 @@ public class EncaissementController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+        @GetMapping("/journalDroitInscBetweenDates")
+    public ResponseEntity<byte[]> generateJournalEncaissementsDroitInscriBetweenDatesReport(
+            @RequestParam List<String> modeRegParam,
+            @RequestParam List<String> etablissementSourceParam,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateDebut,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateFin,
+            @RequestParam Integer paramIDcaisse) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("Mode_Reg_Param", modeRegParam);
+            params.put("Etablissement_Source_Param", etablissementSourceParam);
+            params.put("ParamDate_Debut", paramDateDebut);
+            params.put("ParamDate_fIN", paramDateFin);
+            params.put("ParamIDcaisse", paramIDcaisse);
+
+            byte[] reportBytes = encaissementService.generateJournalDroitInscrisBetweenDatesReport(params);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("filename", "pointDeCaisseDroitInsEntreDeuxDate.pdf"); // Nom du fichier
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(reportBytes);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
