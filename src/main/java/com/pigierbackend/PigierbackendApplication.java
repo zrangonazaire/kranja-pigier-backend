@@ -1,9 +1,6 @@
 package com.pigierbackend;
 
-import java.util.Arrays;
 import java.util.Optional;
-
-import org.springframework.web.filter.CorsFilter;
 
 import com.pigierbackend.privilege.Privilege;
 import com.pigierbackend.privilege.PrivilegeRepository;
