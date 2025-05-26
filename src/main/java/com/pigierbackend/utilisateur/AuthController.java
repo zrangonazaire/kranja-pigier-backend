@@ -26,7 +26,7 @@ import com.pigierbackend.dto.AuthenticationResponse;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 public class AuthController {
-  AuthenticationService authenticationService;
+ final AuthenticationService authenticationService;
   // AuthenticationManager authenticationManager;
   // // UtilisateurDetailService utilisateurDetailService;
 @PostMapping("/login")
