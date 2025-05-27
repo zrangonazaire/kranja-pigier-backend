@@ -31,7 +31,7 @@ public class AuthController {
   // // UtilisateurDetailService utilisateurDetailService;
 @PostMapping("/login")
   public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest dto) throws Exception {
-    log.info("Login request received for user: {}", dto.getUsername());
+  
     return ResponseEntity.ok(authenticationService.authenticate(dto));
   }
 }

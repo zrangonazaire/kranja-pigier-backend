@@ -1,5 +1,8 @@
 package com.pigierbackend.dto;  // Ou com.pigierbackend.model selon votre structure
 
+import lombok.Builder;
+
+@Builder
 public class AuthenticationResponse {
     private  String token;
 

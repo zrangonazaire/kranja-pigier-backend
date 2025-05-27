@@ -3,7 +3,7 @@ package com.pigierbackend.role;
 import java.util.List;
 
 import com.pigierbackend.abstractentity.AbstractEntity;
-import com.pigierbackend.privilege.Privilege;
+import com.pigierbackend.privilege.Permission;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,10 +31,10 @@ public class Role extends AbstractEntity  {
     String descriptionRole;
 
     @ManyToMany(fetch=FetchType.EAGER)
-    @JoinTable(name = "ROLE_PRIVILEGE", 
+    @JoinTable(name = "ROLE_PERMISSION", 
     joinColumns = @JoinColumn(name = "role_id"), 
-    inverseJoinColumns = @JoinColumn(name = "privilege_id"))
-    List<Privilege> privileges;
+    inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    List<Permission> privileges;
 
     // @Override
     // public String getAuthority() {
