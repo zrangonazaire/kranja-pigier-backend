@@ -14,8 +14,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
-                        name = "mike",
-                        email = "michel.bossoh@outlook.fr"
+                        name = "zrango nazaire",
+                        email = "astairenazaire@gmail.com"
                 ),
                 description = "OpenApi documentation for Spring Security",
                 title = "OpenApi specification - BZDATA",

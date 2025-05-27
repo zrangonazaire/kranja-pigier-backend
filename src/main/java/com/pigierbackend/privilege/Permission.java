@@ -1,5 +1,7 @@
 package com.pigierbackend.privilege;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import com.pigierbackend.abstractentity.AbstractEntity;
 
 import jakarta.persistence.Entity;
@@ -13,13 +15,18 @@ import lombok.experimental.FieldDefaults;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "PRIVILEGE")
+@Table(name = "PERMISSION")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor // Ajout du constructeur par défaut requis par JPA
-public class Privilege extends AbstractEntity {
+public class Permission extends AbstractEntity implements GrantedAuthority {
     String nomPrivilege;
     String descriptionPrivilege;
-    
+
+    @Override
+    public String getAuthority() {
+        return nomPrivilege;
+    }
+
 }

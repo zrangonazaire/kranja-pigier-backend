@@ -2,8 +2,8 @@ package com.pigierbackend;
 
 import java.util.Optional;
 
-import com.pigierbackend.privilege.Privilege;
-import com.pigierbackend.privilege.PrivilegeRepository;
+import com.pigierbackend.privilege.Permission;
+import com.pigierbackend.privilege.PermissionRepository;
 import com.pigierbackend.role.Role;
 import com.pigierbackend.role.RoleRepository;
 import com.pigierbackend.utilisateur.Utilisateur;
@@ -82,18 +82,18 @@ public class PigierbackendApplication extends SpringBootServletInitializer { // 
 
     @Bean
     public CommandLineRunner chargerDonnees(
-            PrivilegeRepository privilegeRepository, RoleRepository roleRepository,
+            PermissionRepository privilegeRepository, RoleRepository roleRepository,
             UtilisateurRepository utilisateurRepository,
             PasswordEncoder passwordEncoder) {
         return args -> {
             String mdp = passwordEncoder.encode("Pigierci");
             int nombreprivilege = privilegeRepository.findAll().size();
             if (nombreprivilege == 0) {
-                privilegeRepository.save(new Privilege("PRIVILEGE_ADMIN", "Administrateur"));
-                privilegeRepository.save(new Privilege("PRIVILEGE_USER", "Utilisateur"));
-                privilegeRepository.save(new Privilege("PRIVILEGE_GESTIONNAIRE", "Gestionnaire"));
-                privilegeRepository.save(new Privilege("PRIVILEGE_PROFESSEUR", "Professeur"));
-                privilegeRepository.save(new Privilege("PRIVILEGE_ETUDIANT", "Etudiant"));
+                privilegeRepository.save(new Permission("PRIVILEGE_ADMIN", "Administrateur"));
+                privilegeRepository.save(new Permission("PRIVILEGE_USER", "Utilisateur"));
+                privilegeRepository.save(new Permission("PRIVILEGE_GESTIONNAIRE", "Gestionnaire"));
+                privilegeRepository.save(new Permission("PRIVILEGE_PROFESSEUR", "Professeur"));
+                privilegeRepository.save(new Permission("PRIVILEGE_ETUDIANT", "Etudiant"));
             }
             int nombreRole = roleRepository.findAll().size();
             if (nombreRole == 0) {
