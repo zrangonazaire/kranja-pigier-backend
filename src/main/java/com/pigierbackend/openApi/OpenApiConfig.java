@@ -21,8 +21,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 title = "OpenApi specification - BZDATA",
                 version = "1.0",
                 license = @License(
-                        name = "Licence name",
-                        url = "https://some-url.com"
+                        name = "Licence pour Pigier CI",
+                        url = "https://pigierci.com"
                 ),
                 termsOfService = "Terms of service"
         ),
