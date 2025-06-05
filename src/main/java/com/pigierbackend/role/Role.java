@@ -3,7 +3,7 @@ package com.pigierbackend.role;
 import java.util.List;
 
 import com.pigierbackend.abstractentity.AbstractEntity;
-import com.pigierbackend.privilege.Permission;
+import com.pigierbackend.permission.Permission;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

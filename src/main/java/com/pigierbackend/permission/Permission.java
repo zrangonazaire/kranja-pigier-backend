@@ -1,4 +1,4 @@
-package com.pigierbackend.privilege;
+package com.pigierbackend.permission;
 
 import org.springframework.security.core.GrantedAuthority;
 

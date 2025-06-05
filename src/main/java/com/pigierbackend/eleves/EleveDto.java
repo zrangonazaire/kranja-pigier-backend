@@ -2,13 +2,9 @@ package com.pigierbackend.eleves;
 
 import java.time.LocalDate;
 
-import com.pigierbackend.abstractentity.AbstractEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,21 +12,11 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "Elèves")
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ELEVE extends AbstractEntity {
-    // @Column(name = "matricule", nullable = false, length = 10, unique = true)
-    // String matricule;
-    // String nomprenom;
-    // @Column(name = "sexe", nullable = false, length = 1)
-    // String sexe;
-
-    // @Column(name = "role") // User role
-    // String role;
-    @Column(name = "matricule", nullable = false, length = 10, unique = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class EleveDto {
     private String matriElev;
     private String codeGrp;
     private String nomElev;

@@ -2,8 +2,8 @@ package com.pigierbackend;
 
 import java.util.Optional;
 
-import com.pigierbackend.privilege.Permission;
-import com.pigierbackend.privilege.PermissionRepository;
+import com.pigierbackend.permission.Permission;
+import com.pigierbackend.permission.PermissionRepository;
 import com.pigierbackend.role.Role;
 import com.pigierbackend.role.RoleRepository;
 import com.pigierbackend.utilisateur.Utilisateur;

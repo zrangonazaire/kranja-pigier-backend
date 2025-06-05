@@ -1,7 +1,6 @@
 package com.pigierbackend.abstractentity;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -51,5 +50,4 @@ public class AbstractEntity implements Serializable {
     @JsonIgnore
     @Column(name = "modification_date", nullable = false, updatable = false)
     LocalDateTime modificationDate;
-
 }
