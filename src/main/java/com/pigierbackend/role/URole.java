@@ -1,6 +1,8 @@
 package com.pigierbackend.role;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.pigierbackend.abstractentity.AbstractEntity;
 import com.pigierbackend.permission.Permission;
@@ -26,7 +28,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Role extends AbstractEntity  {
+public class URole extends AbstractEntity  {
     String nomRole;
     String descriptionRole;
 
@@ -34,7 +36,7 @@ public class Role extends AbstractEntity  {
     @JoinTable(name = "ROLE_PERMISSION", 
     joinColumns = @JoinColumn(name = "role_id"), 
     inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    List<Permission> privileges;
+    Set<Permission> permission=new HashSet<>();
 
     // @Override
     // public String getAuthority() {

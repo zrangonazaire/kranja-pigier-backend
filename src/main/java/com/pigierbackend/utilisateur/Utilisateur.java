@@ -3,7 +3,9 @@ package com.pigierbackend.utilisateur;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.hibernate.annotations.ManyToAny;
@@ -14,7 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.pigierbackend.abstractentity.AbstractEntity;
-import com.pigierbackend.role.Role;
+import com.pigierbackend.role.URole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,7 +41,7 @@ public class Utilisateur extends AbstractEntity implements UserDetails, Principa
     String nomPrenoms;
     @ManyToAny(fetch = FetchType.EAGER)
     @JoinTable(name = "UTILISATEUR_ROLE", joinColumns = @JoinColumn(name = "utilisateur_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    List<Role> roles;
+    Set<URole> roles=new HashSet<>();
 
     @Override
     public String getName() {
@@ -86,7 +88,7 @@ public UserResponse toUserResponse() {
                 .firstname(getUsername())
                 .lastname(getNomPrenoms())
                 .email(getUsername())
-                .roles(getRoles())
+                .roles(getRoles().stream().toList())
                 .createdDate(this.getCreationDate())
                 .lastModifiedDate(this.getModificationDate())    
                 .build();

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Security;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -23,6 +24,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 @Transactional
@@ -32,8 +34,8 @@ public class AuthenticationService {
 
     @Autowired
     AuthenticationManager authenticationManager;
-@Autowired
-UtilisateurRepository userRepository;
+    @Autowired
+    UtilisateurRepository userRepository;
 
     @Autowired
     JwtUtil jwtService;
@@ -44,15 +46,16 @@ UtilisateurRepository userRepository;
                     new UsernamePasswordAuthenticationToken(
                             request.getUsername(),
                             request.getPassword()));
-
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            log.info("Authentication successful for user: {}", request.getUsername());
             var user = userRepository.findByUsername(request.getUsername())
                     .orElseThrow(() -> new BadCredentialsException("Utilisateur non trouvé"));
             log.info("User is desactive: {}", user.isEnabled());
 
             // Vérification si le compte est désactivé
             // if (!user.isEnabled()) {
-            //     throw new DisabledException(
-            //             "Votre compte est désactivé. Veuillez contacter l'administrateur.");
+            // throw new DisabledException(
+            // "Votre compte est désactivé. Veuillez contacter l'administrateur.");
             // }
             // Vérifications avant authentification
             // if (isPasswordExpired(user.getUsername())) {

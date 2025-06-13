@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PreinscriptionYakroRequestDto {
+public class PreinscriptionRequestDto {
 
     String id; // Changed from String to Long
     @NotBlank(message = "Saisie obligatoire.")
@@ -149,4 +149,5 @@ public class PreinscriptionYakroRequestDto {
     String anneescolaire; // varchar(10) Checked
 
     String Etab_source; // varchar(25) Checked
+    String utilisateurCreateur;
 }

@@ -21,12 +21,12 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor // Ajout du constructeur par défaut requis par JPA
 public class Permission extends AbstractEntity implements GrantedAuthority {
-    String nomPrivilege;
-    String descriptionPrivilege;
+    String nomPermission;
+    String descriptionPermission;
 
     @Override
     public String getAuthority() {
-        return nomPrivilege;
+        return nomPermission;
     }
 
 }

@@ -6,6 +6,7 @@ import com.pigierbackend.abstractentity.AbstractEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ELEVE extends AbstractEntity {
+public class ELEVE {
     // @Column(name = "matricule", nullable = false, length = 10, unique = true)
     // String matricule;
     // String nomprenom;
@@ -30,7 +31,8 @@ public class ELEVE extends AbstractEntity {
 
     // @Column(name = "role") // User role
     // String role;
-    @Column(name = "matricule", nullable = false, length = 10, unique = true)
+    @Column(name = "matricule")
+    @Id
     private String matriElev;
     private String codeGrp;
     private String nomElev;

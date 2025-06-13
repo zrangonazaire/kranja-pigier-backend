@@ -1,5 +1,8 @@
 package com.pigierbackend.utilisateur;
 
+import javax.print.attribute.standard.Media;
+
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +32,7 @@ public class AuthController {
  final AuthenticationService authenticationService;
   // AuthenticationManager authenticationManager;
   // // UtilisateurDetailService utilisateurDetailService;
-@PostMapping("/login")
+@PostMapping(value = "/login",produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest dto) throws Exception {
   
     return ResponseEntity.ok(authenticationService.authenticate(dto));
