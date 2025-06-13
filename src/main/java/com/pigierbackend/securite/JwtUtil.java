@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-   
+
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -36,22 +36,24 @@ public class JwtUtil {
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
+
     public String generateToken(UserDetails userDetails, Utilisateur user) {
         Map<String, Object> claims = new HashMap<>();
-        
+
         // Utilisation du DTO pour la sérialisation
         claims.put("user", user);
-        
+
         return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                .signWith(getSignInKey(), Jwts.SIG.HS256)
+                .signWith(getSignInKey(), Jwts.SIG.HS512)
                 .compact();
     }
+
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        
+
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 

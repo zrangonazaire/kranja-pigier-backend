@@ -27,50 +27,55 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/preinscriptionyakro")
-@Tag(name = "PréinscriptionYakro", description = "Préinscription Yakro Management APIs")
+@RequestMapping("/preinscription")
+@Tag(name = "Préinscription", description = "Préinscription Management APIs")
 @CrossOrigin("*")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PreinscriptionYakrController {
-    final PreinscriptionYakroService preinscriptionYakroService;
+public class PreinscriptionController {
+    final PreinscriptionService preinscriptionYakroService;
 
-    @PostMapping("/creerOrUpdatePreinscYakro")
-    public ResponseEntity<PreinscriptionYakroResponseDto> creerOrUpdatePreinscYakro(
-            @RequestBody PreinscriptionYakroRequestDto dto) {
-        return new ResponseEntity<PreinscriptionYakroResponseDto>(
-                preinscriptionYakroService.createOrUpdatePreinscriptionYakro(dto), HttpStatus.CREATED);
+    @PostMapping("/creerOrUpdatePreinsc")
+    public ResponseEntity<PreinscriptionResponseDto> creerOrUpdatePreinscYakro(
+            @RequestBody PreinscriptionRequestDto dto) {
+        return new ResponseEntity<PreinscriptionResponseDto>(
+                preinscriptionYakroService.createOrUpdatePreinscription(dto), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/findAllPreinscYakro/{page}/{size}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<PreinscriptionYakroResponseDto>> findAllPreinscYakro(@PathVariable("page") int page,
+    @GetMapping(value = "/findAllPreinscsansparam", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinscSansParam() {
+        return new ResponseEntity<List<PreinscriptionResponseDto>>(
+                preinscriptionYakroService.getAllPreinscription(),
+                HttpStatus.OK);
+    }
+   @GetMapping(value = "/findAllPreinsc/{size}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinsc(
             @PathVariable("size") int size) {
-        return new ResponseEntity<List<PreinscriptionYakroResponseDto>>(
-                preinscriptionYakroService.getAllPreinscriptionYakro(page, size),
+        return new ResponseEntity<List<PreinscriptionResponseDto>>(
+                preinscriptionYakroService.getAllPreinscription( size),
                 HttpStatus.OK);
     }
-
-    @DeleteMapping("/deletePreinscYakro/{id}")
+    @DeleteMapping("/deletePreinsc/{id}")
     public ResponseEntity<Boolean> deletePreinscYakro(@PathVariable("id") String id) {
-        return new ResponseEntity<Boolean>(preinscriptionYakroService.deletePreinscriptionYakro(id), HttpStatus.OK);
+        return new ResponseEntity<Boolean>(preinscriptionYakroService.deletePreinscription(id), HttpStatus.OK);
     }
 
-    @GetMapping("/findPreinscYakroById/{id}")
-    public ResponseEntity<PreinscriptionYakroResponseDto> findPreinscYakroById(@PathVariable("id") String id) {
-        return new ResponseEntity<PreinscriptionYakroResponseDto>(
-                preinscriptionYakroService.getPreinscriptionYakroById(id),
+    @GetMapping("/findPreinscById/{id}")
+    public ResponseEntity<PreinscriptionResponseDto> findPreinscYakroById(@PathVariable("id") String id) {
+        return new ResponseEntity<PreinscriptionResponseDto>(
+                preinscriptionYakroService.getPreinscriptionById(id),
                 HttpStatus.OK);
     }
 
-    @GetMapping("/findPreinscYakroByNomEleve/{nomEleve}")
-    public ResponseEntity<List<PreinscriptionYakroResponseDto>> findPreinscYakroByNomEleve(
+    @GetMapping("/findPreinscByNomEleve/{nomEleve}")
+    public ResponseEntity<List<PreinscriptionResponseDto>> findPreinscYakroByNomEleve(
             @PathVariable("nomEleve") String nomEleve) {
-        return new ResponseEntity<List<PreinscriptionYakroResponseDto>>(
-                preinscriptionYakroService.getPreinscriptionYakroByNomEleve(nomEleve), HttpStatus.OK);
+        return new ResponseEntity<List<PreinscriptionResponseDto>>(
+                preinscriptionYakroService.getPreinscriptionByNomEleve(nomEleve), HttpStatus.OK);
     }
 
-    @GetMapping("/impressionPreinscriptionYakro/{id}")
+    @GetMapping("/impressionPreinscription/{id}")
     public ResponseEntity<byte[]> impressionPreinscriptionYakro(@PathVariable("id") String id) throws FileNotFoundException, JRException, SQLException{
-        byte[] reportBytes = preinscriptionYakroService.impressionPreinscriptionYakro(id);
+        byte[] reportBytes = preinscriptionYakroService.impressionPreinscription(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
@@ -81,9 +86,9 @@ public class PreinscriptionYakrController {
                 .body(reportBytes);
     }
 
-    @GetMapping("/impressionInscriptionYakro/{id}")
+    @GetMapping("/impressionInscription/{id}")
     public ResponseEntity<byte[]> impressionInscriptionYakro(@PathVariable("id") String id) throws FileNotFoundException, JRException, SQLException{
-        byte[] reportBytes = preinscriptionYakroService.impressionInscriptionYakro(id);
+        byte[] reportBytes = preinscriptionYakroService.impressionInscription(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
@@ -94,9 +99,9 @@ public class PreinscriptionYakrController {
                 .body(reportBytes);
     }
 
-    @GetMapping("/impressionFicheMedicaleyakro/{id}")
+    @GetMapping("/impressionFicheMedicale/{id}")
     public ResponseEntity<byte[]> impressionFicheMedicaleyakro(@PathVariable("id") String id)throws FileNotFoundException, JRException, SQLException {
-        byte[] reportBytes = preinscriptionYakroService.impressionFicheMedicaleyakro(id);
+        byte[] reportBytes = preinscriptionYakroService.impressionFicheMedicale(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);

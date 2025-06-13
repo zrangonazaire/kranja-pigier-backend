@@ -12,9 +12,9 @@ import lombok.experimental.FieldDefaults;
 @Service
 @Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public  class PreinscriptionYakroMapper {
-   public PreinscriptionYakroResponseDto fromPreinscriptionYakro(PREINSCRIPTION pre){
-        PreinscriptionYakroResponseDto prDto=new PreinscriptionYakroResponseDto();
+public  class PreinscriptionMapper {
+   public PreinscriptionResponseDto fromPreinscriptionYakro(PREINSCRIPTION pre){
+        PreinscriptionResponseDto prDto=new PreinscriptionResponseDto();
         BeanUtils.copyProperties(pre,prDto);
         return prDto;
     };

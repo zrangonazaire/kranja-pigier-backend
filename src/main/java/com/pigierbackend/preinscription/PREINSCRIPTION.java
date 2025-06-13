@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-@Table(name = "preinscriptionyakro")
+@Table(name = "preinscription")
 @Getter
 @Setter
 @Entity
@@ -28,25 +28,25 @@ public class PREINSCRIPTION {
     String nomprenoms; // varchar(150) Checked
     @Column(nullable = false)
     LocalDate datnais; // datetime Checked
-    @Column(length = 100,nullable = false)
+    @Column(length = 100, nullable = false)
     String lieunais; // varchar(100) Checked
-    @Column(length = 1,nullable = false)
+    @Column(length = 1, nullable = false)
     String sexe; // varchar(1) Checked
-    @Column(length = 50,nullable = false)
+    @Column(length = 50, nullable = false)
     String nationalite; // varchar(50) Checked
-    @Column(length = 30,nullable = false)
+    @Column(length = 30, nullable = false)
     String natident; // varchar(30) Checked
-    @Column(length = 50,nullable = false)
+    @Column(length = 50, nullable = false)
     String numidentite; // varchar(50) Checked
     @Column(length = 30)
     String teletud; // varchar(30) Checked
-    @Column(length = 30,nullable = false)
+    @Column(length = 30, nullable = false)
     String celetud; // varchar(30) Checked
-    @Column(length = 100,nullable = false)
+    @Column(length = 100, nullable = false)
     String emailetud; // varchar(100) Checked
-    @Column(length = 150,nullable = false)
+    @Column(length = 150, nullable = false)
     String viletud; // varchar(150) Checked
-    @Column(length = 150,nullable = false)
+    @Column(length = 150, nullable = false)
     String cometud; // varchar(150) Checked
     @Column(length = 3)
     String baccalaureat; // varchar(3) Checked
@@ -72,9 +72,9 @@ public class PREINSCRIPTION {
     String formsouh; // varchar(200) Checked
     @Column(length = 20)
     String idperm; // varchar(20) Checked
-    @Column(length = 150,nullable = false)
+    @Column(length = 150, nullable = false)
     String nompere; // varchar(150) Checked
-    @Column(length = 150,nullable = false)
+    @Column(length = 150, nullable = false)
     String nomere; // varchar(150) Checked
     @Column(length = 10)
     String titrespo; // varchar(10) Checked
@@ -86,13 +86,13 @@ public class PREINSCRIPTION {
     String profrespo; // varchar(100) Checked
     @Column(length = 150)
     String emprespo; // varchar(150) Checked
-    @Column(length = 150,nullable = false)
+    @Column(length = 150, nullable = false)
     String vilrespo; // varchar(150) Checked
-    @Column(length = 150,nullable = false)
+    @Column(length = 150, nullable = false)
     String comrespo; // varchar(150) Checked
     @Column(length = 50)
     String bprespo; // varchar(50) Checked
-    @Column(length = 30,nullable = false)
+    @Column(length = 30, nullable = false)
     String celrespo; // varchar(30) Checked
     @Column(length = 30)
     String telburespo; // varchar(30) Checked
@@ -154,6 +154,8 @@ public class PREINSCRIPTION {
     String anneescolaire; // varchar(10) Checked
     @Column(length = 25)
     String Etab_source; // varchar(25) Checked
-    @Column(length = 25,nullable = true)
+    @Column(length = 25, nullable = true)
     boolean Inscrit_Sous_Titre; // bit Checked
+    @Column(length = 150)
+    String utilisateurCreateur;
 }

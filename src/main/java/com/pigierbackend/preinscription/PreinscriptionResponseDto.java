@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PreinscriptionYakroResponseDto {
+public class PreinscriptionResponseDto {
   String id;
     String nomprenoms; // varchar(150) Checked
     LocalDate datnais; // datetime Checked
@@ -140,4 +140,5 @@ public class PreinscriptionYakroResponseDto {
     String anneescolaire; // varchar(10) Checked
 
     String Etab_source; // varchar(25) Checked
+    String utilisateurCreateur;
 }
