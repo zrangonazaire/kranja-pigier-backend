@@ -13,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -47,13 +49,27 @@ public class PreinscriptionController {
                 preinscriptionYakroService.getAllPreinscription(),
                 HttpStatus.OK);
     }
-   @GetMapping(value = "/findAllPreinsc/{size}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/findAllPreinscEntreDeuxDate/{debut}/{fin}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinscEntreDeuxDate(
+            @PathVariable("debut") String debut, @PathVariable("fin") String fin) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate dateDebut = LocalDate.parse(debut, formatter);
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate dateFin = LocalDate.parse(fin, formatter);
+        return new ResponseEntity<List<PreinscriptionResponseDto>>(
+                preinscriptionYakroService.getAllPreinscriptionEntreDeuxDate(dateDebut, dateFin),
+                HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findAllPreinsc/{size}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinsc(
             @PathVariable("size") int size) {
         return new ResponseEntity<List<PreinscriptionResponseDto>>(
-                preinscriptionYakroService.getAllPreinscription( size),
+                preinscriptionYakroService.getAllPreinscription(size),
                 HttpStatus.OK);
     }
+
     @DeleteMapping("/deletePreinsc/{id}")
     public ResponseEntity<Boolean> deletePreinscYakro(@PathVariable("id") String id) {
         return new ResponseEntity<Boolean>(preinscriptionYakroService.deletePreinscription(id), HttpStatus.OK);
@@ -74,12 +90,13 @@ public class PreinscriptionController {
     }
 
     @GetMapping("/impressionPreinscription/{id}")
-    public ResponseEntity<byte[]> impressionPreinscriptionYakro(@PathVariable("id") String id) throws FileNotFoundException, JRException, SQLException{
+    public ResponseEntity<byte[]> impressionPreinscriptionYakro(@PathVariable("id") String id)
+            throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionPreinscription(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("filename", "preinscription.pdf"); // Nom du fichier
+        headers.setContentDispositionFormData("filename", "fichpreinscription.pdf"); // Nom du fichier
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -87,12 +104,13 @@ public class PreinscriptionController {
     }
 
     @GetMapping("/impressionInscription/{id}")
-    public ResponseEntity<byte[]> impressionInscriptionYakro(@PathVariable("id") String id) throws FileNotFoundException, JRException, SQLException{
+    public ResponseEntity<byte[]> impressionInscriptionYakro(@PathVariable("id") String id)
+            throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionInscription(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("filename", "preinscription.pdf"); // Nom du fichier
+        headers.setContentDispositionFormData("filename", "ficheinscription.pdf"); // Nom du fichier
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -100,12 +118,13 @@ public class PreinscriptionController {
     }
 
     @GetMapping("/impressionFicheMedicale/{id}")
-    public ResponseEntity<byte[]> impressionFicheMedicaleyakro(@PathVariable("id") String id)throws FileNotFoundException, JRException, SQLException {
+    public ResponseEntity<byte[]> impressionFicheMedicaleyakro(@PathVariable("id") String id)
+            throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionFicheMedicale(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("filename", "preinscription.pdf"); // Nom du fichier
+        headers.setContentDispositionFormData("filename", "fichemedical.pdf"); // Nom du fichier
 
         return ResponseEntity.ok()
                 .headers(headers)
