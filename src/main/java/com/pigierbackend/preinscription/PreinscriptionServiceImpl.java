@@ -3,6 +3,7 @@ package com.pigierbackend.preinscription;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.util.ResourceUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -32,6 +34,7 @@ import net.sf.jasperreports.engine.JasperReport;
 @Service
 @Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Slf4j
 public class PreinscriptionServiceImpl implements PreinscriptionService {
 
     final PreinscriptionRepository preinscriptionYakroRepository;
@@ -107,42 +110,96 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
 
     @Override
     public byte[] impressionInscription(String id) throws FileNotFoundException, JRException, SQLException {
-        String path = "src/main/resources/etat/template";
+        // String path = "src/main/resources/etat/template";
 
-        File file = ResourceUtils.getFile(path + "/incriptioneport.jrxml");
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("id_param", id);
-        JasperReport jasperreport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        File di = new File(path + "/depot_etat");
-        boolean dir = di.mkdir();
-        if (dir) {
-            System.out.println("Dossier cree");
+        // File file = ResourceUtils.getFile(path + "/incriptioneport.jrxml");
+        // Map<String, Object> parameters = new HashMap<>();
+        // parameters.put("id_param", id);
+        // JasperReport jasperreport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        // File di = new File(path + "/depot_etat");
+        // boolean dir = di.mkdir();
+        // if (dir) {
+        //     System.out.println("Dossier cree");
 
+        // }
+        // JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters, dataSource.getConnection());
+        // JasperExportManager.exportReportToPdfFile(jasperPrint, path + "/depot_etat/incriptioneport" + id + ".pdf");
+        // return JasperExportManager.exportReportToPdf(jasperPrint);
+
+          try {
+
+            String path = "src/main/resources/etat/template";
+            File file = ResourceUtils.getFile(path + "/incriptioneport.jrxml");
+         log.info("******reportPath: " + file);
+            // Charger le rapport
+            JasperReport jasperreport = JasperCompileManager.compileReport(file.getAbsolutePath());
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("id_param", id);
+            File di = new File(path + "/depot_etat");
+            boolean dir = di.mkdir();
+            if (dir) {
+                System.out.println("Dossier crée");
+            }
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters,
+                    dataSource.getConnection());
+          JasperExportManager.exportReportToPdfFile(jasperPrint, path +
+         "/depot_etat/ficheprinscr" + id + ".pdf");
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur: " + e.getMessage());
+        } finally {
+            // Fermer les ressources si nécessaire
+            if (dataSource != null) {
+                try {
+                    dataSource.getConnection().close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters, dataSource.getConnection());
-        JasperExportManager.exportReportToPdfFile(jasperPrint, path + "/depot_etat/incriptioneport" + id + ".pdf");
-        return JasperExportManager.exportReportToPdf(jasperPrint);
 
     }
 
     @Override
     public byte[] impressionFicheMedicale(String id) throws FileNotFoundException, JRException, SQLException {
-        String path = "src/main/resources/etat/template";
 
-        File file = ResourceUtils.getFile(path + "/medicalreport.jrxml");
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("id_param", id);
-        JasperReport jasperreport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        File di = new File(path + "/depot_etat");
-        boolean dir = di.mkdir();
-        if (dir) {
-            System.out.println("Dossier cree");
+        try {
 
+            String path = "src/main/resources/etat/template";
+            File file = ResourceUtils.getFile(path + "/medicalreport.jrxml");
+            System.out.println("******reportPath: " + file);
+            // Charger le rapport
+            JasperReport jasperreport = JasperCompileManager.compileReport(file.getAbsolutePath());
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("id_param", id);
+            File di = new File(path + "/depot_etat");
+            boolean dir = di.mkdir();
+            if (dir) {
+                System.out.println("Dossier cree");
+            }
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters,
+                    dataSource.getConnection());
+          JasperExportManager.exportReportToPdfFile(jasperPrint, path +
+         "/depot_etat/medicalreport" + id + ".pdf");
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur: " + e.getMessage());
+        } finally {
+            // Fermer les ressources si nécessaire
+            if (dataSource != null) {
+                try {
+                    dataSource.getConnection().close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters, dataSource.getConnection());
-        JasperExportManager.exportReportToPdfFile(jasperPrint, path + "/depot_etat/medicalreport" + id + ".pdf");
-        return JasperExportManager.exportReportToPdf(jasperPrint);
-
     }
 
     @Override
@@ -160,6 +217,17 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
     public List<PreinscriptionResponseDto> getAllPreinscription() {
         return preinscriptionYakroRepository.findAll(Sort.by(Sort.Direction.DESC, "datinscrip"))
                 .stream()
+                .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PreinscriptionResponseDto> getAllPreinscriptionEntreDeuxDate(LocalDate debut, LocalDate fin) {
+        return preinscriptionYakroRepository.findAll(Sort.by(Sort.Direction.DESC, "datinscrip"))
+                .stream()
+                .filter(preinscription -> !preinscription.getDatinscrip().isBefore(debut) &&
+                        !preinscription.getDatinscrip().isAfter(fin))
                 .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
                 .distinct()
                 .collect(Collectors.toList());
