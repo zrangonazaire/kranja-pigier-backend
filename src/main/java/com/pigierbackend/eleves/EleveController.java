@@ -32,11 +32,12 @@ public class EleveController {
 
     @GetMapping("/etatListeEtudiant")
     public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse,
-            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin) throws Exception {
+            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab ) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("PARAMEANNE", paramAnneDebut + "/" + paramAnneFin);
             params.put("PARAMCLASSE", paramClasse);
+            params.put("PARAMETAB", paramEtab);
 
             log.info("paramClasse: {}", paramClasse);
             byte[] reportBytes = eleveService.listeEtudiant(params);
@@ -59,11 +60,12 @@ public class EleveController {
 
     @GetMapping("/etatListeEtudiantExcel")
     public ResponseEntity<byte[]> etatListeEtudiantExcel(@RequestParam String paramClasse,
-            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin) throws Exception {
+            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("PARAMEANNE", paramAnneDebut + "/" + paramAnneFin);
             params.put("PARAMCLASSE", paramClasse);
+            params.put("PARAMETAB", paramEtab);
 
             log.info("paramClasse: {}", paramClasse);
             byte[] reportBytes = eleveService.listeEtudiantExcel(params);

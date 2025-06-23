@@ -4,6 +4,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataPigier.jrdax"/>
 	<parameter name="PARAMEANNE" class="java.lang.String"/>
 	<parameter name="PARAMCLASSE" class="java.lang.String"/>
+	<parameter name="PARAMETAB" class="java.lang.String"/>
 	<query language="SQL"><![CDATA[SELECT dbo."Elèves"."Matri_Elev",
 	dbo."Elèves"."Nom_Elev",
 	dbo."Elèves"."Lieunais_Elev",
@@ -16,9 +17,10 @@ FROM dbo."Nationalité"
 	INNER JOIN dbo."Elèves" ON 
 	 dbo."Elèves"."Code_Nat" = dbo."Nationalité"."Code_Nat" 
 	 AND dbo."Elèves"."AnneeSco_Elev" = $P{PARAMEANNE} 
-	AND dbo."Elèves"."Code_Detcla" LIKE CONCAT('%', $P{PARAMCLASSE}, '%')
-	UNION
-	SELECT dbo."Historique"."Matri_Elev",
+	 AND dbo."Elèves"."Etab_source" = $P{PARAMETAB} 
+	 AND dbo."Elèves"."Code_Detcla" LIKE CONCAT( '%',$P{PARAMCLASSE},'%') 
+UNION 
+SELECT dbo."Historique"."Matri_Elev",
 	dbo."Historique"."Nom_Elev",
 	dbo."Historique"."Lieunais_Elev",
 	dbo."Historique"."Datenais_Elev",
@@ -30,8 +32,9 @@ FROM dbo."Nationalité"
 	INNER JOIN dbo."Historique" ON 
 	 dbo."Historique"."Code_Nat" = dbo."Nationalité"."Code_Nat" 
 	 AND dbo."Historique"."AnneeSco_Elev" = $P{PARAMEANNE} 
-	AND dbo."Historique"."Code_Detcla" LIKE CONCAT('%', $P{PARAMCLASSE}, '%')
-	ORDER BY  "Code_Detcla" ,  "Nom_Elev"]]></query>
+	 AND dbo."Historique"."Etab_source" = $P{PARAMETAB} 
+	 AND dbo."Historique"."Code_Detcla" LIKE CONCAT( '%',$P{PARAMCLASSE},'%')
+	 ORDER BY Code_Detcla,Nom_Elev]]></query>
 	<field name="Matri_Elev" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="Matri_Elev"/>
 		<property name="com.jaspersoft.studio.field.label" value="Matri_Elev"/>
@@ -76,9 +79,9 @@ FROM dbo."Nationalité"
 	<background splitType="Stretch"/>
 	<title height="79" splitType="Stretch">
 		<element kind="image" uuid="4faf1682-518a-41ca-a1c4-e57615ed5af0" x="30" y="10" width="71" height="55">
-			<expression><![CDATA["C:/Users/PIGIERCI/Downloads/droit/logo pigier.jpg"]]></expression>
+			<expression><![CDATA["src\\main\\resources\\etat\\image\\logo_pigier.jpg"]]></expression>
 		</element>
-		<element kind="staticText" uuid="89e7d9ce-d854-4d52-bbcd-908937e520e2" x="300" y="29" width="186" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="16.0" italic="true" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="89e7d9ce-d854-4d52-bbcd-908937e520e2" x="300" y="29" width="186" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="16.0" bold="true" italic="true" hTextAlign="Center">
 			<text><![CDATA[LISTE DES ETUDIANTS]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
@@ -87,7 +90,7 @@ FROM dbo."Nationalité"
 		<element kind="textField" uuid="0a7c185f-05c1-48af-8f4b-16198100f9c4" x="146" y="16" width="114" height="20" fontSize="14.0">
 			<expression><![CDATA[$P{PARAMEANNE}]]></expression>
 		</element>
-		<element kind="staticText" uuid="4c51aaf1-3418-49d2-ad79-baf3c64e3b9c" x="550" y="18" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Right">
+		<element kind="staticText" uuid="4c51aaf1-3418-49d2-ad79-baf3c64e3b9c" x="550" y="18" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
 			<text><![CDATA[Parcours/classe]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
@@ -96,38 +99,38 @@ FROM dbo."Nationalité"
 		</element>
 	</pageHeader>
 	<columnHeader height="52" splitType="Stretch">
-		<element kind="staticText" uuid="d6251588-fb13-4377-9cf1-0f07a203ad31" x="10" y="32" width="73" height="18" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="d6251588-fb13-4377-9cf1-0f07a203ad31" x="10" y="32" width="73" height="18" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Center">
 			<text><![CDATA[Matricule]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="762ef52d-ac4d-4237-9eaf-52ed8915d99c"/>
 		</element>
-		<element kind="staticText" uuid="be868273-b677-4fdc-8ad3-c113bff2c283" x="77" y="32" width="243" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true" hTextAlign="Left">
+		<element kind="staticText" uuid="be868273-b677-4fdc-8ad3-c113bff2c283" x="77" y="32" width="243" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[Nom]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="47fdcc1b-ca58-4861-a21c-cb27c69d29fe"/>
 		</element>
-		<element kind="staticText" uuid="4372293d-49de-41c3-956e-87913ae42134" x="5" y="10" width="78" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Right">
+		<element kind="staticText" uuid="4372293d-49de-41c3-956e-87913ae42134" x="5" y="10" width="78" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
 			<text><![CDATA[Classe :]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
-		<element kind="staticText" uuid="369318ad-5252-4152-bbe4-b8dacce6831d" x="330" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true" hTextAlign="Left">
+		<element kind="staticText" uuid="369318ad-5252-4152-bbe4-b8dacce6831d" x="330" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[Lieu de naissance]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f351aac7-328c-4d01-b9d2-f532e9111b93"/>
 		</element>
-		<element kind="staticText" uuid="ec7f1563-968f-4c53-af86-e9d5a949c33b" x="440" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true" hTextAlign="Left">
+		<element kind="staticText" uuid="ec7f1563-968f-4c53-af86-e9d5a949c33b" x="440" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[Date de naissance]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3580b09-3888-447e-8de6-69f0509f01bb"/>
 		</element>
-		<element kind="staticText" uuid="c05ed94a-84e3-4f76-b8fc-3aeb744a297c" x="550" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true" hTextAlign="Left">
+		<element kind="staticText" uuid="c05ed94a-84e3-4f76-b8fc-3aeb744a297c" x="550" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[cell]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f02ae270-cc70-4dda-aced-0bf92e76281e"/>
 		</element>
-		<element kind="staticText" uuid="389ca013-da03-4120-8311-ba6d14be91e0" x="670" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true" hTextAlign="Left">
+		<element kind="staticText" uuid="389ca013-da03-4120-8311-ba6d14be91e0" x="670" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[Nationalité]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="269315c6-7e66-4a48-abc9-d6fa6e3a21fc"/>
 		</element>
 		<element kind="textField" uuid="27c2a943-517f-4a63-a362-32dc2dc39a88" x="86" y="10" width="136" height="22" fontSize="14.0" bold="true">
 			<expression><![CDATA[$F{Code_Detcla}]]></expression>
 		</element>
-		<element kind="staticText" uuid="a9ed435d-3503-4e2c-bbac-8c49ca84c816" x="10" y="-35" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Right">
+		<element kind="staticText" uuid="a9ed435d-3503-4e2c-bbac-8c49ca84c816" x="10" y="-35" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
 			<text><![CDATA[Année Scolaire:]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
@@ -164,7 +167,7 @@ FROM dbo."Nationalité"
 		<element kind="textField" uuid="00acb89b-792c-4129-bb96-97f614796c3f" x="670" y="10" width="110" height="20" fontSize="14.0" bold="true">
 			<expression><![CDATA[$V{Matri_Elev2}]]></expression>
 		</element>
-		<element kind="staticText" uuid="7367a902-bab2-4153-b440-a9ae81eb5ebf" x="587" y="11" width="78" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Right">
+		<element kind="staticText" uuid="7367a902-bab2-4153-b440-a9ae81eb5ebf" x="587" y="11" width="78" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
 			<text><![CDATA[Effectif :]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
