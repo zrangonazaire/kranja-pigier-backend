@@ -82,7 +82,7 @@ public class EleveServiceImpl implements EleveService {
             stmt = conn.createStatement();
 
             // Exécuter la requête SQL (adaptez-la selon vos besoins)
-            String sql = "SELECT e.Matri_Elev, e.Nom_Elev, e.Lieunais_Elev, e.Datenais_Elev, " +
+          /*   String sql = "SELECT e.Matri_Elev, e.Nom_Elev, e.Lieunais_Elev, e.Datenais_Elev, " +
                     "e.Sexe_Elev, e.celetud, n.Des_Nat, e.Code_Detcla " +
                     "FROM \"Nationalité\" n " +
                     "INNER JOIN \"Elèves\" e ON e.\"Code_Nat\" = n.\"Code_Nat\" " +
@@ -95,7 +95,24 @@ public class EleveServiceImpl implements EleveService {
                     "INNER JOIN \"Historique\" h ON h.\"Code_Nat\" = n.\"Code_Nat\" " +
                     "WHERE h.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
                     "AND h.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
-                    "ORDER BY \"Code_Detcla\", \"Nom_Elev\"";
+                    "ORDER BY \"Code_Detcla\", \"Nom_Elev\""; */
+
+                String sql = "SELECT e.\"Matri_Elev\", e.\"Nom_Elev\", e.\"Lieunais_Elev\", e.\"Datenais_Elev\", " +
+                     "e.\"Sexe_Elev\", e.celetud, n.\"Des_Nat\", e.\"Code_Detcla\" " +
+                     "FROM \"Nationalité\" n " +
+                     "INNER JOIN \"Elèves\" e ON e.\"Code_Nat\" = n.\"Code_Nat\" " +
+                     "WHERE e.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
+                     "AND e.\"Etab_source\" = '" + parameters.get("PARAMETAB") + "' " +
+                     "AND e.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
+                     "UNION " +
+                     "SELECT h.\"Matri_Elev\", h.\"Nom_Elev\", h.\"Lieunais_Elev\", h.\"Datenais_Elev\", " +
+                     "h.\"Sexe_Elev\", h.celetud, n.\"Des_Nat\", h.\"Code_Detcla\" " +
+                     "FROM \"Nationalité\" n " +
+                     "INNER JOIN \"Historique\" h ON h.\"Code_Nat\" = n.\"Code_Nat\" " +
+                     "WHERE h.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
+                     "AND h.\"Etab_source\" = '" + parameters.get("PARAMETAB") + "' " +
+                     "AND h.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
+                     "ORDER BY \"Code_Detcla\", \"Nom_Elev\"";
 
             rs = stmt.executeQuery(sql);
 
