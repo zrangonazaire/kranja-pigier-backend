@@ -1,6 +1,5 @@
 package com.pigierbackend.securite;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,10 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.Arrays;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,11 +39,10 @@ final JwtAuthEntryPoint jwtAuthEntryPoint;
             .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint)) // Gestion des exceptions d'authentification
             .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Ajout de la configuration CORS
             .headers(headers -> headers
-                .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "http://localhost:4200")) // Autoriser une origine spécifique
-                .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")) // Méthodes autorisées
-                .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Requested-With")) // En-têtes autorisés
-                .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Credentials", "true")) // Autoriser les cookies
-            )
+            .cacheControl(withDefaults())
+            .contentTypeOptions(withDefaults())
+            .httpStrictTransportSecurity(withDefaults()) // Désactiver le cache
+                     )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**","/api/v1/auth/**", "/auth/login","/preinscription/**","/encaissement/**","/eleves/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/api/v1/preinscriptionyakro/**").permitAll()
@@ -67,16 +66,21 @@ final JwtAuthEntryPoint jwtAuthEntryPoint;
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:4200"); // Origine autorisée
-        configuration.addAllowedOrigin("http://localhost:8084"); // Ajoutez cette ligne si nécessaire
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+ @Bean
+CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList(
+        "http://localhost:4200",
+        "http://192.168.0.134:8000",
+        "http://192.168.0.134:4200",
+        "http://192.168.0.134:8084"
+    ));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    configuration.setAllowCredentials(true);
+    
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
 }
