@@ -13,7 +13,7 @@ import org.springframework.http.HttpHeaders;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -52,11 +52,11 @@ public class PreinscriptionController {
 
     @GetMapping(value = "/findAllPreinscEntreDeuxDate/{debut}/{fin}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinscEntreDeuxDate(
-            @PathVariable("debut") String debut, @PathVariable("fin") String fin) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate dateDebut = LocalDate.parse(debut, formatter);
+            @PathVariable String debut, @PathVariable String fin) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        LocalDateTime dateDebut = LocalDateTime.parse(debut, formatter);
         // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate dateFin = LocalDate.parse(fin, formatter);
+        LocalDateTime dateFin = LocalDateTime.parse(fin, formatter);
         return new ResponseEntity<List<PreinscriptionResponseDto>>(
                 preinscriptionYakroService.getAllPreinscriptionEntreDeuxDate(dateDebut, dateFin),
                 HttpStatus.OK);
@@ -64,19 +64,19 @@ public class PreinscriptionController {
 
     @GetMapping(value = "/findAllPreinsc/{size}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinsc(
-            @PathVariable("size") int size) {
+            @PathVariable int size) {
         return new ResponseEntity<List<PreinscriptionResponseDto>>(
                 preinscriptionYakroService.getAllPreinscription(size),
                 HttpStatus.OK);
     }
 
     @DeleteMapping("/deletePreinsc/{id}")
-    public ResponseEntity<Boolean> deletePreinscYakro(@PathVariable("id") String id) {
+    public ResponseEntity<Boolean> deletePreinscYakro(@PathVariable String id) {
         return new ResponseEntity<Boolean>(preinscriptionYakroService.deletePreinscription(id), HttpStatus.OK);
     }
 
     @GetMapping("/findPreinscById/{id}")
-    public ResponseEntity<PreinscriptionResponseDto> findPreinscYakroById(@PathVariable("id") String id) {
+    public ResponseEntity<PreinscriptionResponseDto> findPreinscYakroById(@PathVariable String id) {
         return new ResponseEntity<PreinscriptionResponseDto>(
                 preinscriptionYakroService.getPreinscriptionById(id),
                 HttpStatus.OK);
@@ -84,13 +84,13 @@ public class PreinscriptionController {
 
     @GetMapping("/findPreinscByNomEleve/{nomEleve}")
     public ResponseEntity<List<PreinscriptionResponseDto>> findPreinscYakroByNomEleve(
-            @PathVariable("nomEleve") String nomEleve) {
+            @PathVariable String nomEleve) {
         return new ResponseEntity<List<PreinscriptionResponseDto>>(
                 preinscriptionYakroService.getPreinscriptionByNomEleve(nomEleve), HttpStatus.OK);
     }
 
     @GetMapping("/impressionPreinscription/{id}")
-    public ResponseEntity<byte[]> impressionPreinscriptionYakro(@PathVariable("id") String id)
+    public ResponseEntity<byte[]> impressionPreinscriptionYakro(@PathVariable String id)
             throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionPreinscription(id);
 
@@ -104,7 +104,7 @@ public class PreinscriptionController {
     }
 
     @GetMapping("/impressionInscription/{id}")
-    public ResponseEntity<byte[]> impressionInscriptionYakro(@PathVariable("id") String id)
+    public ResponseEntity<byte[]> impressionInscriptionYakro(@PathVariable String id)
             throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionInscription(id);
 
@@ -118,7 +118,7 @@ public class PreinscriptionController {
     }
 
     @GetMapping("/impressionFicheMedicale/{id}")
-    public ResponseEntity<byte[]> impressionFicheMedicaleyakro(@PathVariable("id") String id)
+    public ResponseEntity<byte[]> impressionFicheMedicaleyakro(@PathVariable String id)
             throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionFicheMedicale(id);
 

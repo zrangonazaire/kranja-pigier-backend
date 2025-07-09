@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import javax.sql.DataSource;
-
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
@@ -19,6 +19,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
 
+@DependsOnDatabaseInitialization
 @Service
 @Transactional
 @RequiredArgsConstructor

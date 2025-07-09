@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
@@ -24,6 +25,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
+@DependsOnDatabaseInitialization
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -76,6 +78,7 @@ public class EleveServiceImpl implements EleveService {
         Statement stmt = null;
         ResultSet rs = null;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
+        Workbook workbook = null;
 
         try {
             conn = dataSource.getConnection();
@@ -100,7 +103,7 @@ public class EleveServiceImpl implements EleveService {
             rs = stmt.executeQuery(sql);
 
             // Créer un nouveau workbook Excel
-            Workbook workbook = new XSSFWorkbook();
+            workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("Liste des Élèves");
 
             // Créer le style pour l'en-tête
@@ -183,10 +186,17 @@ public class EleveServiceImpl implements EleveService {
             try {
                 if (out != null)
                     out.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            try {
+                if (workbook != null)
+                    workbook.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     }
 
 }
+

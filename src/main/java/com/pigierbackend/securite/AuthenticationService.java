@@ -2,19 +2,15 @@ package com.pigierbackend.securite;
 
 import com.pigierbackend.dto.AuthenticationRequest;
 import com.pigierbackend.dto.AuthenticationResponse;
-import com.pigierbackend.utilisateur.Utilisateur;
 import com.pigierbackend.utilisateur.UtilisateurRepository;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Security;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;

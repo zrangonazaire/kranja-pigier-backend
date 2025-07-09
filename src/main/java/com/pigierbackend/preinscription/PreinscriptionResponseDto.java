@@ -1,6 +1,7 @@
 package com.pigierbackend.preinscription;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -126,7 +127,7 @@ public class PreinscriptionResponseDto {
     String premsoins; // varchar(300) Checked
 
     String intervchir; // varchar(300) Checked
-    LocalDate datinscrip; // smalldatetime Checked
+    LocalDateTime datinscrip; // smalldatetime Checked
 
     String decision; // varchar(3) Checked
 

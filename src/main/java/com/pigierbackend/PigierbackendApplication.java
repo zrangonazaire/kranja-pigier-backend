@@ -1,6 +1,5 @@
 package com.pigierbackend;
 
-import java.util.Optional;
 import java.util.Set;
 
 import com.pigierbackend.permission.Permission;
@@ -10,12 +9,15 @@ import com.pigierbackend.role.RoleRepository;
 import com.pigierbackend.utilisateur.Utilisateur;
 import com.pigierbackend.utilisateur.UtilisateurRepository;
 
+import jakarta.persistence.EntityListeners;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -28,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @EnableAsync
 @RequiredArgsConstructor
 @EnableScheduling
+@EntityListeners(AuditingEntityListener.class) 
 public class PigierbackendApplication extends SpringBootServletInitializer { // Étendre SpringBootServletInitializer
 
     @Override
@@ -41,7 +44,7 @@ public class PigierbackendApplication extends SpringBootServletInitializer { // 
 
 
     @Bean
-    public CommandLineRunner chargerDonnees(
+    CommandLineRunner chargerDonnees(
             PermissionRepository permissionRepository, RoleRepository roleRepository,
             UtilisateurRepository utilisateurRepository,
             PasswordEncoder passwordEncoder) {
