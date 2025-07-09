@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import javax.sql.DataSource;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.beans.BeanUtils;
+import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
+@DependsOnDatabaseInitialization
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -62,8 +65,37 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
     public PreinscriptionResponseDto createOrUpdatePreinscription(
             PreinscriptionRequestDto preinscriptionYakroRequestDto) {
         PREINSCRIPTION preinscriptionyakro = preinscriptionYakroRepository
-                .findById(preinscriptionYakroRequestDto.getId()).orElse(new PREINSCRIPTION());
+                .findById(preinscriptionYakroRequestDto.getId()).orElseGet(() -> {
+                    PREINSCRIPTION p = new PREINSCRIPTION();
+                    p.setDatinscrip(LocalDateTime.now());
+                    p.setId(preinscriptionYakroRequestDto.getId());
+                    p.setNomprenoms(preinscriptionYakroRequestDto.getNomprenoms());
+                    p.setDatnais(preinscriptionYakroRequestDto.getDatnais());
+                    p.setLieunais(preinscriptionYakroRequestDto.getLieunais());
+                    p.setSexe(preinscriptionYakroRequestDto.getSexe());
+                    p.setNationalite(preinscriptionYakroRequestDto.getNationalite());
+                    p.setNatident(preinscriptionYakroRequestDto.getNatident());
+                    p.setNumidentite(preinscriptionYakroRequestDto.getNumidentite());
+                    p.setTeletud(preinscriptionYakroRequestDto.getTeletud());
+                    p.setCeletud(preinscriptionYakroRequestDto.getCeletud());
+                    p.setEmailetud(preinscriptionYakroRequestDto.getEmailetud());
+                    p.setViletud(preinscriptionYakroRequestDto.getViletud());
+                    p.setCometud(preinscriptionYakroRequestDto.getCometud());
+                    p.setBaccalaureat(preinscriptionYakroRequestDto.getBaccalaureat());
+                    p.setAnnbac(preinscriptionYakroRequestDto.getAnnbac());
+                    p.setDiplequiv(preinscriptionYakroRequestDto.getDiplequiv());
+                    p.setAnndiplequiv(preinscriptionYakroRequestDto.getAnndiplequiv());
+                    p.setNivoetud(preinscriptionYakroRequestDto.getNivoetud());
+                    p.setAnnivoetud(preinscriptionYakroRequestDto.getAnnivoetud());
+                    p.setGrade(preinscriptionYakroRequestDto.getGrade());
+                    p.setAnngrad(preinscriptionYakroRequestDto.getAnngrad());
+                    p.setMatpc(preinscriptionYakroRequestDto.getMatpc());
+                    p.setAnneescolaire(preinscriptionYakroRequestDto.getAnneescolaire());
+                    return p;
+                });
+
         BeanUtils.copyProperties(preinscriptionYakroRequestDto, preinscriptionyakro);
+        preinscriptionyakro.setDatinscrip(LocalDateTime.now());
         preinscriptionYakroRepository.save(preinscriptionyakro);
         return preinscriptionYakroMapper.fromPreinscriptionYakro(preinscriptionyakro);
     }
@@ -115,22 +147,25 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
         // File file = ResourceUtils.getFile(path + "/incriptioneport.jrxml");
         // Map<String, Object> parameters = new HashMap<>();
         // parameters.put("id_param", id);
-        // JasperReport jasperreport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        // JasperReport jasperreport =
+        // JasperCompileManager.compileReport(file.getAbsolutePath());
         // File di = new File(path + "/depot_etat");
         // boolean dir = di.mkdir();
         // if (dir) {
-        //     System.out.println("Dossier cree");
+        // System.out.println("Dossier cree");
 
         // }
-        // JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters, dataSource.getConnection());
-        // JasperExportManager.exportReportToPdfFile(jasperPrint, path + "/depot_etat/incriptioneport" + id + ".pdf");
+        // JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport,
+        // parameters, dataSource.getConnection());
+        // JasperExportManager.exportReportToPdfFile(jasperPrint, path +
+        // "/depot_etat/incriptioneport" + id + ".pdf");
         // return JasperExportManager.exportReportToPdf(jasperPrint);
 
-          try {
+        try {
 
             String path = "src/main/resources/etat/template";
             File file = ResourceUtils.getFile(path + "/incriptioneport.jrxml");
-         log.info("******reportPath: " + file);
+            log.info("******reportPath: " + file);
             // Charger le rapport
             JasperReport jasperreport = JasperCompileManager.compileReport(file.getAbsolutePath());
             Map<String, Object> parameters = new HashMap<>();
@@ -142,8 +177,8 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
             }
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters,
                     dataSource.getConnection());
-          JasperExportManager.exportReportToPdfFile(jasperPrint, path +
-         "/depot_etat/ficheprinscr" + id + ".pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path +
+                    "/depot_etat/ficheprinscr" + id + ".pdf");
             return JasperExportManager.exportReportToPdf(jasperPrint);
 
         } catch (Exception e) {
@@ -182,8 +217,8 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
             }
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters,
                     dataSource.getConnection());
-          JasperExportManager.exportReportToPdfFile(jasperPrint, path +
-         "/depot_etat/medicalreport" + id + ".pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path +
+                    "/depot_etat/medicalreport" + id + ".pdf");
             return JasperExportManager.exportReportToPdf(jasperPrint);
 
         } catch (Exception e) {
@@ -223,11 +258,15 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
     }
 
     @Override
-    public List<PreinscriptionResponseDto> getAllPreinscriptionEntreDeuxDate(LocalDate debut, LocalDate fin) {
+    public List<PreinscriptionResponseDto> getAllPreinscriptionEntreDeuxDate(LocalDateTime debut, LocalDateTime fin) {
+        LocalDateTime finInclusive = fin.plusDays(1).withHour(0).withMinute(0).withSecond(0); // Fin = minuit du
+                                                                                              // lendemain
+
         return preinscriptionYakroRepository.findAll(Sort.by(Sort.Direction.DESC, "datinscrip"))
                 .stream()
                 .filter(preinscription -> !preinscription.getDatinscrip().isBefore(debut) &&
-                        !preinscription.getDatinscrip().isAfter(fin))
+                        preinscription.getDatinscrip().isBefore(finInclusive) // "< finInclusive" pour tout le jour
+                )
                 .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
                 .distinct()
                 .collect(Collectors.toList());

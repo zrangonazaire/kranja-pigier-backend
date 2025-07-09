@@ -1,7 +1,6 @@
 package com.pigierbackend.role;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.pigierbackend.abstractentity.AbstractEntity;

@@ -37,7 +37,7 @@ public class EtabSourceController {
     }
 
     @DeleteMapping("/deleteEtab/{id}")
-    public ResponseEntity<Boolean> deleteEtab(@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> deleteEtab(@PathVariable Long id) {
         return new ResponseEntity<Boolean>(etabSourceService.deleteEtabSource(id), HttpStatus.OK);
     }
 

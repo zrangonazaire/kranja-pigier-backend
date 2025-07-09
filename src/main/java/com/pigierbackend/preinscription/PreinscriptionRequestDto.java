@@ -1,6 +1,7 @@
 package com.pigierbackend.preinscription;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -135,7 +136,7 @@ public class PreinscriptionRequestDto {
     String premsoins; // varchar(300) Checked
 
     String intervchir; // varchar(300) Checked
-    LocalDate datinscrip; // smalldatetime Checked
+    LocalDateTime datinscrip; // smalldatetime Checked
 
     String decision; // varchar(3) Checked
 
@@ -147,7 +148,7 @@ public class PreinscriptionRequestDto {
     String matpc; // varchar(20) Checked
 
     String anneescolaire; // varchar(10) Checked
-
+    boolean Inscrit_Sous_Titre;
     String Etab_source; // varchar(25) Checked
     String utilisateurCreateur;
 }

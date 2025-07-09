@@ -1,7 +1,5 @@
 package com.pigierbackend.utilisateur;
 
-import javax.print.attribute.standard.Media;
-
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

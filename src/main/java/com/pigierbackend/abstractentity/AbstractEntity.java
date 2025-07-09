@@ -1,5 +1,6 @@
 package com.pigierbackend.abstractentity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -32,6 +33,7 @@ import lombok.experimental.FieldDefaults;
 @EntityListeners(value = AuditingEntityListener.class)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AbstractEntity implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

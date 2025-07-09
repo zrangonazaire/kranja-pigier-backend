@@ -27,7 +27,7 @@ public class FormationController {
     }
 
     @DeleteMapping("/deleteFormation/{id}")
-    public Boolean deleteFormation(@PathVariable("id") Long id) {
+    public Boolean deleteFormation(@PathVariable Long id) {
         return formationService.deleteFormation(id);
     }
 

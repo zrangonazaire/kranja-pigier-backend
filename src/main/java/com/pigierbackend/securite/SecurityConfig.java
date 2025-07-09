@@ -31,9 +31,9 @@ public class SecurityConfig {
 //final CustomUserDetailsService customUserDetailsService;
 final JwtAuthEntryPoint jwtAuthEntryPoint;
 
- 
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable) // Désactiver CSRF pour les API REST
             .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthEntryPoint)) // Gestion des exceptions d'authentification
@@ -54,15 +54,16 @@ final JwtAuthEntryPoint jwtAuthEntryPoint;
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 //  @Bean
 //  public JwtAuthFilter jwtAuthFilter() {
 //         return new JwtAuthFilter();
 //     }
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 

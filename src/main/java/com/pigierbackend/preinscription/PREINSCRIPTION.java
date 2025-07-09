@@ -1,6 +1,9 @@
 package com.pigierbackend.preinscription;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -140,7 +143,8 @@ public class PREINSCRIPTION {
     String premsoins; // varchar(300) Checked
     @Column(length = 300)
     String intervchir; // varchar(300) Checked
-    LocalDate datinscrip; // smalldatetime Checked
+   @CreatedDate
+    LocalDateTime datinscrip; // smalldatetime Checked
     @Column(length = 3)
     String decision; // varchar(3) Checked
     @Column(length = 20)
