@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @EnableAsync
 @RequiredArgsConstructor
 @EnableScheduling
-@EntityListeners(AuditingEntityListener.class) 
+@EntityListeners(AuditingEntityListener.class)
 public class PigierbackendApplication extends SpringBootServletInitializer { // Étendre SpringBootServletInitializer
 
     @Override
@@ -42,7 +42,6 @@ public class PigierbackendApplication extends SpringBootServletInitializer { // 
         SpringApplication.run(PigierbackendApplication.class, args);
     }
 
-
     @Bean
     CommandLineRunner chargerDonnees(
             PermissionRepository permissionRepository, RoleRepository roleRepository,
@@ -52,15 +51,39 @@ public class PigierbackendApplication extends SpringBootServletInitializer { // 
             // Creation des permissions
             Permission lirePreinscription = permissionRepository.findByNomPermission("LIRE_PREINSCRIPTION")
                     .orElseGet(() -> permissionRepository
-                            .save(new Permission("LIRE_PREINSCRIPTION", "Lire les préinscriptions")));
+                            .save(Permission.builder()
+                                    .nomPermission("LIRE_PREINSCRIPTION")
+                                    .descriptionPermission("Lire les préinscriptions")
+                                    .module("Preinscription")
+                                    .canRead(true)
+                                    .canWrite(false)
+                                    .canEdit(false)
+                                    .canDelete(false)
+                                    .build()));
 
             Permission ecrirePreinscription = permissionRepository.findByNomPermission("ECRIRE_PREINSCRIPTION")
                     .orElseGet(() -> permissionRepository
-                            .save(new Permission("ECRIRE_PREINSCRIPTION", "Créer les préinscriptions")));
+                            .save(Permission.builder()
+                                    .nomPermission("ECRIRE_PREINSCRIPTION")
+                                    .descriptionPermission("Créer les préinscriptions")
+                                    .module("PREINSCRIPTION")
+                                    .canRead(true)
+                                    .canWrite(true)
+                                    .canEdit(true)
+                                    .canDelete(false)
+                                    .build()));
 
             Permission modifPreinscription = permissionRepository.findByNomPermission("MODIF_PREINSCRIPTION")
                     .orElseGet(() -> permissionRepository
-                            .save(new Permission("MODIF_PREINSCRIPTION", "Modifier les préinscriptions")));
+                            .save(Permission.builder()
+                                    .nomPermission("MODIF_PREINSCRIPTION")
+                                    .descriptionPermission("Modifier les préinscriptions")
+                                    .module("PREINSCRIPTION")
+                                    .canRead(true)
+                                    .canWrite(false)
+                                    .canEdit(true)
+                                    .canDelete(false)
+                                    .build()));
             URole roleAdmin = roleRepository.findByNomRole("ROLE_ADMIN")
                     .orElseGet(() -> roleRepository.save(new URole("ROLE_ADMIN", "Administrateur",
                             Set.of(lirePreinscription, ecrirePreinscription, modifPreinscription))));
@@ -68,27 +91,30 @@ public class PigierbackendApplication extends SpringBootServletInitializer { // 
                 URole role = new URole("ROLE_COMMERCIALE", "Commerciale",
                         Set.of(lirePreinscription, ecrirePreinscription, modifPreinscription));
                 return roleRepository.save(role);
-            });
+            }
+            );
 
             // CREATION DES UTILISATEURS
             // UTILISATEUR ADMIN
             String mdp = passwordEncoder.encode("Pigierci@2025");
             if (utilisateurRepository.findByUsername("admin").isEmpty()) {
-                Utilisateur utilisateurAdmin = new Utilisateur();
-                utilisateurAdmin.setUsername("admin");
-                utilisateurAdmin.setPassword(mdp);
-                utilisateurAdmin.setNomPrenoms("ZRANGO GONAQUET ASTAIRE NAZAIRE");
-                utilisateurAdmin.getRoles().add(roleAdmin);
+                Utilisateur utilisateurAdmin = Utilisateur.builder()
+                        .username("admin")
+                        .password(mdp)
+                        .nomPrenoms("ZRANGO GONAQUET ASTAIRE NAZAIRE")
+                        .roles(Set.of(roleAdmin))
+                        .build();
                 utilisateurRepository.save(utilisateurAdmin);
 
             }
             // UTILISATEUR COMMERCIALE
             if (utilisateurRepository.findByUsername("commerciale").isEmpty()) {
-                Utilisateur utilisateurCommerciale = new Utilisateur();
-                utilisateurCommerciale.setUsername("commerciale");
-                utilisateurCommerciale.setPassword(mdp);
-                utilisateurCommerciale.setNomPrenoms("TEST COMMERCIALE");
-                utilisateurCommerciale.getRoles().add(roleCommerciale);
+                Utilisateur utilisateurCommerciale = Utilisateur.builder()
+                        .username("commerciale")
+                        .password(mdp)
+                        .nomPrenoms("TEST COMMERCIALE")
+                        .roles(Set.of(roleCommerciale))
+                        .build();
                 utilisateurRepository.save(utilisateurCommerciale);
             }
 

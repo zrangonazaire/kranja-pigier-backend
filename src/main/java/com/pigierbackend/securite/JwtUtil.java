@@ -2,6 +2,7 @@ package com.pigierbackend.securite;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import io.jsonwebtoken.io.Decoders;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +15,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class JwtUtil {
 
     @Value("${jwt.secret}")
@@ -33,31 +36,40 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
-    }
-
-    public String generateToken(UserDetails userDetails, Utilisateur user) {
-        Map<String, Object> claims = new HashMap<>();
-
-        // Utilisation du DTO pour la sérialisation
-        claims.put("user", user);
-
-        return Jwts.builder()
-                .claims(claims)
-                .subject(userDetails.getUsername())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                .signWith(getSignInKey(), Jwts.SIG.HS512)
-                .compact();
-    }
-
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
 
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
     private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
+        Utilisateur user = (Utilisateur) userDetails;
+        Map<String, Object> claims = new HashMap<>();
+     
+        claims.put("userId", user.getId());
+        claims.put("email", user.getEmail());
+        claims.put("sub", user.getUsername());
+        claims.put("nom", user.getName());
+        claims.put("nomPrenoms", user.getNomPrenoms());
+        claims.put("telephone", user.getTelephone());
+        claims.put("roles", user.getRoles().stream().map(role -> {
+            Map<String, Object> roleMap = new HashMap<>();
+            roleMap.put("id", role.getId());
+            roleMap.put("nomRole", role.getNomRole());
+            roleMap.put("descriptionRole", role.getDescriptionRole());
+            roleMap.put("permissions", role.getPermission().stream().map(permission -> {
+                Map<String, Object> permMap = new HashMap<>();
+                permMap.put("id", permission.getId());
+                permMap.put("nomPermission", permission.getNomPermission());
+                permMap.put("descriptionPermission", permission.getDescriptionPermission());
+                permMap.put("module", permission.getModule());
+
+                return permMap;
+
+            }).collect(Collectors.toList()));
+
+            return roleMap;
+        }));
+  
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())

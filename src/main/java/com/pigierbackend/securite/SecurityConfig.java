@@ -44,7 +44,7 @@ final JwtAuthEntryPoint jwtAuthEntryPoint;
             .httpStrictTransportSecurity(withDefaults()) // Désactiver le cache
                      )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**","/api/v1/auth/**", "/auth/login","/preinscription/**","/encaissement/**","/eleves/**").permitAll()
+                .requestMatchers("/api/auth/**","/api/v1/auth/**", "/auth/login","/preinscription/**","/api/v1/preinscription/**","/encaissement/**","/eleves/**","/utilisateurs/**","/permissions/**","/roles/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**","/api/v1/preinscriptionyakro/**").permitAll()
                 .requestMatchers("/api/utilisateur/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                 .anyRequest().authenticated()

@@ -7,13 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.pigierbackend.permission.Permission;
+import com.pigierbackend.role.URole;
 import com.pigierbackend.utilisateur.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 //import com.pigierbackend.repository.UtilisateurRepository; // Remplacez par le chemin correct de votre repository
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,17 +29,40 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Utilisateur utilisateur = utilisateurRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
-        Collection<? extends GrantedAuthority> authorities = utilisateur.getRoles().stream()
-                .map(role -> {
-                    Set<GrantedAuthority> roleAuthorities = new HashSet<>();
-                    roleAuthorities.add(new SimpleGrantedAuthority(role.getNomRole()));
-                    role.getPermission().forEach(permission -> roleAuthorities
-                            .add(new SimpleGrantedAuthority(permission.getNomPermission())));
+      return new User(utilisateur.getUsername(), utilisateur.getPassword(),
+                getAuthorities(utilisateur.getRoles()));
+     
+    }
+     private Collection<? extends GrantedAuthority> getAuthorities(Set<URole> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        
+        for (URole role : roles) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getNomRole()));
+            for (Permission permission : role.getPermission()) {
+                authorities.addAll(getPermissionsAsAuthorities(permission));
+            }
+        }
+        
+        return authorities;
+    }
 
-                    return roleAuthorities;
-                }).flatMap(Set::stream).collect(Collectors.toSet());
-        return new User(utilisateur.getUsername(),
-                utilisateur.getPassword(),
-                authorities);
+    private List<SimpleGrantedAuthority> getPermissionsAsAuthorities(Permission permission) {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        String module = permission.getModule().toUpperCase().replace(" ", "_");
+        
+        if (permission.isCanRead()) {
+            authorities.add(new SimpleGrantedAuthority("READ_" + module));
+        }
+        if (permission.isCanWrite()) {
+            authorities.add(new SimpleGrantedAuthority("WRITE_" + module));
+        }
+        if (permission.isCanEdit()) {
+            authorities.add(new SimpleGrantedAuthority("EDIT_" + module));
+        }
+        if (permission.isCanDelete()) {
+            authorities.add(new SimpleGrantedAuthority("DELETE_" + module));
+        }
+        
+        return authorities;
     }
 }
