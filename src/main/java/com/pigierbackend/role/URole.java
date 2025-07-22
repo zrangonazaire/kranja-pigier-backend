@@ -1,6 +1,7 @@
 package com.pigierbackend.role;
 
 import java.util.HashSet;
+import java.util.stream.Collectors;
 import java.util.Set;
 
 import com.pigierbackend.abstractentity.AbstractEntity;
@@ -41,4 +42,15 @@ public class URole extends AbstractEntity  {
     // public String getAuthority() {
     //     return nomRole; // Return the role name as the authority
     // }
+
+    public RoleResponse toRoleResponse() {
+        return RoleResponse.builder()
+                .id(getId())
+                .nomRole(getNomRole())
+                .descriptionRole(getDescriptionRole())
+                .permissions(getPermission().stream().map(Permission::toPermissionResponse).collect(Collectors.toSet()))
+                .createdDate(this.getCreationDate())
+                .lastModifiedDate(this.getModificationDate())
+                .build();
+    }
 }

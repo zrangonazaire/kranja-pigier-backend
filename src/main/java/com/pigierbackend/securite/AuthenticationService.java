@@ -43,10 +43,9 @@ public class AuthenticationService {
                             request.getUsername(),
                             request.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("Authentication successful for user: {}", request.getUsername());
             var user = userRepository.findByUsername(request.getUsername())
                     .orElseThrow(() -> new BadCredentialsException("Utilisateur non trouvé"));
-            log.info("User is desactive: {}", user.isEnabled());
+           // log.info("User is desactive: {}", user.isEnabled());
 
             // Vérification si le compte est désactivé
             // if (!user.isEnabled()) {

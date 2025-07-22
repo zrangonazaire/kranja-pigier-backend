@@ -18,52 +18,42 @@ import java.io.IOException;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtil jwtService;
     @Autowired // Supposant que vous avez cette classe
     private CustomUserDetailsService userDetailsService; // Supposant que vous avez cette classe
-
-    @Override
+  @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain) throws ServletException, IOException {
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-
+        final String jwt;
+        final String username;
+        
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        try {
-            String jwt = getJwtFromRequest(request);
-            String username = jwtUtil.extractUsername(jwt);
-
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (jwtUtil.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            } else {
-                // Si le token n'est pas valide, on ne fait rien
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT");
-                return;
+        
+        jwt = authHeader.substring(7);
+        username = jwtService.extractUsername(jwt);
+        
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
+                authToken.setDetails(
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                );
+                SecurityContextHolder.getContext().setAuthentication(authToken);
             }
-
-        } catch (Exception e) {
-            // Gestion des erreurs
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT");
-            return;
         }
-
         filterChain.doFilter(request, response);
-    }
-
-    private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
     }
 }

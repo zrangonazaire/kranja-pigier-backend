@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ public class EleveController {
     final EleveService eleveService;
 
     @GetMapping("/etatListeEtudiant")
+     @PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab ) throws Exception {
         try {
@@ -59,6 +61,7 @@ public class EleveController {
     }
 
     @GetMapping("/etatListeEtudiantExcel")
+    @PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiantExcel(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab) throws Exception {
         try {
