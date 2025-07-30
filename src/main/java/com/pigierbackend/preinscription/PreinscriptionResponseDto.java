@@ -127,7 +127,7 @@ public class PreinscriptionResponseDto {
     String premsoins; // varchar(300) Checked
 
     String intervchir; // varchar(300) Checked
-    LocalDateTime datinscrip; // smalldatetime Checked
+    LocalDateTime dateInscription; // smalldatetime Checked
 
     String decision; // varchar(3) Checked
 

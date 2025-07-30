@@ -21,7 +21,7 @@ public class PreinscriptionRequestDto {
     @NotEmpty(message = "Saisie obligatoire.")
     @NotNull(message = "Saisie obligatoire.")
     String nomprenoms; // varchar(150) Checked
-    LocalDate datnais; // datetime Checked
+    LocalDateTime datnais; // datetime Checked
 
     String lieunais; // varchar(100) Checked
 
@@ -136,7 +136,7 @@ public class PreinscriptionRequestDto {
     String premsoins; // varchar(300) Checked
 
     String intervchir; // varchar(300) Checked
-    LocalDateTime datinscrip; // smalldatetime Checked
+    LocalDateTime dateInscription; // smalldatetime Checked
 
     String decision; // varchar(3) Checked
 

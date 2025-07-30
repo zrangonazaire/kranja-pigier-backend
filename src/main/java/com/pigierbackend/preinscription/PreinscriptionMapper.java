@@ -16,6 +16,7 @@ public  class PreinscriptionMapper {
    public PreinscriptionResponseDto fromPreinscriptionYakro(PREINSCRIPTION pre){
         PreinscriptionResponseDto prDto=new PreinscriptionResponseDto();
         BeanUtils.copyProperties(pre,prDto);
+        prDto.setUtilisateurCreateur(pre.getCopieBac());
         return prDto;
     };
 }
