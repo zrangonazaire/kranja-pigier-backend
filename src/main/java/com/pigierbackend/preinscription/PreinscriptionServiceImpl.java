@@ -81,6 +81,8 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
                     PREINSCRIPTION p = new PREINSCRIPTION();
                     p.setDateInscription(LocalDateTime.now());
                     p = preinscriptionYakroMapper.toPreinscription(preinscriptionYakroRequestDto);
+                    p.setId(preinscriptionYakroRequestDto.getId());
+                    p.setUtilisateurCreateur(preinscriptionYakroRequestDto.getUtilisateurCreateur());
                     p.setDateNaissance(dateNaissance);
                     return p;
                 });
