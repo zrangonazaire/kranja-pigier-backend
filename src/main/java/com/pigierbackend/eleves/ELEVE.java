@@ -1,122 +1,285 @@
 package com.pigierbackend.eleves;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "Elèves")
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@NoArgsConstructor
-@AllArgsConstructor
 public class ELEVE {
-    // @Column(name = "matricule", nullable = false, length = 10, unique = true)
-    // String matricule;
-    // String nomprenom;
-    // @Column(name = "sexe", nullable = false, length = 1)
-    // String sexe;
 
-    // @Column(name = "role") // User role
-    // String role;
-    @Column(name = "matricule")
     @Id
+    @Column(name = "Matri_Elev", length = 10, nullable = false,columnDefinition = "nvarchar(10)")
     private String matriElev;
-    private String codeGrp;
+
+    @Column(name = "Code_Grp")
+    private Short codeGrp;
+
+    @Column(name = "Nom_Elev", length = 50,columnDefinition = "nvarchar(50)")
     private String nomElev;
+
+    @Column(name = "Sexe_Elev", length = 1, columnDefinition = "nvarchar(1)")
     private String sexeElev;
-    private String codeSte;
-    private String codeEta;
-    private String subEta;
+
+    @Column(name = "Code_Ste")
+    private Integer codeSte;
+
+    @Column(name = "Code_Eta")
+    private Integer codeEta;
+
+    @Column(name = "Sub_Eta")
+    private Integer subEta;
+
+    @Column(name = "Code_Reg", length = 1)
     private String codeReg;
-    private String codeBrs;
-    private String codeOpt;
-    private Double montOpt;
+
+    @Column(name = "Code_Brs")
+    private Integer codeBrs;
+
+    @Column(name = "Code_Opt")
+    private Integer codeOpt;
+
+    @Column(name = "Mont_Opt", precision = 19, scale = 4)
+    private BigDecimal montOpt;
+
+    @Column(name = "Code_Detcla", length = 10)
     private String codeDetcla;
+
+    @Column(name = "Nom_Cla", length = 100)
     private String nomCla;
-    private String codeNat;
+
+    @Column(name = "Code_Nat")
+    private Integer codeNat;
+
+    @Column(name = "Lieunais_Elev", length = 20)
     private String lieunaisElev;
-    private LocalDate datenaisElev; // Supposons que c'est juste une date
+
+    @Column(name = "Datenais_Elev")
+    private LocalDateTime datenaisElev;
+
+    @Column(name = "TelBurResp_Elev", length = 30)
     private String telBurRespElev;
+
+    @Column(name = "Actenais_Elev", length = 20)
     private String actenaisElev;
+
+    @Column(name = "NomPere_Elev", length = 20)
     private String nomPereElev;
+
+    @Column(name = "NomMere_Elev", length = 20)
     private String nomMereElev;
+
+    @Column(name = "EtablOrig_Elev", length = 25)
     private String etablOrigElev;
+
+    @Column(name = "ClassOrig_Elev", length = 20)
     private String classOrigElev;
+
+    @Column(name = "AnneeSco_Orig", length = 9)
     private String anneeScoOrig;
-    private LocalDate dateEntreElev; // Supposons que c'est juste une date
-    private String codeNiv;
+
+    @Column(name = "DateEntre_Elev")
+    private LocalDateTime dateEntreElev;
+
+    @Column(name = "Code_Niv", nullable = false)
+    private Integer codeNiv;
+
+    @Column(name = "AnneeSco_Elev", length = 9)
     private String anneeScoElev;
+
+    @Column(name = "SerieBac_Elev", length = 20)
     private String serieBacElev;
-    private LocalDate dateObtBacElev; // Supposons que c'est juste une date
+
+    @Column(name = "DateObtBac_Elev")
+    private LocalDateTime dateObtBacElev;
+
+    @Column(name = "Redouble_Elev")
     private Boolean redoubleElev;
+
+    @Column(name = "Cycle_Elev", length = 2)
     private String cycleElev;
+
+    @Column(name = "NomResp_Elev", length = 30)
     private String nomRespElev;
+
+    @Column(name = "ProfResp_Elev", length = 30)
     private String profRespElev;
+
+    @Column(name = "TitreResp_Elev", length = 4)
     private String titreRespElev;
+
+    @Column(name = "AdresResp_Elev", length = 30)
     private String adresRespElev;
+
+    @Column(name = "VilleResp_Elev", length = 15)
     private String villeRespElev;
+
+    @Column(name = "TelDomResp_Elev", length = 30)
     private String telDomRespElev;
-    private Double montantScoElev;
-    private Double soldScoElev;
-    private Double remiseElev;
-    private Double bourseElev;
-    private Double soldBourseElev;
+
+    @Column(name = "MontantSco_Elev")
+    private Integer montantScoElev;
+
+    @Column(name = "SoldSco_Elev")
+    private Integer soldScoElev;
+
+    @Column(name = "Remise_Elev")
+    private Float remiseElev;
+
+    @Column(name = "Bourse_Elev")
+    private Integer bourseElev;
+
+    @Column(name = "SoldBourse_Elev")
+    private Integer soldBourseElev;
+
+    @Column(name = "DejaRegle")
     private Boolean dejaRegle;
-    private byte[] photo; // Pour stocker les données binaires d'une image
+
+    @Lob
+    @Column(name = "Photo", columnDefinition = "varbinary(max)")
+    private byte[] photo;
+
+    @Lob
+    @Column(name = "Comment",columnDefinition = "NVARCHAR(MAX)")
     private String comment;
+
+    @Column(name = "Condition_Elev", length = 50)
     private String conditionElev;
-    private Double cotisation;
-    private Double soldFraisExam;
+
+    @Column(name = "Cotisation")
+    private Integer cotisation;
+
+    @Column(name = "SoldFraisExam")
+    private int soldFraisExam;
+
+    @Column(name = "Prenom_Elev", length = 100)
     private String prenomElev;
-    private Double scolFDFP;
-    private String idFDFP;
+
+    @Column(name = "scolFDFP")
+    private int scolFDFP;
+
+    @Column(name = "idFDFP")
+    private int idFDFP;
+
+    @Column(name = "idPreinscription", length = 12)
     private String idPreinscription;
-    private Boolean reservation;
+
+    @Column(name = "Reservation",columnDefinition = "nvarchar(10)")
+    private String reservation;
+
+    @Column(name = "numtabl", length = 20)
     private String numtabl;
+
+    @Column(name = "numatri", length = 20)
     private String numatri;
-    private String totbac;
+
+    @Column(name = "totbac")
+    private int totbac;
+
+    @Column(name = "matpc", length = 20)
     private String matpc;
+
+    @Column(name = "celetud", length = 30)
     private String celetud;
+
+    @Column(name = "teletud", length = 30)
     private String teletud;
+
+    @Column(name = "villetud", length = 50)
     private String villetud;
+
+    @Column(name = "cometud", length = 50)
     private String cometud;
+
+    @Column(name = "mailetud", length = 200)
     private String mailetud;
-    private Double reduction;
+
+    @Column(name = "reduction")
+    private int reduction;
+
+    @Column(name = "Etab_source", length = 25)
     private String etabSource;
-    private Double avoir;
+
+    @Column(name = "Avoir")
+    private int avoir;
+
+    @Column(name = "natPiece", length = 150)
     private String natPiece;
-    private Double montantExamen;
+
+    @Column(name = "montantExamen")
+    private int montantExamen;
+
+    @Column(name = "Admission_Annee_Sup")
     private Boolean admissionAnneeSup;
+
+    @Column(name = "Cloture_Peda")
     private Boolean cloturePeda;
+
+    @Column(name = "Extrait_naissance")
     private Boolean extraitNaissance;
+
+    @Column(name = "Photocopie_diplômes")
     private Boolean photocopieDiplomes;
+
+    @Column(name = "Photocopie_Legalise_BAC")
     private Boolean photocopieLegaliseBAC;
+
+    @Column(name = "Photocopie_Bulletins")
     private Boolean photocopieBulletins;
+
+    @Column(name = "Photo_identité")
     private Boolean photoIdentite;
+
+    @Column(name = "Fiche_demande_inscription")
     private Boolean ficheDemandeInscription;
+
+    @Column(name = "Fiche_médicale")
     private Boolean ficheMedicale;
+
+    @Column(name = "Cinq_enveloppes")
     private Boolean cinqEnveloppes;
+
+    @Column(name = "Cinq_timbres")
     private Boolean cinqTimbres;
+
+    @Column(name = "Deuxieme_Extrait_naissance")
     private Boolean deuxiemeExtraitNaissance;
+
+    @Column(name = "Deuxieme_Photocopie_Legalise_BAC")
     private Boolean deuxiemePhotocopieLegaliseBAC;
-    private LocalDate dateInscriEleve; // Supposons que c'est juste une date
+
+    @Column(name = "DateInscri_Eleve")
+    private LocalDateTime dateInscriEleve;
+
+    @Column(name = "mailparent", length = 200)
     private String mailparent;
+
+    @Column(name = "Inscrit_Carte")
     private Boolean inscritCarte;
+
+    @Column(name = "idperm", length = 20)
     private String idperm;
+
+    @Column(name = "Inscrit_Sous_Titre")
     private Boolean inscritSousTitre;
+
+    @Column(name = "Inscrit_Sous_Bulletin")
     private Boolean inscritSousBulletin;
+
+    @Column(name = "univmetiers", length = 250)
     private String univmetiers;
+
+    @Column(name = "mdpunivmetier", length = 250)
     private String mdpunivmetier;
-    private Double droitinscription;
+
+    @Column(name = "droitinscription")
+    private int droitinscription;
+
+    // Ajoutez ici les getters et setters
 }

@@ -2,6 +2,7 @@ package com.pigierbackend.preinscription;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -9,6 +10,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,142 +27,211 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PREINSCRIPTION {
-    @Id
-    @Column(length = 12, nullable = false)
-    String id; // Changed from String to Long
-    @Column(nullable = false, length = 150)
-    String nomprenoms; // varchar(150) Checked
-    @Column(nullable = false)
-    LocalDate datnais; // datetime Checked
-    @Column(length = 100, nullable = false)
-    String lieunais; // varchar(100) Checked
-    @Column(length = 1, nullable = false)
-    String sexe; // varchar(1) Checked
-    @Column(length = 50, nullable = false)
-    String nationalite; // varchar(50) Checked
-    @Column(length = 30, nullable = false)
-    String natident; // varchar(30) Checked
-    @Column(length = 50, nullable = false)
-    String numidentite; // varchar(50) Checked
-    @Column(length = 30)
-    String teletud; // varchar(30) Checked
-    @Column(length = 30, nullable = false)
-    String celetud; // varchar(30) Checked
-    @Column(length = 100, nullable = false)
-    String emailetud; // varchar(100) Checked
-    @Column(length = 150, nullable = false)
-    String viletud; // varchar(150) Checked
-    @Column(length = 150, nullable = false)
-    String cometud; // varchar(150) Checked
-    @Column(length = 3)
-    String baccalaureat; // varchar(3) Checked
-    @Column(length = 5)
-    String annbac; // varchar(5) Checked
-    @Column(length = 150)
-    String diplequiv; // varchar(150) Checked
-    @Column(length = 5)
-    String anndiplequiv; // varchar(5) Checked
-    @Column(length = 100)
-    String nivoetud; // varchar(100) Checked
-    @Column(length = 100)
-    String annivoetud; // varchar(100) Checked
-    @Column(length = 100)
-    String grade; // varchar(100) Checked
-    @Column(length = 100)
-    String anngrad; // varchar(100) Checked
-    @Column(length = 100)
-    String specgrad; // varchar(100) Checked
-    @Column(length = 150)
-    String etsfreq; // varchar(150) Checked
-    @Column(length = 200)
-    String formsouh; // varchar(200) Checked
-    @Column(length = 20)
-    String idperm; // varchar(20) Checked
-    @Column(length = 150, nullable = false)
-    String nompere; // varchar(150) Checked
-    @Column(length = 150, nullable = false)
-    String nomere; // varchar(150) Checked
-    @Column(length = 10)
-    String titrespo; // varchar(10) Checked
-    @Column(length = 10)
-    String respo; // varchar(10) Checked
-    @Column(length = 150)
-    String nomrespo; // varchar(150) Checked
-    @Column(length = 100)
-    String profrespo; // varchar(100) Checked
-    @Column(length = 150)
-    String emprespo; // varchar(150) Checked
-    @Column(length = 150, nullable = false)
-    String vilrespo; // varchar(150) Checked
-    @Column(length = 150, nullable = false)
-    String comrespo; // varchar(150) Checked
-    @Column(length = 50)
-    String bprespo; // varchar(50) Checked
-    @Column(length = 30, nullable = false)
-    String celrespo; // varchar(30) Checked
-    @Column(length = 30)
-    String telburespo; // varchar(30) Checked
-    @Column(length = 30)
-    String teldomrespo; // varchar(30) Checked
-    @Column(length = 100)
-    String emailrespo; // varchar(100) Checked
-    @Column(length = 150)
-    String copiebac; // varchar(150) Checked
-    @Column(length = 150)
-    String copderndipl; // varchar(150) Checked
-    @Column(length = 150)
-    String contnompren1; // varchar(150) Checked
-    @Column(length = 100)
-    String contadr1; // varchar(100) Checked
-    @Column(length = 30)
-    String contel1; // varchar(30) Checked
-    @Column(length = 30)
-    String contcel1; // varchar(30) Checked
-    @Column(length = 150)
-    String contnompren2; // varchar(150) Checked
-    @Column(length = 100)
-    String contadr2; // varchar(100) Checked
-    @Column(length = 30)
-    String contel2; // varchar(30) Checked
-    @Column(length = 30)
-    String contcel2; // varchar(30) Checked
-    @Column(length = 5)
-    String clindec; // varchar(5) Checked
-    @Column(length = 100)
-    String clinnom; // varchar(100) Checked
-    @Column(length = 30)
-    String clintel; // varchar(30) Checked
-    @Column(length = 100)
-    String clinmed; // varchar(100) Checked
-    @Column(length = 30)
-    String clinmedcont; // varchar(30) Checked
-    @Column(length = 300)
-    String maladies; // varchar(300) Checked
-    @Column(length = 300)
-    String soins; // varchar(300) Checked
-    @Column(length = 300)
-    String medic; // varchar(300) Checked
-    @Column(length = 300)
-    String premsoins; // varchar(300) Checked
-    @Column(length = 300)
-    String intervchir; // varchar(300) Checked
-   @CreatedDate
-    LocalDateTime datinscrip; // smalldatetime Checked
-    @Column(length = 3)
-    String decision; // varchar(3) Checked
-    @Column(length = 20)
-    String numtabl; // varchar(20) Checked
-    @Column(length = 20)
-    String numatri; // varchar(20) Checked
-    int totbac; // int Checked
-    @Column(length = 20)
-    String matpc; // varchar(20) Checked
-    @Column(length = 10)
-    String anneescolaire; // varchar(10) Checked
-    @Column(length = 25)
-    String Etab_source; // varchar(25) Checked
-    @Column(length = 25, nullable = true)
-    boolean Inscrit_Sous_Titre; // bit Checked
-    @Column(length = 150)
-    String utilisateurCreateur;
+        @Id
+    @Column(name = "id", length = 12, nullable = false)
+    private String id;
+
+    @Column(name = "nomprenoms", length = 150)
+    private String nomPrenoms;
+
+    @Column(name = "datnais")
+    private LocalDateTime dateNaissance;
+
+    @Column(name = "lieunais", length = 100)
+    private String lieuNaissance;
+
+    @Column(name = "sexe", length = 1)
+    private String sexe;
+
+    @Column(name = "nationalite", length = 50)
+    private String nationalite;
+
+    @Column(name = "natident", length = 30)
+    private String nationaliteIdentite;
+
+    @Column(name = "numidentite", length = 50)
+    private String numeroIdentite;
+
+    @Column(name = "teletud", length = 30)
+    private String telephoneEtudiant;
+
+    @Column(name = "celetud", length = 30)
+    private String cellulaireEtudiant;
+
+    @Column(name = "emailetud", length = 100)
+    private String emailEtudiant;
+
+    @Column(name = "viletud", length = 150)
+    private String villeEtudiant;
+
+    @Column(name = "cometud", length = 150)
+    private String communeEtudiant;
+
+    @Column(name = "baccalaureat", length = 3)
+    private String baccalaureat;
+
+    @Column(name = "annbac", length = 5)
+    private String anneeBac;
+
+    @Column(name = "diplequiv", length = 150)
+    private String diplomeEquivalence;
+
+    @Column(name = "anndiplequiv", length = 5)
+    private String anneeDiplomeEquivalence;
+
+    @Column(name = "nivoetud", length = 100)
+    private String niveauEtudes;
+
+    @Column(name = "annivoetud", length = 10)
+    private String anneeNiveauEtudes;
+
+    @Column(name = "grade", length = 100)
+    private String grade;
+
+    @Column(name = "anngrad", length = 10)
+    private String anneeGrade;
+
+    @Column(name = "specgrad", length = 100)
+    private String specialiteGrade;
+
+    @Column(name = "etsfreq", length = 150)
+    private String etablissementFrequente;
+
+    @Column(name = "formsouh", length = 200)
+    private String formationSouhaitee;
+
+    @Column(name = "idperm", length = 20)
+    private String idPermanent;
+
+    @Column(name = "nompere", length = 150)
+    private String nomPere;
+
+    @Column(name = "nomere", length = 150)
+    private String nomMere;
+
+    @Column(name = "titrespo", length = 10)
+    private String titreResponsable;
+
+    @Column(name = "respo", length = 10)
+    private String responsable;
+
+    @Column(name = "nomrespo", length = 150)
+    private String nomResponsable;
+
+    @Column(name = "profrespo", length = 100)
+    private String professionResponsable;
+
+    @Column(name = "emprespo", length = 150)
+    private String employeurResponsable;
+
+    @Column(name = "vilrespo", length = 150)
+    private String villeResponsable;
+
+    @Column(name = "comrespo", length = 150)
+    private String communeResponsable;
+
+    @Column(name = "bprespo", length = 50)
+    private String boitePostaleResponsable;
+
+    @Column(name = "celrespo", length = 30)
+    private String cellulaireResponsable;
+
+    @Column(name = "telburespo", length = 30)
+    private String telephoneBureauResponsable;
+
+    @Column(name = "teldomrespo", length = 30)
+    private String telephoneDomicileResponsable;
+
+    @Column(name = "emailrespo", length = 100)
+    private String emailResponsable;
+
+    @Column(name = "copiebac", length = 150)
+    private String copieBac;
+
+    @Column(name = "copderndipl", length = 150)
+    private String copieDernierDiplome;
+
+    @Column(name = "contnompren1", length = 150)
+    private String contactNomPrenom1;
+
+    @Column(name = "contadr1", length = 100)
+    private String contactAdresse1;
+
+    @Column(name = "contel1", length = 30)
+    private String contactTelephone1;
+
+    @Column(name = "contcel1", length = 30)
+    private String contactCellulaire1;
+
+    @Column(name = "contnompren2", length = 150)
+    private String contactNomPrenom2;
+
+    @Column(name = "contadr2", length = 100)
+    private String contactAdresse2;
+
+    @Column(name = "contel2", length = 30)
+    private String contactTelephone2;
+
+    @Column(name = "contcel2", length = 30)
+    private String contactCellulaire2;
+
+    @Column(name = "clindec", length = 5)
+    private String cliniqueDeclaree;
+
+    @Column(name = "clinnom", length = 100)
+    private String nomClinique;
+
+    @Column(name = "clintel", length = 30)
+    private String telephoneClinique;
+
+    @Column(name = "clinmed", length = 100)
+    private String medecinClinique;
+
+    @Column(name = "clinmedcont", length = 30)
+    private String contactMedecin;
+
+    @Column(name = "maladies", length = 300)
+    private String maladies;
+
+    @Column(name = "soins", length = 300)
+    private String soins;
+
+    @Column(name = "medic", length = 300)
+    private String medicaments;
+
+    @Column(name = "premsoins", length = 300)
+    private String premiersSoins;
+
+    @Column(name = "intervchir", length = 300)
+    private String interventionsChirurgicales;
+
+    @Column(name = "datinscrip")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime dateInscription;
+
+    @Column(name = "decision", length = 3)
+    private String decision;
+
+    @Column(name = "numtabl", length = 20)
+    private String numeroTable;
+
+    @Column(name = "numatri", length = 20)
+    private String numeroMatricule;
+
+    @Column(name = "totbac")
+    private Integer totalBac;
+
+    @Column(name = "matpc", length = 20)
+    private String matierePrincipale;
+
+    @Column(name = "anneescolaire", length = 10)
+    private String anneeScolaire;
+
+    @Column(name = "Etab_source", length = 25)
+    private String etablissementSource;
+
+    @Column(name = "Inscrit_Sous_Titre")
+    private Boolean inscritSousTitre;
+    @Column(name = "utilisateur_createur", length = 50)
+    private String utilisateurCreateur;
 }
