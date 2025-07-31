@@ -12,11 +12,15 @@ import lombok.experimental.FieldDefaults;
 @Service
 @Transactional
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public  class PreinscriptionMapper {
-   public PreinscriptionResponseDto fromPreinscriptionYakro(PREINSCRIPTION pre){
-        PreinscriptionResponseDto prDto=new PreinscriptionResponseDto();
-        BeanUtils.copyProperties(pre,prDto);
-        prDto.setUtilisateurCreateur(pre.getCopieBac());
+public class PreinscriptionMapper {
+    public PreinscriptionResponseDto fromPreinscription(PREINSCRIPTION pre) {
+        PreinscriptionResponseDto prDto = new PreinscriptionResponseDto();
+        BeanUtils.copyProperties(pre, prDto);
         return prDto;
     };
+    public PREINSCRIPTION toPreinscription(PreinscriptionRequestDto preinscriptionRequestDto) {
+        PREINSCRIPTION preinscription = new PREINSCRIPTION();
+        BeanUtils.copyProperties(preinscriptionRequestDto, preinscription);
+        return preinscription;
+    }
 }

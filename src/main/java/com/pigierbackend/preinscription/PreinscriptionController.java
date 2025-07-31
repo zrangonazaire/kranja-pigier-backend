@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -20,12 +21,14 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -39,7 +42,7 @@ public class PreinscriptionController {
 
     @PostMapping(value = "/creerOrUpdatePreinsc", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 //     @PreAuthorize("hasAuthority('WRITE_PREINSCRIPTION')")
-    public ResponseEntity<PreinscriptionResponseDto> creerOrUpdatePreinscYakro(
+    public ResponseEntity<PreinscriptionResponseDto> creerOrUpdatePreinsc(
             @RequestBody PreinscriptionRequestDto dto) {
         return new ResponseEntity<PreinscriptionResponseDto>(
                 preinscriptionYakroService.createOrUpdatePreinscription(dto), HttpStatus.CREATED);
@@ -53,13 +56,14 @@ public class PreinscriptionController {
                 HttpStatus.OK);
     }
 
-    @GetMapping(value = "/findAllPreinscEntreDeuxDate/{debut}/{fin}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findAllPreinscEntreDeuxDate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinscEntreDeuxDate(
-            @PathVariable String debut, @PathVariable String fin) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        LocalDateTime dateDebut = LocalDateTime.parse(debut, formatter);
-        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDateTime dateFin = LocalDateTime.parse(fin, formatter);
+            @RequestParam  String debut,
+            @RequestParam  String fin) {
+                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    
+                LocalDateTime dateDebut = LocalDateTime.parse(debut, formatter);
+                LocalDateTime dateFin = LocalDateTime.parse(fin, formatter);
         return new ResponseEntity<List<PreinscriptionResponseDto>>(
                 preinscriptionYakroService.getAllPreinscriptionEntreDeuxDate(dateDebut, dateFin),
                 HttpStatus.OK);

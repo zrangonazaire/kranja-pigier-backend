@@ -1,6 +1,5 @@
 package com.pigierbackend.preinscription;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotBlank;
@@ -16,139 +15,140 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PreinscriptionRequestDto {
 
-    String id; // Changed from String to Long
+    private String id;
     @NotBlank(message = "Saisie obligatoire.")
-    @NotEmpty(message = "Saisie obligatoire.")
-    @NotNull(message = "Saisie obligatoire.")
-    String nomprenoms; // varchar(150) Checked
-    LocalDateTime datnais; // datetime Checked
-
-    String lieunais; // varchar(100) Checked
-
-    String sexe; // varchar(1) Checked
-
-    String nationalite; // varchar(50) Checked
-
-    String natident; // varchar(30) Checked
-
-    String numidentite; // varchar(50) Checked
+    private String nomPrenoms;
     @NotBlank(message = "Saisie obligatoire.")
+    private String dateNaissance;
+
+    private String lieuNaissance;
+    @NotBlank(message = "Saisie obligatoire.")
+    private String sexe;
+
+    private String nationalite;
+    @NotBlank(message = "Saisie obligatoire.")
+    private String nationaliteIdentite;
+    @NotBlank(message = "Saisie obligatoire.")
+    private String numeroIdentite;
+
+    private String telephoneEtudiant;
     @NotEmpty(message = "Saisie obligatoire.")
+    @NotBlank(message = "Saisie obligatoire.")
     @NotNull(message = "Saisie obligatoire.")
-    String teletud; // varchar(30) Checked
+    private String cellulaireEtudiant;
 
-    String celetud; // varchar(30) Checked
+    private String emailEtudiant;
 
-    String emailetud; // varchar(100) Checked
+    private String villeEtudiant;
 
-    String viletud; // varchar(150) Checked
+    private String communeEtudiant;
 
-    String cometud; // varchar(150) Checked
+    private String baccalaureat;
 
-    String baccalaureat; // varchar(3) Checked
+    private String anneeBac;
 
-    String annbac; // varchar(5) Checked
+    private String diplomeEquivalence;
 
-    String diplequiv; // varchar(150) Checked
+    private String anneeDiplomeEquivalence;
 
-    String anndiplequiv; // varchar(5) Checked
+    private String niveauEtudes;
 
-    String nivoetud; // varchar(100) Checked
+    private String anneeNiveauEtudes;
 
-    String annivoetud; // varchar(100) Checked
+    private String grade;
 
-    String grade; // varchar(100) Checked
+    private String anneeGrade;
 
-    String anngrad; // varchar(100) Checked
+    private String specialiteGrade;
 
-    String specgrad; // varchar(100) Checked
+    private String etablissementFrequente;
+    @NotBlank(message = "Saisie obligatoire.")
+    private String formationSouhaitee;
 
-    String etsfreq; // varchar(150) Checked
+    private String idPermanent;
 
-    String formsouh; // varchar(200) Checked
+    private String nomPere;
 
-    String idperm; // varchar(20) Checked
+    private String nomMere;
 
-    String nompere; // varchar(150) Checked
+    private String titreResponsable;
 
-    String nomere; // varchar(150) Checked
+    private String responsable;
 
-    String titrespo; // varchar(10) Checked
+    private String nomResponsable;
 
-    String respo; // varchar(10) Checked
+    private String professionResponsable;
 
-    String nomrespo; // varchar(150) Checked
+    private String employeurResponsable;
 
-    String profrespo; // varchar(100) Checked
+    private String villeResponsable;
 
-    String emprespo; // varchar(150) Checked
+    private String communeResponsable;
 
-    String vilrespo; // varchar(150) Checked
+    private String boitePostaleResponsable;
 
-    String comrespo; // varchar(150) Checked
+    private String cellulaireResponsable;
 
-    String bprespo; // varchar(50) Checked
+    private String telephoneBureauResponsable;
 
-    String celrespo; // varchar(30) Checked
+    private String telephoneDomicileResponsable;
 
-    String telburespo; // varchar(30) Checked
+    private String emailResponsable;
 
-    String teldomrespo; // varchar(30) Checked
+    private String copieBac;
 
-    String emailrespo; // varchar(100) Checked
+    private String copieDernierDiplome;
 
-    String copiebac; // varchar(150) Checked
+    private String contactNomPrenom1;
 
-    String copderndipl; // varchar(150) Checked
+    private String contactAdresse1;
 
-    String contnompren1; // varchar(150) Checked
+    private String contactTelephone1;
 
-    String contadr1; // varchar(100) Checked
+    private String contactCellulaire1;
 
-    String contel1; // varchar(30) Checked
+    private String contactNomPrenom2;
 
-    String contcel1; // varchar(30) Checked
+    private String contactAdresse2;
 
-    String contnompren2; // varchar(150) Checked
+    private String contactTelephone2;
 
-    String contadr2; // varchar(100) Checked
+    private String contactCellulaire2;
 
-    String contel2; // varchar(30) Checked
+    private String cliniqueDeclaree;
 
-    String contcel2; // varchar(30) Checked
+    private String nomClinique;
 
-    String clindec; // varchar(5) Checked
+    private String telephoneClinique;
 
-    String clinnom; // varchar(100) Checked
+    private String medecinClinique;
 
-    String clintel; // varchar(30) Checked
+    private String contactMedecin;
 
-    String clinmed; // varchar(100) Checked
+    private String maladies;
 
-    String clinmedcont; // varchar(30) Checked
+    private String soins;
 
-    String maladies; // varchar(300) Checked
+    private String medicaments;
 
-    String soins; // varchar(300) Checked
+    private String premiersSoins;
 
-    String medic; // varchar(300) Checked
+    private String interventionsChirurgicales;
 
-    String premsoins; // varchar(300) Checked
+    private String decision;
 
-    String intervchir; // varchar(300) Checked
-    LocalDateTime dateInscription; // smalldatetime Checked
+    private String numeroTable;
 
-    String decision; // varchar(3) Checked
+    private String numeroMatricule;
 
-    String numtabl; // varchar(20) Checked
+    private Integer totalBac;
 
-    String numatri; // varchar(20) Checked
-    int totbac; // int Checked
+    private String matierePrincipale;
 
-    String matpc; // varchar(20) Checked
+    private String anneeScolaire;
 
-    String anneescolaire; // varchar(10) Checked
-    boolean Inscrit_Sous_Titre;
-    String Etab_source; // varchar(25) Checked
+    private String etablissementSource;
+
+    private Boolean inscritSousTitre;
     String utilisateurCreateur;
 }

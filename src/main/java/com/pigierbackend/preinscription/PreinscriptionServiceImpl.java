@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +52,7 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "dateInscription"));
         return preinscriptionYakroRepository.findAll(pageable)
                 .stream()
-                .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
+                .map(preinscriptionYakroMapper::fromPreinscription)
                 .distinct()
                 .collect(Collectors.toList());
     }
@@ -57,48 +60,35 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
     @Override
     public PreinscriptionResponseDto getPreinscriptionById(String id) {
         return preinscriptionYakroRepository.findById(id)
-                .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
+                .map(preinscriptionYakroMapper::fromPreinscription)
                 .orElseThrow(() -> new IllegalArgumentException("La péinscription n'a pas été trouvée"));
     }
 
     @Override
     public PreinscriptionResponseDto createOrUpdatePreinscription(
             PreinscriptionRequestDto preinscriptionYakroRequestDto) {
+        log.info("Création ou mise à jour de la préinscription : {}", preinscriptionYakroRequestDto);
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendPattern("yyyy-MM-dd")
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0) // Default hour
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0) // Default minute
+                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0) // Default second
+                .toFormatter();
+
+        LocalDateTime dateNaissance = LocalDateTime.parse(preinscriptionYakroRequestDto.getDateNaissance(), formatter);
         PREINSCRIPTION preinscriptionyakro = preinscriptionYakroRepository
                 .findById(preinscriptionYakroRequestDto.getId()).orElseGet(() -> {
                     PREINSCRIPTION p = new PREINSCRIPTION();
                     p.setDateInscription(LocalDateTime.now());
-                    p.setId(preinscriptionYakroRequestDto.getId());
-                    p.setNomPrenoms(preinscriptionYakroRequestDto.getNomprenoms());
-                    p.setDateNaissance(preinscriptionYakroRequestDto.getDatnais());
-                    p.setLieuNaissance(preinscriptionYakroRequestDto.getLieunais());
-                    p.setSexe(preinscriptionYakroRequestDto.getSexe());
-                    p.setNationalite(preinscriptionYakroRequestDto.getNationalite());
-                    p.setNationaliteIdentite(preinscriptionYakroRequestDto.getNatident());
-                    p.setNumeroIdentite(preinscriptionYakroRequestDto.getNumidentite());
-                    p.setTelephoneEtudiant(preinscriptionYakroRequestDto.getTeletud());
-                    p.setCellulaireEtudiant(preinscriptionYakroRequestDto.getCeletud());
-                    p.setEmailEtudiant(preinscriptionYakroRequestDto.getEmailetud());
-                    p.setVilleEtudiant(preinscriptionYakroRequestDto.getViletud());
-                    p.setCommuneEtudiant(preinscriptionYakroRequestDto.getCometud());
-                    p.setBaccalaureat(preinscriptionYakroRequestDto.getBaccalaureat());
-                    p.setAnneeBac(preinscriptionYakroRequestDto.getAnnbac());
-                    p.setDiplomeEquivalence(preinscriptionYakroRequestDto.getDiplequiv());
-                    p.setAnneeDiplomeEquivalence(preinscriptionYakroRequestDto.getAnndiplequiv());
-                    p.setNiveauEtudes(preinscriptionYakroRequestDto.getNivoetud());
-                    p.setAnneeNiveauEtudes(preinscriptionYakroRequestDto.getAnnivoetud());
-                    p.setGrade(preinscriptionYakroRequestDto.getGrade());
-                    p.setAnneeGrade(preinscriptionYakroRequestDto.getAnngrad());
-                    p.setMatierePrincipale(preinscriptionYakroRequestDto.getMatpc());
-                    p.setAnneeScolaire(preinscriptionYakroRequestDto.getAnneescolaire());
-                    p.setCopieBac(preinscriptionYakroRequestDto.getUtilisateurCreateur());
+                    p = preinscriptionYakroMapper.toPreinscription(preinscriptionYakroRequestDto);
+                    p.setDateNaissance(dateNaissance);
                     return p;
                 });
 
         BeanUtils.copyProperties(preinscriptionYakroRequestDto, preinscriptionyakro);
         preinscriptionyakro.setDateInscription(LocalDateTime.now());
         preinscriptionYakroRepository.save(preinscriptionyakro);
-        return preinscriptionYakroMapper.fromPreinscriptionYakro(preinscriptionyakro);
+        return preinscriptionYakroMapper.fromPreinscription(preinscriptionyakro);
     }
 
     @Override
@@ -116,7 +106,7 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
         return preinscriptionYakroRepository.findAll()
                 .stream()
                 .filter(x -> x.getNomPrenoms().contains(nomEleve))
-                .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
+                .map(preinscriptionYakroMapper::fromPreinscription)
                 .collect(Collectors.toList());
     }
 
@@ -244,7 +234,7 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
 
         return preinscriptionYakroRepository.findAll(pageable)
                 .stream()
-                .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
+                .map(preinscriptionYakroMapper::fromPreinscription)
                 .distinct()
                 .collect(Collectors.toList());
     }
@@ -253,20 +243,20 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
     public List<PreinscriptionResponseDto> getAllPreinscription() {
         return preinscriptionYakroRepository.findAll(Sort.by(Sort.Direction.DESC, "dateInscription"))
                 .stream()
-                .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
+                .map(preinscriptionYakroMapper::fromPreinscription)
                 .distinct()
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<PreinscriptionResponseDto> getAllPreinscriptionEntreDeuxDate(LocalDateTime debut, LocalDateTime fin) {
-        LocalDateTime finInclusive = fin.plusDays(1).withHour(0).withMinute(0).withSecond(0); // Fin = minuit du                                                                                  
-        return preinscriptionYakroRepository.findAll(Sort.by(Sort.Direction.DESC, "dateInscription"))
+        // The end date should be exclusive for a 'between' query that includes the
+        // whole day.
+        LocalDateTime finExclusive = fin.plusDays(1).withHour(0).withMinute(0).withSecond(0);
+        return preinscriptionYakroRepository
+                .findByDateInscriptionBetween(debut, finExclusive, Sort.by(Sort.Direction.DESC, "dateInscription"))
                 .stream()
-                .filter(preinscription -> !preinscription.getDateInscription().isBefore(debut) &&
-                        preinscription.getDateInscription().isBefore(finInclusive) // "< finInclusive" pour tout le jour
-                )
-                .map(preinscriptionYakroMapper::fromPreinscriptionYakro)
+                .map(preinscriptionYakroMapper::fromPreinscription)
                 .distinct()
                 .collect(Collectors.toList());
     }

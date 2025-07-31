@@ -232,4 +232,6 @@ public class PREINSCRIPTION {
 
     @Column(name = "Inscrit_Sous_Titre")
     private Boolean inscritSousTitre;
+    @Column(name = "utilisateur_createur", length = 50)
+    private String utilisateurCreateur;
 }
