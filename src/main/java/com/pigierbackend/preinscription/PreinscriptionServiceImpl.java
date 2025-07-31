@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.method.P;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.sql.init.dependency.DependsOnDatabaseInitialization;
 import org.springframework.data.domain.PageRequest;
@@ -67,7 +68,7 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
     @Override
     public PreinscriptionResponseDto createOrUpdatePreinscription(
             PreinscriptionRequestDto preinscriptionYakroRequestDto) {
-        log.info("Création ou mise à jour de la préinscription : {}", preinscriptionYakroRequestDto);
+        log.info("Création ou mise à jour de la préinscription : {}", preinscriptionYakroRequestDto.getId());
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .appendPattern("yyyy-MM-dd")
                 .parseDefaulting(ChronoField.HOUR_OF_DAY, 0) // Default hour
@@ -80,17 +81,89 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
                 .findById(preinscriptionYakroRequestDto.getId()).orElseGet(() -> {
                     PREINSCRIPTION p = new PREINSCRIPTION();
                     p.setDateInscription(LocalDateTime.now());
-                    p = preinscriptionYakroMapper.toPreinscription(preinscriptionYakroRequestDto);
+                    p.setNomPrenoms(preinscriptionYakroRequestDto.getNomPrenoms());
+                    p.setSexe(preinscriptionYakroRequestDto.getSexe());
+                    p.setNationalite(preinscriptionYakroRequestDto.getNationalite());
+                    p.setNationaliteIdentite(preinscriptionYakroRequestDto.getNationaliteIdentite());
+                    p.setNumeroIdentite(preinscriptionYakroRequestDto.getNumeroIdentite());
+                    p.setTelephoneEtudiant(preinscriptionYakroRequestDto.getTelephoneEtudiant());
+                    p.setCellulaireEtudiant(preinscriptionYakroRequestDto.getCellulaireEtudiant());
+                    p.setEmailEtudiant(preinscriptionYakroRequestDto.getEmailEtudiant());
+                    p.setVilleEtudiant(preinscriptionYakroRequestDto.getVilleEtudiant());
+                    p.setCommuneEtudiant(preinscriptionYakroRequestDto.getCommuneEtudiant());
+                    p.setBaccalaureat(preinscriptionYakroRequestDto.getBaccalaureat());
+                    p.setAnneeBac(preinscriptionYakroRequestDto.getAnneeBac());
+                    p.setDiplomeEquivalence(preinscriptionYakroRequestDto.getDiplomeEquivalence());
+                    p.setAnneeDiplomeEquivalence(preinscriptionYakroRequestDto.getAnneeDiplomeEquivalence());
+                    p.setNiveauEtudes(preinscriptionYakroRequestDto.getNiveauEtudes());
+                    p.setAnneeNiveauEtudes(preinscriptionYakroRequestDto.getAnneeNiveauEtudes());
+                    p.setGrade(preinscriptionYakroRequestDto.getGrade());
+                    p.setAnneeGrade(preinscriptionYakroRequestDto.getAnneeGrade());
+                    p.setAnneeScolaire(preinscriptionYakroRequestDto.getAnneeScolaire());
+                    p.setSpecialiteGrade(preinscriptionYakroRequestDto.getSpecialiteGrade());
+                    p.setEtablissementFrequente(preinscriptionYakroRequestDto.getEtablissementFrequente());
+                    p.setFormationSouhaitee(preinscriptionYakroRequestDto.getFormationSouhaitee());
+                    p.setIdPermanent(preinscriptionYakroRequestDto.getIdPermanent());
+                    p.setNomPere(preinscriptionYakroRequestDto.getNomPere());
+                    p.setNomMere(preinscriptionYakroRequestDto.getNomMere());
+                    p.setTitreResponsable(preinscriptionYakroRequestDto.getTitreResponsable());
+                    p.setResponsable(preinscriptionYakroRequestDto.getResponsable());
+                    p.setNomResponsable(preinscriptionYakroRequestDto.getNomResponsable());
+                    p.setProfessionResponsable(preinscriptionYakroRequestDto.getProfessionResponsable());
+                    p.setEmployeurResponsable(preinscriptionYakroRequestDto.getEmployeurResponsable());
+                    p.setVilleResponsable(preinscriptionYakroRequestDto.getVilleResponsable());
+                    p.setCommuneResponsable(preinscriptionYakroRequestDto.getCommuneResponsable());
+                    p.setTelephoneDomicileResponsable(preinscriptionYakroRequestDto.getTelephoneDomicileResponsable());
+                    p.setEmailResponsable(preinscriptionYakroRequestDto.getEmailResponsable());
+                    p.setCopieBac(preinscriptionYakroRequestDto.getCopieBac());
+                    p.setCopieDernierDiplome(preinscriptionYakroRequestDto.getCopieDernierDiplome());
+                    p.setEtablissementSource(preinscriptionYakroRequestDto.getEtablissementSource());
+                    p.setInscritSousTitre(preinscriptionYakroRequestDto.getInscritSousTitre());
+                    p.setUtilisateurCreateur(preinscriptionYakroRequestDto.getUtilisateurCreateur());
+                    p.setContactNomPrenom1(preinscriptionYakroRequestDto.getContactNomPrenom1());
+                    p.setContactAdresse1(preinscriptionYakroRequestDto.getContactAdresse1());
+                    p.setContactTelephone1(preinscriptionYakroRequestDto.getContactTelephone1());
+                    p.setContactCellulaire1(preinscriptionYakroRequestDto.getContactCellulaire1());
+                    p.setContactCellulaire2(preinscriptionYakroRequestDto.getContactCellulaire2());
+                    p.setContactTelephone2(preinscriptionYakroRequestDto.getContactTelephone2());
+                    p.setContactAdresse2(preinscriptionYakroRequestDto.getContactAdresse2());
+                    p.setAnneeScolaire(preinscriptionYakroRequestDto.getAnneeScolaire());
+                    p.setBoitePostaleResponsable(preinscriptionYakroRequestDto.getBoitePostaleResponsable());
+                    p.setCliniqueDeclaree(preinscriptionYakroRequestDto.getCliniqueDeclaree());
+                    p.setContactMedecin(preinscriptionYakroRequestDto.getContactMedecin());
+                    p.setCellulaireResponsable(preinscriptionYakroRequestDto.getCellulaireResponsable());
+                    p.setDecision(preinscriptionYakroRequestDto.getDecision());
+                    p.setMaladies(preinscriptionYakroRequestDto.getMaladies());
+                    p.setCommuneResponsable(preinscriptionYakroRequestDto.getCommuneResponsable());
+                    p.setEmployeurResponsable(preinscriptionYakroRequestDto.getEmployeurResponsable());
+                    p.setInterventionsChirurgicales(preinscriptionYakroRequestDto.getInterventionsChirurgicales());
+                    p.setLieuNaissance(preinscriptionYakroRequestDto.getLieuNaissance());
+                    p.setNomClinique(preinscriptionYakroRequestDto.getNomClinique());
+                    p.setNumeroMatricule(preinscriptionYakroRequestDto.getNumeroMatricule());
+                    p.setNumeroTable(preinscriptionYakroRequestDto.getNumeroTable());
+                    p.setPremiersSoins(preinscriptionYakroRequestDto.getPremiersSoins());
+                    p.setSoins(preinscriptionYakroRequestDto.getSoins());
+                    p.setProfessionResponsable(preinscriptionYakroRequestDto.getProfessionResponsable());
+                    p.setResponsable(preinscriptionYakroRequestDto.getResponsable());
+                    p.setSpecialiteGrade(preinscriptionYakroRequestDto.getSpecialiteGrade());
+                    p.setTelephoneBureauResponsable(preinscriptionYakroRequestDto.getTelephoneBureauResponsable());
+                    p.setTelephoneClinique(preinscriptionYakroRequestDto.getTelephoneClinique());
+                    p.setTotalBac(preinscriptionYakroRequestDto.getTotalBac());
+                   
+                    p.setMedicaments(preinscriptionYakroRequestDto.getMedicaments());
+                    p.setMatierePrincipale(preinscriptionYakroRequestDto.getMatierePrincipale());
+                    p.setNomPere(preinscriptionYakroRequestDto.getNomPere());
+                    p.setContactNomPrenom2(preinscriptionYakroRequestDto.getContactNomPrenom2());
                     p.setId(preinscriptionYakroRequestDto.getId());
                     p.setUtilisateurCreateur(preinscriptionYakroRequestDto.getUtilisateurCreateur());
                     p.setDateNaissance(dateNaissance);
                     return p;
                 });
 
-        BeanUtils.copyProperties(preinscriptionYakroRequestDto, preinscriptionyakro);
-        preinscriptionyakro.setDateInscription(LocalDateTime.now());
-        preinscriptionYakroRepository.save(preinscriptionyakro);
-        return preinscriptionYakroMapper.fromPreinscription(preinscriptionyakro);
+        // BeanUtils.copyProperties(preinscriptionYakroRequestDto, preinscriptionyakro);
+        // preinscriptionyakro.setDateInscription(LocalDateTime.now());
+       PREINSCRIPTION preinscriptionSave = preinscriptionYakroRepository.save(preinscriptionyakro);
+        return preinscriptionYakroMapper.fromPreinscription(preinscriptionSave);
     }
 
     @Override
