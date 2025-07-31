@@ -1,6 +1,7 @@
 package com.pigierbackend.utilisateur;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -40,6 +42,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             }
             newUser.setRoles(roles);
         }
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         // 3. Sauvegarder l'entité complète
         Utilisateur savedUser = utilisateurRepository.save(newUser);
@@ -58,6 +61,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         existingUser.setNomPrenoms(userRequest.getNomPrenoms());
         existingUser.setEmail(userRequest.getEmail());
         existingUser.setTelephone(userRequest.getTelephone());
+        existingUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         // Mettre à jour les rôles
         if (userRequest.getRoleIds() != null) {
