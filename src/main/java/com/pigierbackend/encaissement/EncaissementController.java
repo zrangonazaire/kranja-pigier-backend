@@ -32,7 +32,7 @@ public class EncaissementController {
     final EncaissementService encaissementService;
 
     @GetMapping("/journalEncaissementsBetweenDates")
-    @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
+  //  @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
     public ResponseEntity<byte[]> generateJournalEncaissementsBetweenDatesReport(
             @RequestParam List<String> modeRegParam,
             @RequestParam List<String> etablissementSourceParam,
@@ -63,7 +63,7 @@ public class EncaissementController {
     }
 
     @GetMapping("/journalDroitInscBetweenDates")
-    @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
+  //  @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
     public ResponseEntity<byte[]> generateJournalEncaissementsDroitInscriBetweenDatesReport(
             @RequestParam List<String> modeRegParam,
             @RequestParam List<String> etablissementSourceParam,
