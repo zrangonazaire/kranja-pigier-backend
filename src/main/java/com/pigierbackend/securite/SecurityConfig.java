@@ -75,6 +75,7 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+<<<<<<< HEAD
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -91,4 +92,25 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+=======
+ @Bean
+CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList(
+        "http://localhost:4200",
+        "http://192.168.0.134:8000",
+        "http://192.168.0.134:4200",
+        "http://192.168.0.134:8084",
+        "http://192.168.0.125:8000",
+        "http://192.168.0.125:8084"
+    ));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    configuration.setAllowCredentials(true);
+    
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
+>>>>>>> origin/main
 }
