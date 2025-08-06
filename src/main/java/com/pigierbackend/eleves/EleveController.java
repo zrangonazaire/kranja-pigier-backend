@@ -32,7 +32,7 @@ public class EleveController {
     final EleveService eleveService;
 
     @GetMapping("/etatListeEtudiant")
-     @PreAuthorize("hasAuthority('READ_ELEVE')")
+  //   @PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab ) throws Exception {
         try {
@@ -61,7 +61,7 @@ public class EleveController {
     }
 
     @GetMapping("/etatListeEtudiantExcel")
-    @PreAuthorize("hasAuthority('READ_ELEVE')")
+   // @PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiantExcel(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab) throws Exception {
         try {

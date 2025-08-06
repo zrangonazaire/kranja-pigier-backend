@@ -80,8 +80,6 @@ CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
     configuration.setAllowedOrigins(Arrays.asList(
         "http://localhost:4200",
-        "http://192.168.0.134:8000",
-        "http://192.168.0.134:4200",
         "http://192.168.0.134:8084",
         "http://192.168.0.125:8000",
         "http://192.168.0.125:8084"
