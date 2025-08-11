@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/api/v1/auth/**", "/auth/login", "/preinscription/**",
                                 "/api/v1/preinscription/**", "/encaissement/**", "/eleves/**", "/utilisateurs/**",
-                                "/permissions/**", "/roles/**","/annees-academiques/**")
+                                "/permissions/**", "/roles/**","/annees-academiques/**","/recapinscri/**")
                         .permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/v1/preinscriptionyakro/**")
                         .permitAll()
