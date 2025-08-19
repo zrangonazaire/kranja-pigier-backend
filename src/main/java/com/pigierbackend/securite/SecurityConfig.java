@@ -82,7 +82,8 @@ CorsConfigurationSource corsConfigurationSource() {
         "http://localhost:4200",
         "http://192.168.0.134:8084",
         "http://192.168.0.125:8000",
-        "http://192.168.0.125:8084"
+        "http://192.168.0.125:8084",
+        "http://localhost:8084"
     ));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("*"));

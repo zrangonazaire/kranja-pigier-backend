@@ -1,4 +1,4 @@
-package recaptinscri;
+package com.pigierbackend.recaptinscri;
 
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -8,7 +8,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import recaptinscri.RecapInscritImpl.RecapInscritProjection;
+
+import com.pigierbackend.recaptinscri.RecapInscritImpl.RecapInscritProjection;
+import com.pigierbackend.recaptinscri.RecapInscritDo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;

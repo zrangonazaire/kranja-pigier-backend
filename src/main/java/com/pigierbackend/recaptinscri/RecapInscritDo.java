@@ -1,4 +1,5 @@
-package recaptinscri;
+package com.pigierbackend.recaptinscri;
+
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

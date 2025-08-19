@@ -1,4 +1,4 @@
-package recaptinscri;
+package com.pigierbackend.recaptinscri;
 
 
 
@@ -15,14 +15,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.io.IOException;
 
 @RestController
-
+@RequiredArgsConstructor
 @CrossOrigin("*")
 @Tag(name = "RECAPINSCR", description = "Eleve Management INSCRIT APIs")
 @RequestMapping("/recap-inscri")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RecapInscritController {
     
     @Autowired
