@@ -1,8 +1,13 @@
 package com.pigierbackend.objetinsc;
 
+import java.util.List;
+
+import com.pigierbackend.encaissement.EncaissementElevePL;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +23,6 @@ public class ObjetInsc {
 
     @Column(name = "nom_objet", length = 50)
     private String nomObjet;
+    @OneToMany(mappedBy = "objetInsc")
+    private List<EncaissementElevePL> encaissements;
 }

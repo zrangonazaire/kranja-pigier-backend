@@ -32,7 +32,7 @@ public class EncaissementController {
     final EncaissementService encaissementService;
 
     @GetMapping("/journalEncaissementsBetweenDates")
-  //  @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
+    // @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
     public ResponseEntity<byte[]> generateJournalEncaissementsBetweenDatesReport(
             @RequestParam List<String> modeRegParam,
             @RequestParam List<String> etablissementSourceParam,
@@ -63,7 +63,7 @@ public class EncaissementController {
     }
 
     @GetMapping("/journalDroitInscBetweenDates")
-  //  @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
+    // @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
     public ResponseEntity<byte[]> generateJournalEncaissementsDroitInscriBetweenDatesReport(
             @RequestParam List<String> modeRegParam,
             @RequestParam List<String> etablissementSourceParam,
@@ -82,7 +82,51 @@ public class EncaissementController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("filename", "pointDeCaisseDroitInsEntreDeuxDate.pdf"); // Nom du fichier
+            headers.setContentDispositionFormData("filename", "pointDeCaisseDroitInsEntreDeuxDate.pdf"); // Nom du
+                                                                                                         // fichier
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(reportBytes);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping(value = "/etatFacturation",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<EncaissementDTO>> generateEtatFacturationReport(
+              @RequestParam List<String> etablissementSourceParam,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateDebut,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateFin) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("etablissementSources", etablissementSourceParam);
+            params.put("dateDebut", paramDateDebut);
+            params.put("dateFin", paramDateFin);
+
+            List<EncaissementDTO> reportData = encaissementService.getEncaissementsEntreDeuxPeriodeEtabSource(params);
+            return ResponseEntity.ok(reportData);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping(value = "/fichierExcleDeFacturation")
+    public ResponseEntity<byte[]> generateFichierExcelDeFacturation(
+            @RequestParam List<String> etablissementSourceParam,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateDebut,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateFin) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("etablissementSources", etablissementSourceParam);
+            params.put("dateDebut", paramDateDebut);
+            params.put("dateFin", paramDateFin);
+
+            byte[] reportBytes = encaissementService.generateEtatFacturationReport(params);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("filename", "facturation.xlsx");
 
             return ResponseEntity.ok()
                     .headers(headers)

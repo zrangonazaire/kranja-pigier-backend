@@ -22,7 +22,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 public class ANNEEACADEMIQUE {
     @Id
-    @Column(name = "Annee_Sco", length = 10, nullable = false, columnDefinition = "varchar(9)")
+    @Column(name = "Annee_Sco", nullable = false, columnDefinition = "varchar(225)")
     String Annee_Sco;
     AnneeScolaireDto toDto() {
         return AnneeScolaireDto.builder()
