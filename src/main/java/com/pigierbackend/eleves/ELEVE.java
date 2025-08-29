@@ -2,12 +2,15 @@ package com.pigierbackend.eleves;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.pigierbackend.encaissement.EncaissementElevePL;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -280,6 +283,7 @@ public class ELEVE {
 
     @Column(name = "droitinscription")
     private int droitinscription;
-
+@OneToMany(mappedBy = "eleve")
+    private List<EncaissementElevePL> encaissements;
     // Ajoutez ici les getters et setters
 }
