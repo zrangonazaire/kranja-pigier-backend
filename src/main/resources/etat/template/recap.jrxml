@@ -64,17 +64,28 @@ WHERE
 	<field name="Mois_Annee" class="java.lang.String"/>
 	<field name="Nombre_Eleves" class="java.lang.Integer"/>
 	<background splitType="Stretch"/>
-	<title height="86" splitType="Stretch">
-		<element kind="staticText" uuid="e9e0af1b-9224-4b8e-82f0-a2a9460d674d" x="10" y="50" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Right">
+	<title height="114" splitType="Stretch">
+		<element kind="staticText" uuid="e9e0af1b-9224-4b8e-82f0-a2a9460d674d" x="10" y="57" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Right">
 			<text><![CDATA[Année Scolaire:]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
-		<element kind="textField" uuid="f912fe88-93f5-4e27-9f31-d06d277935c7" x="144" y="51" width="100" height="20" fontSize="12.0">
+		<element kind="textField" uuid="f912fe88-93f5-4e27-9f31-d06d277935c7" x="144" y="57" width="100" height="20" fontSize="12.0">
 			<expression><![CDATA[$P{Annee}]]></expression>
+		</element>
+		<element kind="staticText" uuid="c01279c6-d5fe-4a6d-b77b-eb522760e0b6" x="9" y="87" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Right">
+			<text><![CDATA[Campus:]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
+		</element>
+		<element kind="textField" uuid="08a1a72b-a9cb-4936-9e5b-6681471a3ca4" x="143" y="87" width="100" height="20" fontSize="12.0">
+			<expression><![CDATA[$P{Campus}]]></expression>
+		</element>
+		<element kind="staticText" uuid="54934272-bfff-455b-b62f-a7ad715723fa" x="190" y="13" width="460" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="16.0" italic="true" bold="true" hTextAlign="Center">
+			<text><![CDATA[RECAPITULATIF DES INSCRITS PAR ANNEE ACADEMIQUE]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
 	</title>
 	<summary height="135">
-		<element kind="crosstab" uuid="773be8e2-6939-4bb9-8de3-7932f5d34b10" x="20" y="36" width="780" height="76">
+		<element kind="crosstab" uuid="773be8e2-6939-4bb9-8de3-7932f5d34b10" x="20" y="16" width="780" height="76">
 			<dataset/>
 			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 			<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
