@@ -64,7 +64,7 @@ WHERE
 	<field name="Mois_Annee" class="java.lang.String"/>
 	<field name="Nombre_Eleves" class="java.lang.Integer"/>
 	<background splitType="Stretch"/>
-	<title height="154" splitType="Stretch">
+	<title height="114" splitType="Stretch">
 		<element kind="staticText" uuid="e9e0af1b-9224-4b8e-82f0-a2a9460d674d" x="10" y="57" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Right">
 			<text><![CDATA[Année Scolaire:]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
@@ -82,9 +82,6 @@ WHERE
 		<element kind="staticText" uuid="54934272-bfff-455b-b62f-a7ad715723fa" x="190" y="13" width="460" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="16.0" italic="true" bold="true" hTextAlign="Center">
 			<text><![CDATA[RECAPITULATIF DES INSCRITS PAR ANNEE ACADEMIQUE]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
-		</element>
-		<element kind="image" uuid="dfb76434-c588-4b00-a9f1-ca6b127d657c" x="20" y="7" width="71" height="55">
-			<expression><![CDATA["src\\main\\resources\\etat\\image\\logo_pigier.jpg"]]></expression>
 		</element>
 	</title>
 	<summary height="135">
