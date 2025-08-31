@@ -93,9 +93,10 @@ public class EncaissementController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping(value = "/etatFacturation",produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/etatFacturation", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EncaissementDTO>> generateEtatFacturationReport(
-              @RequestParam List<String> etablissementSourceParam,
+            @RequestParam List<String> etablissementSourceParam,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateDebut,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateFin) {
         try {
@@ -111,6 +112,7 @@ public class EncaissementController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping(value = "/fichierExcleDeFacturation")
     public ResponseEntity<byte[]> generateFichierExcelDeFacturation(
             @RequestParam List<String> etablissementSourceParam,
@@ -131,6 +133,68 @@ public class EncaissementController {
             return ResponseEntity.ok()
                     .headers(headers)
                     .body(reportBytes);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/fichierExcelChiffreAffaire")
+    public ResponseEntity<byte[]> generateChiffreAffaireExcelDeFacturation(
+            @RequestParam List<String> etablissementSourceParam,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateDebut,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateFin) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("etablissementSources", etablissementSourceParam);
+            params.put("dateDebut", paramDateDebut);
+            params.put("dateFin", paramDateFin);
+
+            byte[] reportBytes = encaissementService.generateEtatChiffreAffaireReport(params);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("filename", "chiffre_affaire.xlsx");
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(reportBytes);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+@GetMapping(value = "/listeChiffreChiffreAffaire", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<EncaissementDTO>> listeChiffreChiffreAffaire(
+            @RequestParam List<String> etablissementSourceParam,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateDebut,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateFin) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("etablissementSources", etablissementSourceParam);
+            params.put("dateDebut", paramDateDebut);
+            params.put("dateFin", paramDateFin);
+
+            List<EncaissementDTO> reportData = encaissementService.getEncaissementsChiffreAffaireEntreDeuxPeriodeEtabSource(params);
+            return ResponseEntity.ok(reportData);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping(value = "/listeFacturation",produces = MediaType.APPLICATION_JSON_VALUE)
+ public ResponseEntity<List<EncaissementDTO>> listeFacturation(
+            @RequestParam List<String> etablissementSourceParam,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateDebut,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date paramDateFin) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("etablissementSources", etablissementSourceParam);
+            params.put("dateDebut", paramDateDebut);
+            params.put("dateFin", paramDateFin);
+
+            List<EncaissementDTO> reportData = encaissementService.getEncaissementsEntreDeuxPeriodeEtabSource(params);
+            return ResponseEntity.ok(reportData);
         } catch (Exception e) {
             System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
