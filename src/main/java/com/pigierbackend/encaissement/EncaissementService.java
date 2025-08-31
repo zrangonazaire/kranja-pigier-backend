@@ -13,7 +13,11 @@ public interface EncaissementService {
   byte[] generateJournalDroitInscrisBetweenDatesReport(Map<String, Object> parameters) throws Exception;
 
    byte[] generateEtatFacturationReport(Map<String, Object> parameters) throws Exception;
+   byte[] generateEtatChiffreAffaireReport(Map<String, Object> parameters) throws Exception;
 
   public List<EncaissementDTO> getEncaissementsEntreDeuxPeriodeEtabSource(Map<String, Object> parameters)
+      throws SQLException;
+
+  public List<EncaissementDTO> getEncaissementsChiffreAffaireEntreDeuxPeriodeEtabSource(Map<String, Object> parameters)
       throws SQLException;
 }
