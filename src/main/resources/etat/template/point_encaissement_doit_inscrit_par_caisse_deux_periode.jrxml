@@ -201,10 +201,10 @@ ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
 		<element kind="staticText" uuid="1068897c-4531-4e32-b0a9-7d5c0dbb2215" x="293" y="13" width="217" height="30" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="22.0" bold="true" italic="true" hTextAlign="Center">
 			<text><![CDATA[Journal de caisse]]></text>
 		</element>
-		<element kind="textField" uuid="369e49d0-132b-4bb5-b216-a2744eff9c0f" x="570" y="3" width="100" height="21" fontName="Agency FB" fontSize="14.0" pattern=" dd MMMMM yyyy" bold="true" hTextAlign="Right">
+		<element kind="textField" uuid="369e49d0-132b-4bb5-b216-a2744eff9c0f" x="570" y="3" width="100" height="21"  fontSize="14.0" pattern=" dd MMMMM yyyy" bold="true" hTextAlign="Right">
 			<expression><![CDATA[new java.util.Date()]]></expression>
 		</element>
-		<element kind="textField" uuid="6f348a89-ccd3-4eaa-946f-e3252c32ea79" x="680" y="3" width="100" height="21" fontName="Agency FB" fontSize="14.0" pattern="HH:mm" bold="true">
+		<element kind="textField" uuid="6f348a89-ccd3-4eaa-946f-e3252c32ea79" x="680" y="3" width="100" height="21"  fontSize="14.0" pattern="HH:mm" bold="true">
 			<expression><![CDATA[new java.util.Date()]]></expression>
 		</element>
 		<element kind="image" uuid="6eb212b4-3d1f-4245-9162-9cc4528e8928" x="2" y="1" width="148" height="50">
@@ -260,35 +260,35 @@ ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
 	</columnHeader>
 	<detail>
 		<band height="21" splitType="Stretch">
-			<element kind="textField" uuid="d1c83075-f426-406c-9d3d-c775cca77dc3" x="0" y="3" width="94" height="17" fontName="Agency FB" fontSize="12.0">
+			<element kind="textField" uuid="d1c83075-f426-406c-9d3d-c775cca77dc3" x="0" y="3" width="94" height="17"  fontSize="12.0">
 				<expression><![CDATA[$F{Date_Encais}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="295a1e20-1f42-460c-8265-c23cb25f5f1a"/>
 			</element>
-			<element kind="textField" uuid="20047282-7897-4670-b262-7c4e5a326518" x="102" y="3" width="68" height="17" fontName="Agency FB" fontSize="12.0">
+			<element kind="textField" uuid="20047282-7897-4670-b262-7c4e5a326518" x="102" y="3" width="68" height="17"  fontSize="12.0">
 				<expression><![CDATA[$F{Matri_Elev}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29cc90e2-f469-49c2-99a3-cf0f943d1ba9"/>
 			</element>
-			<element kind="textField" uuid="17a67003-4acb-4a6a-8a4d-a70d050ae1e0" x="180" y="3" width="210" height="17" fontName="Agency FB" fontSize="12.0" bold="true">
+			<element kind="textField" uuid="17a67003-4acb-4a6a-8a4d-a70d050ae1e0" x="180" y="3" width="210" height="17"  fontSize="12.0" bold="true">
 				<expression><![CDATA[$F{Nom_Prenoms_Eleve}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3ea2a703-f776-40dc-89f5-53a60554ab6d"/>
 			</element>
-			<element kind="textField" uuid="1c9f84f7-c42e-4d0f-bdc9-cbfe6e34224e" x="413" y="3" width="50" height="17" fontName="Agency FB" fontSize="12.0" bold="true">
+			<element kind="textField" uuid="1c9f84f7-c42e-4d0f-bdc9-cbfe6e34224e" x="413" y="3" width="50" height="17"  fontSize="12.0" bold="true">
 				<expression><![CDATA[$F{Classe_Eleve}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e6b47e61-b70d-40e2-bcdb-dc9268b85337"/>
 			</element>
-			<element kind="textField" uuid="bb86c8e8-cc4b-4756-84bf-c3edde0e02a5" x="473" y="3" width="40" height="17" fontName="Agency FB" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Justified">
+			<element kind="textField" uuid="bb86c8e8-cc4b-4756-84bf-c3edde0e02a5" x="473" y="3" width="40" height="17"  fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Justified">
 				<expression><![CDATA[$F{Objet_Encais}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d5eebb7d-9a65-45b7-a619-d86442a00fd7"/>
 			</element>
-			<element kind="textField" uuid="da05d53c-8b71-4624-b2d2-570f16ef282f" x="517" y="3" width="33" height="17" fontName="Agency FB" fontSize="12.0" bold="true" hTextAlign="Center">
+			<element kind="textField" uuid="da05d53c-8b71-4624-b2d2-570f16ef282f" x="517" y="3" width="33" height="17"  fontSize="12.0" bold="true" hTextAlign="Center">
 				<expression><![CDATA[$F{Mode_Reg}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="343a139a-090b-4edc-b506-f0a39c926ab9"/>
 			</element>
-			<element kind="textField" uuid="de258a62-42b8-4a89-b810-13499a4e9100" x="560" y="3" width="120" height="17" fontName="Agency FB" fontSize="12.0" bold="true">
+			<element kind="textField" uuid="de258a62-42b8-4a89-b810-13499a4e9100" x="560" y="3" width="120" height="17"  fontSize="12.0" bold="true">
 				<expression><![CDATA[$F{Etablissement_Source}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dd07f824-259d-4506-b18b-469b9492f0de"/>
 			</element>
-			<element kind="textField" uuid="92dc4380-2843-4e9c-b1e5-53e462976369" x="690" y="3" width="80" height="17" fontName="Agency FB" fontSize="12.0" hTextAlign="Right" vTextAlign="Justified">
+			<element kind="textField" uuid="92dc4380-2843-4e9c-b1e5-53e462976369" x="690" y="3" width="80" height="17"  fontSize="12.0" hTextAlign="Right" vTextAlign="Justified">
 				<expression><![CDATA[$F{Montant_Encais}]]></expression>
 				<patternExpression><![CDATA["#,### F"]]></patternExpression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="694d74e1-bd07-410f-a5cb-24a739f2b04c"/>
@@ -296,14 +296,14 @@ ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
 		</band>
 	</detail>
 	<columnFooter height="28" splitType="Stretch">
-		<element kind="textField" uuid="8619120d-4ed6-4bf4-8a03-e85b620aa70c" x="670" y="0" width="100" height="21" fontName="Agency FB" fontSize="12.0" bold="true" hTextAlign="Right">
+		<element kind="textField" uuid="8619120d-4ed6-4bf4-8a03-e85b620aa70c" x="670" y="0" width="100" height="21"  fontSize="12.0" bold="true" hTextAlign="Right">
 			<expression><![CDATA[$V{Montant_Encais1}]]></expression>
 			<patternExpression><![CDATA["#,### F"]]></patternExpression>
 		</element>
 		<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
 	</columnFooter>
 	<lastPageFooter height="199">
-		<element kind="textField" uuid="57fd12c9-cdd9-4069-84dd-c0d0787f21fe" x="630" y="13" width="140" height="22" fontName="Agency FB" fontSize="16.0" linkType="None" linkTarget="Self" printRepeatedValues="false" bold="true" hTextAlign="Right" vTextAlign="Justified">
+		<element kind="textField" uuid="57fd12c9-cdd9-4069-84dd-c0d0787f21fe" x="630" y="13" width="140" height="22"  fontSize="16.0" linkType="None" linkTarget="Self" printRepeatedValues="false" bold="true" hTextAlign="Right" vTextAlign="Justified">
 			<expression><![CDATA[$V{Montant_Encais3}]]></expression>
 			<patternExpression><![CDATA["#,### F"]]></patternExpression>
 		</element>
