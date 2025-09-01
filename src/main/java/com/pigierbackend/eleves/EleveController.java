@@ -1,13 +1,13 @@
 package com.pigierbackend.eleves;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +32,10 @@ public class EleveController {
     final EleveService eleveService;
 
     @GetMapping("/etatListeEtudiant")
-  //   @PreAuthorize("hasAuthority('READ_ELEVE')")
+    // @PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse,
-            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab ) throws Exception {
+            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab)
+            throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("PARAMEANNE", paramAnneDebut + "/" + paramAnneFin);
@@ -53,7 +54,7 @@ public class EleveController {
                     .body(reportBytes);
 
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            log.error("Erreur lors de la génération du rapport PDF : {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -61,9 +62,10 @@ public class EleveController {
     }
 
     @GetMapping("/etatListeEtudiantExcel")
-   // @PreAuthorize("hasAuthority('READ_ELEVE')")
+    // @PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiantExcel(@RequestParam String paramClasse,
-            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab) throws Exception {
+            @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab)
+            throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("PARAMEANNE", paramAnneDebut + "/" + paramAnneFin);
@@ -82,16 +84,51 @@ public class EleveController {
                     .body(reportBytes);
 
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            log.error("Erreur lors de la génération du rapport Excel : {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     // Add your endpoint methods here
     // For example:
     // @GetMapping("/example")
     // public ResponseEntity<ExampleResponse> getExample() {
     // return ResponseEntity.ok(new ExampleResponse("Hello, World!"));
     // }
+    @GetMapping(value = "/getPromotionsEleves", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<EleveRecordDTO>> getPromotionsEleves(@RequestParam List<String> promotions,
+            @RequestParam List<String> etablissements, @RequestParam String anneeScolaire) throws Exception {
+        List<EleveRecordDTO> promotionEleves = eleveService.getPromotionsEleves(promotions, etablissements,
+                anneeScolaire);
+        return ResponseEntity.ok(promotionEleves);
+    }
+
+    @GetMapping(value = "/getPromotionsElevesExcel")
+    public ResponseEntity<byte[]> getPromotionsElevesExcel(@RequestParam List<String> promotions,
+            @RequestParam List<String> etablissements, @RequestParam String anneeScolaire) throws Exception {
+      
+            try {
+                byte[] excelData = eleveService.getPromotionsElevesExcel(promotions, etablissements, anneeScolaire);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("filename", "promotions_eleves.xlsx");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(excelData);  
+            } catch (Exception e) {
+                log.error("Erreur lors de la génération du rapport Excel pour les promotions : {}", e.getMessage(), e);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+    }
+    @GetMapping(value = "/getAllClasses", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<String>> getAllClasses(@RequestParam String anneeScolaire) throws Exception {
+        try {
+            List<String> classes = eleveService.getAllClasses(anneeScolaire);
+            return ResponseEntity.ok(classes);
+        } catch (Exception e) {
+            log.error("Erreur lors de la récupération des classes : {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

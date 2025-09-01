@@ -15,11 +15,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import jakarta.annotation.PostConstruct;
+
 import java.util.Arrays;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import lombok.RequiredArgsConstructor;
-
+import org.apache.poi.util.IOUtils;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -27,7 +30,11 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
-
+  @PostConstruct
+    public void init() {
+        // Autorise jusqu'à 200 Mo au lieu de 100 Mo
+        IOUtils.setByteArrayMaxOverride(200_000_000);
+    }
     // final CustomUserDetailsService customUserDetailsService;
     final JwtAuthEntryPoint jwtAuthEntryPoint;
 

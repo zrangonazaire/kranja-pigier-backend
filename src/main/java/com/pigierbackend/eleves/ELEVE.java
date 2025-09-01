@@ -12,9 +12,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Elèves")
+@Getter
+@Setter
 public class ELEVE {
 
     @Id
