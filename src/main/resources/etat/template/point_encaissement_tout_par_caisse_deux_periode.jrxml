@@ -186,19 +186,19 @@ ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
 	</variable>
 	<background splitType="Stretch"/>
 	<pageHeader height="104" splitType="Immediate">
-		<element kind="staticText" uuid="a1489720-a116-42c2-ab04-c0a7731e283d" x="2" y="80" width="87" height="23" forecolor="#2F0AFF" rotation="None" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" hTextAlign="Left">
+		<element kind="staticText" uuid="a1489720-a116-42c2-ab04-c0a7731e283d" x="2" y="80" width="87" height="23" forecolor="#2F0AFF" rotation="None" fontSize="14.0" italic="true" bold="true" hTextAlign="Left">
 			<text><![CDATA[Période de :]]></text>
 		</element>
-		<element kind="textField" uuid="35f2d0bb-b325-425e-b8c7-f8ed952161ab" x="95" y="80" width="100" height="23" fontName="Arial" fontSize="14.0" pattern="dd/ MM /yyyy" bold="true" hTextAlign="Right" vTextAlign="Justified">
+		<element kind="textField" uuid="35f2d0bb-b325-425e-b8c7-f8ed952161ab" x="95" y="80" width="100" height="23" fontSize="14.0" pattern="dd/ MM /yyyy" bold="true" hTextAlign="Right" vTextAlign="Justified">
 			<expression><![CDATA[$P{ParamDate_Debut}]]></expression>
 		</element>
-		<element kind="textField" uuid="e229f870-6884-4396-9be0-bbd51bbd0993" x="209" y="80" width="170" height="23" fontName="Arial" fontSize="14.0" pattern="dd/ MM /yyyy" bold="true" hTextAlign="Left">
+		<element kind="textField" uuid="e229f870-6884-4396-9be0-bbd51bbd0993" x="209" y="80" width="170" height="23" fontSize="14.0" pattern="dd/ MM /yyyy" bold="true" hTextAlign="Left">
 			<expression><![CDATA[$P{ParamDate_fIN}]]></expression>
 		</element>
 		<element kind="staticText" uuid="1a54f222-5073-43d9-8fe3-61ff2c7a605f" x="196" y="80" width="16" height="23" fontSize="14.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[-]]></text>
 		</element>
-		<element kind="staticText" uuid="1068897c-4531-4e32-b0a9-7d5c0dbb2215" x="293" y="13" width="217" height="30" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="22.0" italic="true" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="1068897c-4531-4e32-b0a9-7d5c0dbb2215" x="293" y="13" width="217" height="30" forecolor="#2F0AFF" fontSize="22.0" italic="true" bold="true" hTextAlign="Center">
 			<text><![CDATA[Journal de caisse]]></text>
 		</element>
 		<element kind="textField" uuid="369e49d0-132b-4bb5-b216-a2744eff9c0f" x="570" y="3" width="100" height="21"  fontSize="14.0" pattern=" dd MMMMM yyyy" bold="true" hTextAlign="Right">
@@ -212,23 +212,23 @@ ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
 		</element>
 	</pageHeader>
 	<columnHeader height="50" splitType="Stretch">
-		<element kind="staticText" uuid="f03ba20c-5d3d-4841-9321-acbcec5d9ff3" x="0" y="35" width="94" height="13" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true">
+		<element kind="staticText" uuid="f03ba20c-5d3d-4841-9321-acbcec5d9ff3" x="0" y="35" width="94" height="13" forecolor="#2F0AFF" fontSize="11.0" italic="true" bold="true">
 			<text><![CDATA[Date Enc.]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="295a1e20-1f42-460c-8265-c23cb25f5f1a"/>
 		</element>
-		<element kind="staticText" uuid="72721867-0ece-4e5b-8dab-35923e260b08" x="102" y="35" width="68" height="13" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true">
+		<element kind="staticText" uuid="72721867-0ece-4e5b-8dab-35923e260b08" x="102" y="35" width="68" height="13" forecolor="#2F0AFF" fontSize="11.0" italic="true" bold="true">
 			<text><![CDATA[Matricule]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29cc90e2-f469-49c2-99a3-cf0f943d1ba9"/>
 		</element>
-		<element kind="staticText" uuid="032feb42-cf2d-4654-8921-a461ca70b9fe" x="180" y="35" width="210" height="13" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true">
+		<element kind="staticText" uuid="032feb42-cf2d-4654-8921-a461ca70b9fe" x="180" y="35" width="210" height="13" forecolor="#2F0AFF" fontSize="11.0" italic="true" bold="true">
 			<text><![CDATA[Nom et prénoms]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3ea2a703-f776-40dc-89f5-53a60554ab6d"/>
 		</element>
-		<element kind="staticText" uuid="4944bca1-c55d-45d2-ab83-ae40761a32d4" x="413" y="35" width="50" height="13" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true">
+		<element kind="staticText" uuid="4944bca1-c55d-45d2-ab83-ae40761a32d4" x="413" y="35" width="50" height="13" forecolor="#2F0AFF" fontSize="11.0" italic="true" bold="true">
 			<text><![CDATA[Classe]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e6b47e61-b70d-40e2-bcdb-dc9268b85337"/>
 		</element>
-		<element kind="staticText" uuid="0def8b6c-a833-4e79-8309-8404ee90feff" x="473" y="35" width="40" height="13" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="0def8b6c-a833-4e79-8309-8404ee90feff" x="473" y="35" width="40" height="13" forecolor="#2F0AFF" fontSize="11.0" italic="true" bold="true" hTextAlign="Center">
 			<text><![CDATA[Motif]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d5eebb7d-9a65-45b7-a619-d86442a00fd7"/>
 		</element>
@@ -236,11 +236,11 @@ ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
 			<text><![CDATA[Mode]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="343a139a-090b-4edc-b506-f0a39c926ab9"/>
 		</element>
-		<element kind="staticText" uuid="ceafaeea-5566-4d91-9963-97e20aa7911f" x="560" y="35" width="120" height="13" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true">
+		<element kind="staticText" uuid="ceafaeea-5566-4d91-9963-97e20aa7911f" x="560" y="35" width="120" height="13" forecolor="#2F0AFF" fontSize="11.0" italic="true" bold="true">
 			<text><![CDATA[Etablissement]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dd07f824-259d-4506-b18b-469b9492f0de"/>
 		</element>
-		<element kind="staticText" uuid="7ae730b2-e08a-4d6e-9a50-b39ccba4bc5f" x="690" y="35" width="80" height="13" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" italic="true" bold="true" hTextAlign="Right" vTextAlign="Justified">
+		<element kind="staticText" uuid="7ae730b2-e08a-4d6e-9a50-b39ccba4bc5f" x="690" y="35" width="80" height="13" forecolor="#2F0AFF" fontSize="11.0" italic="true" bold="true" hTextAlign="Right" vTextAlign="Justified">
 			<text><![CDATA[Montant Encaissé]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="694d74e1-bd07-410f-a5cb-24a739f2b04c"/>
 		</element>
@@ -248,13 +248,13 @@ ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
 			<expression><![CDATA[$F{Num_Fol}]]></expression>
 			<patternExpression><![CDATA["#,###"]]></patternExpression>
 		</element>
-		<element kind="staticText" uuid="6b59bc29-84bc-4c9c-850f-25fb96a1a195" x="-3" y="10" width="73" height="22" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true" vTextAlign="Justified">
+		<element kind="staticText" uuid="6b59bc29-84bc-4c9c-850f-25fb96a1a195" x="-3" y="10" width="73" height="22" forecolor="#2F0AFF" fontSize="14.0" italic="true" bold="true" vTextAlign="Justified">
 			<text><![CDATA[Numéro folio]]></text>
 		</element>
 		<element kind="textField" uuid="7c3baa21-d5ef-4d29-82c8-66a5980069bb" x="680" y="9" width="100" height="22" fontSize="14.0" italic="false" bold="true">
 			<expression><![CDATA[$F{id_caissiaire}]]></expression>
 		</element>
-		<element kind="staticText" uuid="6b66bd87-4f0a-407a-90f9-b3f074ede1af" x="620" y="10" width="50" height="22" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" italic="true" bold="true">
+		<element kind="staticText" uuid="6b66bd87-4f0a-407a-90f9-b3f074ede1af" x="620" y="10" width="50" height="22" forecolor="#2F0AFF" fontSize="14.0" italic="true" bold="true">
 			<text><![CDATA[Caisse :]]></text>
 		</element>
 	</columnHeader>
