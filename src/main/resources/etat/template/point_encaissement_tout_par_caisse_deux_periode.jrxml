@@ -33,21 +33,24 @@
     e."Num_Fol",
     e."Date_Encais",
     e."Objet_Encais",
-    e."Montant_Encais" + e.droitinscription +e.fraisExamen+e.Montant_Anc_Access AS "Montant_Encais",
+    ISNULL(e."Montant_Encais", 0) 
+    + ISNULL(e.droitinscription, 0) 
+    + ISNULL(e.fraisExamen, 0) 
+    + ISNULL(e."Montant_Anc_Access", 0) AS "Montant_Encais",
     e."NumBord",
-    e."Ref_Trans_Mobile",
-    e."Tel_Trans_Mobile",
+    ISNULL(e."Ref_Trans_Mobile", '') AS "Ref_Trans_Mobile",
+    ISNULL(e."Tel_Trans_Mobile", '') AS "Tel_Trans_Mobile",
     e."Date_Trans_Mobile",
-    e."numAutorisationBancaire",
-    e."codeCarteBancaire",
-    e."Regularisation",
+    ISNULL(e."numAutorisationBancaire", '') AS "numAutorisationBancaire",
+    ISNULL(e."codeCarteBancaire", '') AS "codeCarteBancaire",
+    ISNULL(e."Regularisation", '') AS "Regularisation",
     e.id_caissiaire,
     e."Etablissement_Source",
     e."Matri_Elev",
     r."Des_Reg",
-    e.droitinscription,
-    e."Nom_Prenoms_Eleve",
-    e."Classe_Eleve",
+    ISNULL(e.droitinscription, 0) AS droitinscription,
+    ISNULL(e."Nom_Prenoms_Eleve", '') AS "Nom_Prenoms_Eleve",
+    ISNULL(e."Classe_Eleve", '') AS "Classe_Eleve",
     e."Mode_Reg"
 FROM dbo."Encaissements des Elèves Pl" e
 INNER JOIN dbo."Règlements" r ON e."Mode_Reg" = r."Code_Reg" 
@@ -57,7 +60,12 @@ WHERE
     AND CAST(e."Date_Encais" AS DATE) BETWEEN CAST($P{ParamDate_Debut} AS DATE) 
                                          AND CAST($P{ParamDate_fIN} AS DATE)
     AND e.id_caissiaire = $P{ParamIDcaisse}
-    AND "Montant_Encais"  <>0
+    AND (
+        ISNULL(e."Montant_Encais", 0) 
+      + ISNULL(e.droitinscription, 0) 
+      + ISNULL(e.fraisExamen, 0) 
+      + ISNULL(e."Montant_Anc_Access", 0)
+    ) <> 0
 
 UNION
 
@@ -66,21 +74,24 @@ SELECT
     h."Num_Fol",
     h."Date_Encais",
     h."Objet_Encais",
-    h."Montant_Encais" + h.droitinscription+h.fraisExamen+h.Montant_Anc_Access AS "Montant_Encais",
+    ISNULL(h."Montant_Encais", 0) 
+    + ISNULL(h.droitinscription, 0) 
+    + ISNULL(h.fraisExamen, 0) 
+    + ISNULL(h."Montant_Anc_Access", 0) AS "Montant_Encais",
     h."NumBord",
-    h."Ref_Trans_Mobile",
-    h."Tel_Trans_Mobile",
+    ISNULL(h."Ref_Trans_Mobile", '') AS "Ref_Trans_Mobile",
+    ISNULL(h."Tel_Trans_Mobile", '') AS "Tel_Trans_Mobile",
     h."Date_Trans_Mobile",
-    h."numAutorisationBancaire",
-    h."codeCarteBancaire",
-    h."Regularisation",
+    ISNULL(h."numAutorisationBancaire", '') AS "numAutorisationBancaire",
+    ISNULL(h."codeCarteBancaire", '') AS "codeCarteBancaire",
+    ISNULL(h."Regularisation", '') AS "Regularisation",
     h.id_caissiaire,
     h."Etablissement_Source",
     h."Matri_Elev",
     r."Des_Reg",
-    h.droitinscription,
-    h."Nom_Prenoms_Eleve",
-    h."Classe_Eleve",
+    ISNULL(h.droitinscription, 0) AS droitinscription,
+    ISNULL(h."Nom_Prenoms_Eleve", '') AS "Nom_Prenoms_Eleve",
+    ISNULL(h."Classe_Eleve", '') AS "Classe_Eleve",
     h."Mode_Reg"
 FROM dbo."Historique_Encaissement_Pl" h
 INNER JOIN dbo."Règlements" r ON h."Mode_Reg" = r."Code_Reg" 
@@ -90,8 +101,14 @@ WHERE
     AND CAST(h."Date_Encais" AS DATE) BETWEEN CAST($P{ParamDate_Debut} AS DATE) 
                                          AND CAST($P{ParamDate_fIN} AS DATE)
     AND h.id_caissiaire = $P{ParamIDcaisse}
-     AND "Montant_Encais"  <>0
-ORDER BY "Date_Encais" DESC, "Num_Fol" DESC]]></query>
+    AND (
+        ISNULL(h."Montant_Encais", 0) 
+      + ISNULL(h.droitinscription, 0) 
+      + ISNULL(h.fraisExamen, 0) 
+      + ISNULL(h."Montant_Anc_Access", 0)
+    ) <> 0
+ORDER BY "Date_Encais" DESC, "Num_Fol" DESC;
+]]></query>
 	<field name="Num_Encais" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="Num_Encais"/>
 		<property name="com.jaspersoft.studio.field.label" value="Num_Encais"/>
