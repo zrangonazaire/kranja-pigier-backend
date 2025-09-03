@@ -106,20 +106,21 @@ public class EleveController {
     @GetMapping(value = "/getPromotionsElevesExcel")
     public ResponseEntity<byte[]> getPromotionsElevesExcel(@RequestParam List<String> promotions,
             @RequestParam List<String> etablissements, @RequestParam String anneeScolaire) throws Exception {
-      
-            try {
-                byte[] excelData = eleveService.getPromotionsElevesExcel(promotions, etablissements, anneeScolaire);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("filename", "promotions_eleves.xlsx");
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(excelData);  
-            } catch (Exception e) {
-                log.error("Erreur lors de la génération du rapport Excel pour les promotions : {}", e.getMessage(), e);
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+
+        try {
+            byte[] excelData = eleveService.getPromotionsElevesExcel(promotions, etablissements, anneeScolaire);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("filename", "promotions_eleves.xlsx");
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(excelData);
+        } catch (Exception e) {
+            log.error("Erreur lors de la génération du rapport Excel pour les promotions : {}", e.getMessage(), e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
     @GetMapping(value = "/getAllClasses", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getAllClasses(@RequestParam String anneeScolaire) throws Exception {
         try {
