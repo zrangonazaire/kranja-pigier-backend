@@ -30,11 +30,11 @@ import org.apache.poi.util.IOUtils;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
-  @PostConstruct
-    public void init() {
-        // Autorise jusqu'à 200 Mo au lieu de 100 Mo
-        IOUtils.setByteArrayMaxOverride(200_000_000);
-    }
+//   @PostConstruct
+//     public void init() {
+//         // Autorise jusqu'à 200 Mo au lieu de 100 Mo
+//         IOUtils.setByteArrayMaxOverride(200_000_000);
+//     }
     // final CustomUserDetailsService customUserDetailsService;
     final JwtAuthEntryPoint jwtAuthEntryPoint;
 

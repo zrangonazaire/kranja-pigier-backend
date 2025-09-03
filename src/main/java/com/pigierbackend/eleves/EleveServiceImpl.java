@@ -49,7 +49,6 @@ public class EleveServiceImpl implements EleveService {
 
             String path = "src/main/resources/etat/template";
             File file = ResourceUtils.getFile(path + "/fichedeclasse.jrxml");
-            System.out.println("******reportPath: " + file);
             // Charger le rapport
             JasperReport jasperreport = JasperCompileManager.compileReport(file.getAbsolutePath());
 
@@ -57,7 +56,6 @@ public class EleveServiceImpl implements EleveService {
             boolean dir = di.mkdir();
             if (dir) {
                 System.out.println("Dossier cree");
-
             }
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport, parameters,
                     dataSource.getConnection());
@@ -234,7 +232,6 @@ public class EleveServiceImpl implements EleveService {
     public byte[] getPromotionsElevesExcel(List<String> promotions, List<String> etablissements, String anneeScolaire)
             throws Exception {
         List<EleveRecordDTO> etudiants = getPromotionsEleves(promotions, etablissements, anneeScolaire);
-
         String path = "src/main/resources/templates/ETUDIANTS.xlsx";
         File file = ResourceUtils.getFile(path);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

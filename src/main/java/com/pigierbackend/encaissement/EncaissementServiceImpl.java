@@ -228,10 +228,8 @@ public class EncaissementServiceImpl implements EncaissementService {
         try (InputStream inputStream = new FileInputStream(file);
                 Workbook workbook = new XSSFWorkbook(inputStream);
                 ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-
             for (EncaissementDTO encaissement : encaissements) {
                 int mois = encaissement.getMois();
-
                 if (mois <= 6) {
                     Sheet sheet = workbook.getSheetAt(0);
                     // JANVIER
