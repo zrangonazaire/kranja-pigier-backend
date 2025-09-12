@@ -25,11 +25,11 @@ import lombok.experimental.FieldDefaults;
 public class Permission extends AbstractEntity implements GrantedAuthority {
     String nomPermission;
     String descriptionPermission;
-     String module; // Employé, Client, Commande, etc.
-     boolean canRead;
-     boolean canWrite;
-     boolean canEdit;
-     boolean canDelete;
+    String module; // Employé, Client, Commande, etc.
+    boolean canRead;
+    boolean canWrite;
+    boolean canEdit;
+    boolean canDelete;
 
     @Override
     public String getAuthority() {
