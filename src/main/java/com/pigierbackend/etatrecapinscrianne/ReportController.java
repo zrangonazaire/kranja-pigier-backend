@@ -30,7 +30,7 @@ public class ReportController {
     @Autowired
     private JasperReportService reportService;
     
-    @GetMapping("/generate")
+    @GetMapping(value = "/generate", produces = MediaType.APPLICATION_PDF_VALUE)
     @Operation(
         summary = "Générer un rapport PDF",
         description = "Génère un rapport PDF basé sur les paramètres fournis",
@@ -40,6 +40,7 @@ public class ReportController {
             @ApiResponse(responseCode = "500", description = "Erreur interne du serveur")
         }
     )
+  
     public ResponseEntity<?> generateReport(
             @Parameter(description = "Niveau scolaire", example = "LP1", required = true)
             @RequestParam String niveau,
