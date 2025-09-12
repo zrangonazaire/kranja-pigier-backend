@@ -31,7 +31,7 @@ public class EleveController {
 
     final EleveService eleveService;
 
-    @GetMapping("/etatListeEtudiant")
+    @GetMapping(value = "/etatListeEtudiant", produces = MediaType.APPLICATION_PDF_VALUE)
     // @PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab)
