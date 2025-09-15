@@ -22,8 +22,7 @@ public interface EleveRepository extends JpaRepository<ELEVE, String> {
     @Query("""
         SELECT DISTINCT e.codeDetcla
         FROM ELEVE e
-        WHERE e.codeDetcla NOT LIKE '%_St%'
-          AND e.codeDetcla <> ''
+        WHERE e.codeDetcla <> ''
           AND e.codeDetcla NOT LIKE 'aban%'
     
           AND e.anneeScoElev = :anneeScolaire
