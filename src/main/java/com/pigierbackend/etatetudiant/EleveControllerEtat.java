@@ -77,7 +77,7 @@ public class EleveControllerEtat {
             return ResponseEntity.ok()
                     .headers(headers)
                     .body(excelContent);
-                    
+                     
         } catch (IllegalArgumentException e) {
             logger.error("Erreur de paramètre: {}", e.getMessage(), e);
             return ResponseEntity.badRequest().body(createErrorResponse("Paramètres invalides: " + e.getMessage()));
