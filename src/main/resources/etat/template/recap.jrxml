@@ -84,7 +84,7 @@ WHERE
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
 		<element kind="image" uuid="dfb76434-c588-4b00-a9f1-ca6b127d657c" x="20" y="7" width="71" height="55">
-			<expression><![CDATA["src\\main\\resources\\etat\\image\\logo_pigier.jpg"]]></expression>
+			<expression><![CDATA["src/main/resources/etat/image/logo_pigier.jpg"]]></expression>
 		</element>
 	</title>
 	<summary height="135">

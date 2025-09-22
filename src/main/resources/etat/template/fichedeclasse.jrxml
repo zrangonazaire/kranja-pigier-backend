@@ -79,9 +79,9 @@ FROM dbo."Nationalité"
 	<background splitType="Stretch"/>
 	<title height="79" splitType="Stretch">
 		<element kind="image" uuid="4faf1682-518a-41ca-a1c4-e57615ed5af0" x="30" y="10" width="71" height="55">
-			<expression><![CDATA["src\\main\\resources\\etat\\image\\logo_pigier.jpg"]]></expression>
+			<expression><![CDATA["src/main/resources/etat/image/logo_pigier.jpg"]]></expression>
 		</element>
-		<element kind="staticText" uuid="89e7d9ce-d854-4d52-bbcd-908937e520e2" x="300" y="29" width="186" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="16.0" bold="true" italic="true" hTextAlign="Center">
+		<element kind="staticText" uuid="89e7d9ce-d854-4d52-bbcd-908937e520e2" x="300" y="29" width="186" height="20" forecolor="#2F0AFF"  fontSize="16.0" bold="true" italic="true" hTextAlign="Center">
 			<text><![CDATA[LISTE DES ETUDIANTS]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
@@ -90,7 +90,7 @@ FROM dbo."Nationalité"
 		<element kind="textField" uuid="0a7c185f-05c1-48af-8f4b-16198100f9c4" x="146" y="16" width="114" height="20" fontSize="14.0">
 			<expression><![CDATA[$P{PARAMEANNE}]]></expression>
 		</element>
-		<element kind="staticText" uuid="4c51aaf1-3418-49d2-ad79-baf3c64e3b9c" x="550" y="18" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
+		<element kind="staticText" uuid="4c51aaf1-3418-49d2-ad79-baf3c64e3b9c" x="550" y="18" width="130" height="20" forecolor="#2F0AFF"  fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
 			<text><![CDATA[Parcours/classe]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
@@ -99,65 +99,65 @@ FROM dbo."Nationalité"
 		</element>
 	</pageHeader>
 	<columnHeader height="52" splitType="Stretch">
-		<element kind="staticText" uuid="d6251588-fb13-4377-9cf1-0f07a203ad31" x="10" y="32" width="73" height="18" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Center">
+		<element kind="staticText" uuid="d6251588-fb13-4377-9cf1-0f07a203ad31" x="10" y="32" width="73" height="18" forecolor="#2F0AFF"  fontSize="11.0" bold="true" italic="true" hTextAlign="Center">
 			<text><![CDATA[Matricule]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="762ef52d-ac4d-4237-9eaf-52ed8915d99c"/>
 		</element>
-		<element kind="staticText" uuid="be868273-b677-4fdc-8ad3-c113bff2c283" x="77" y="32" width="243" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
+		<element kind="staticText" uuid="be868273-b677-4fdc-8ad3-c113bff2c283" x="77" y="32" width="243" height="20" forecolor="#2F0AFF"  fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[Nom]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="47fdcc1b-ca58-4861-a21c-cb27c69d29fe"/>
 		</element>
-		<element kind="staticText" uuid="4372293d-49de-41c3-956e-87913ae42134" x="5" y="10" width="78" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
+		<element kind="staticText" uuid="4372293d-49de-41c3-956e-87913ae42134" x="5" y="10" width="78" height="20" forecolor="#2F0AFF"  fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
 			<text><![CDATA[Classe :]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
-		<element kind="staticText" uuid="369318ad-5252-4152-bbe4-b8dacce6831d" x="330" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
+		<element kind="staticText" uuid="369318ad-5252-4152-bbe4-b8dacce6831d" x="330" y="32" width="100" height="20" forecolor="#2F0AFF"  fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[Lieu de naissance]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f351aac7-328c-4d01-b9d2-f532e9111b93"/>
 		</element>
-		<element kind="staticText" uuid="ec7f1563-968f-4c53-af86-e9d5a949c33b" x="440" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
+		<element kind="staticText" uuid="ec7f1563-968f-4c53-af86-e9d5a949c33b" x="440" y="32" width="100" height="20" forecolor="#2F0AFF"  fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[Date de naissance]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3580b09-3888-447e-8de6-69f0509f01bb"/>
 		</element>
-		<element kind="staticText" uuid="c05ed94a-84e3-4f76-b8fc-3aeb744a297c" x="550" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
+		<element kind="staticText" uuid="c05ed94a-84e3-4f76-b8fc-3aeb744a297c" x="550" y="32" width="100" height="20" forecolor="#2F0AFF"  fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[cell]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f02ae270-cc70-4dda-aced-0bf92e76281e"/>
 		</element>
-		<element kind="staticText" uuid="389ca013-da03-4120-8311-ba6d14be91e0" x="670" y="32" width="100" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
+		<element kind="staticText" uuid="389ca013-da03-4120-8311-ba6d14be91e0" x="670" y="32" width="100" height="20" forecolor="#2F0AFF"  fontSize="11.0" bold="true" italic="true" hTextAlign="Left">
 			<text><![CDATA[Nationalité]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="269315c6-7e66-4a48-abc9-d6fa6e3a21fc"/>
 		</element>
 		<element kind="textField" uuid="27c2a943-517f-4a63-a362-32dc2dc39a88" x="86" y="10" width="136" height="22" fontSize="14.0" bold="true">
 			<expression><![CDATA[$F{Code_Detcla}]]></expression>
 		</element>
-		<element kind="staticText" uuid="a9ed435d-3503-4e2c-bbac-8c49ca84c816" x="10" y="-35" width="130" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
+		<element kind="staticText" uuid="a9ed435d-3503-4e2c-bbac-8c49ca84c816" x="10" y="-35" width="130" height="20" forecolor="#2F0AFF"  fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
 			<text><![CDATA[Année Scolaire:]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
 	</columnHeader>
 	<detail>
 		<band height="27" splitType="Stretch">
-			<element kind="textField" uuid="bdea5400-0619-431d-aba3-f51091252f0c" x="10" y="2" width="73" height="18" fontName="Agency FB" fontSize="12.0" hTextAlign="Center">
+			<element kind="textField" uuid="bdea5400-0619-431d-aba3-f51091252f0c" x="10" y="2" width="73" height="18"  fontSize="12.0" hTextAlign="Center">
 				<expression><![CDATA[$F{Matri_Elev}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="762ef52d-ac4d-4237-9eaf-52ed8915d99c"/>
 			</element>
-			<element kind="textField" uuid="a6f657b9-1a3c-4490-80ce-58ed559343aa" x="77" y="2" width="243" height="20" fontName="Agency FB" fontSize="12.0">
+			<element kind="textField" uuid="a6f657b9-1a3c-4490-80ce-58ed559343aa" x="77" y="2" width="243" height="20"  fontSize="12.0">
 				<expression><![CDATA[$F{Nom_Elev}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="47fdcc1b-ca58-4861-a21c-cb27c69d29fe"/>
 			</element>
-			<element kind="textField" uuid="b2533430-2d23-4266-92aa-b42616929e8b" x="330" y="2" width="100" height="20" fontName="Agency FB" fontSize="12.0">
+			<element kind="textField" uuid="b2533430-2d23-4266-92aa-b42616929e8b" x="330" y="2" width="100" height="20"  fontSize="12.0">
 				<expression><![CDATA[$F{Lieunais_Elev}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f351aac7-328c-4d01-b9d2-f532e9111b93"/>
 			</element>
-			<element kind="textField" uuid="79add94d-b6bb-4e4a-a659-ee7e7867c667" x="440" y="2" width="100" height="20" fontName="Agency FB" fontSize="12.0">
+			<element kind="textField" uuid="79add94d-b6bb-4e4a-a659-ee7e7867c667" x="440" y="2" width="100" height="20"  fontSize="12.0">
 				<expression><![CDATA[$F{Datenais_Elev}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3580b09-3888-447e-8de6-69f0509f01bb"/>
 			</element>
-			<element kind="textField" uuid="f644e69d-6615-483c-a382-8e3a5d1855d7" x="550" y="2" width="100" height="20" fontName="Agency FB" fontSize="12.0">
+			<element kind="textField" uuid="f644e69d-6615-483c-a382-8e3a5d1855d7" x="550" y="2" width="100" height="20"  fontSize="12.0">
 				<expression><![CDATA[$F{celetud}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f02ae270-cc70-4dda-aced-0bf92e76281e"/>
 			</element>
-			<element kind="textField" uuid="9370105a-4f05-4275-8553-b5b1f3fdc25c" x="670" y="2" width="100" height="20" fontName="Agency FB" fontSize="12.0">
+			<element kind="textField" uuid="9370105a-4f05-4275-8553-b5b1f3fdc25c" x="670" y="2" width="100" height="20"  fontSize="12.0">
 				<expression><![CDATA[$F{Des_Nat}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="269315c6-7e66-4a48-abc9-d6fa6e3a21fc"/>
 			</element>
@@ -167,7 +167,7 @@ FROM dbo."Nationalité"
 		<element kind="textField" uuid="00acb89b-792c-4129-bb96-97f614796c3f" x="670" y="10" width="110" height="20" fontSize="14.0" bold="true">
 			<expression><![CDATA[$V{Matri_Elev2}]]></expression>
 		</element>
-		<element kind="staticText" uuid="7367a902-bab2-4153-b440-a9ae81eb5ebf" x="587" y="11" width="78" height="20" forecolor="#2F0AFF" fontName="Arial Narrow" fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
+		<element kind="staticText" uuid="7367a902-bab2-4153-b440-a9ae81eb5ebf" x="587" y="11" width="78" height="20" forecolor="#2F0AFF"  fontSize="14.0" bold="true" italic="true" hTextAlign="Right">
 			<text><![CDATA[Effectif :]]></text>
 			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e1c91f3e-d4e9-4d23-a666-f6f01e96bc41"/>
 		</element>
