@@ -106,7 +106,7 @@ public class EleveController {
     public ResponseEntity<List<EleveRecordDTO>> getPromotionsEleves(@RequestParam List<String> promotions,
             @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
             @RequestParam String startStr, @RequestParam String endStr) throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.parse(startStr, formatter);
         LocalDate endDate = LocalDate.parse(endStr, formatter);
         List<EleveRecordDTO> promotionEleves = eleveService.getPromotionsEleves(promotions, etablissements,
@@ -121,7 +121,7 @@ public class EleveController {
             @RequestParam String endStr) throws Exception {
 
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate startDate = LocalDate.parse(startStr, formatter);
             LocalDate endDate = LocalDate.parse(endStr, formatter);
             log.info("Dates parsed for Excel: startDate={}, endDate={}", startDate, endDate);
