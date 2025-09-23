@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -93,18 +96,22 @@ public class EleveServiceImpl implements EleveService {
 
             // Exécuter la requête SQL (adaptez-la selon vos besoins)
             String sql = "SELECT e.Matri_Elev, e.Nom_Elev, e.Lieunais_Elev, e.Datenais_Elev, " +
-                    "e.Sexe_Elev, e.celetud, n.Des_Nat, e.Code_Detcla " +
+                    "e.Sexe_Elev, e.celetud, n.Des_Nat, e.Code_Detcla, e.DateInscri_Eleve " +
                     "FROM \"Nationalité\" n " +
                     "INNER JOIN \"Elèves\" e ON e.\"Code_Nat\" = n.\"Code_Nat\" " +
                     "WHERE e.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
                     "AND e.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
+                    "AND e.\"DateInscri_Eleve\" BETWEEN '" + parameters.get("PARAMDATEDEBUT") + "' " +
+                    "AND '" + parameters.get("PARAMDATEFIN") + "' " +
                     "UNION " +
                     "SELECT h.\"Matri_Elev\", h.\"Nom_Elev\", h.\"Lieunais_Elev\", h.\"Datenais_Elev\", " +
-                    "h.\"Sexe_Elev\", h.celetud, n.\"Des_Nat\", h.\"Code_Detcla\" " +
+                    "h.\"Sexe_Elev\", h.celetud, n.\"Des_Nat\", h.\"Code_Detcla\", h.\"DateInscri_Eleve\" " +
                     "FROM \"Nationalité\" n " +
                     "INNER JOIN \"Historique\" h ON h.\"Code_Nat\" = n.\"Code_Nat\" " +
                     "WHERE h.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
                     "AND h.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
+                    "AND h.\"DateInscri_Eleve\" BETWEEN '" + parameters.get("PARAMDATEDEBUT") + "' " +
+                    "AND '" + parameters.get("PARAMDATEFIN") + "' " +
                     "ORDER BY \"Code_Detcla\", \"Nom_Elev\"";
 
             rs = stmt.executeQuery(sql);
@@ -207,12 +214,15 @@ public class EleveServiceImpl implements EleveService {
 
     @Override
     public List<EleveRecordDTO> getPromotionsEleves(List<String> promotions, List<String> etablissements,
-            String anneeScolaire) throws Exception {
+            String anneeScolaire, LocalDate dateDebut, LocalDate dateFin) throws Exception {
         String annSco = anneeScolaire.replace("-", "/");
         if (promotions == null || promotions.isEmpty() || etablissements == null || etablissements.isEmpty()) {
             return List.of(); // renvoie une liste vide pour éviter erreur SQL
         }
-        try (Stream<ELEVE> stream = eleveRepository.findValidElevesAsStream(promotions, etablissements, annSco)) {
+        log.info("Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
+                promotions, etablissements, annSco, dateDebut, dateFin);
+        try (Stream<ELEVE> stream = eleveRepository.findValidElevesAsStream(promotions, etablissements, annSco,
+                dateDebut, dateFin)) {
             return stream.map(e -> {
                 String[] parts = e.getNomElev().trim().split("\\s+", 2);
                 String nom = parts.length > 0 ? parts[0] : "";
@@ -223,15 +233,16 @@ public class EleveServiceImpl implements EleveService {
                         e.getDatenaisElev(),
                         e.getSexeElev(),
                         e.getUnivmetiers(),
-                        e.getCodeDetcla());
+                        e.getCodeDetcla(),
+                        e.getDateInscriEleve());
             }).toList();
         }
     }
 
     @Override
-    public byte[] getPromotionsElevesExcel(List<String> promotions, List<String> etablissements, String anneeScolaire)
+    public byte[] getPromotionsElevesExcel(List<String> promotions, List<String> etablissements, String anneeScolaire, LocalDate dateDebut, LocalDate dateFin)
             throws Exception {
-        List<EleveRecordDTO> etudiants = getPromotionsEleves(promotions, etablissements, anneeScolaire);
+        List<EleveRecordDTO> etudiants = getPromotionsEleves(promotions, etablissements, anneeScolaire,dateDebut,dateFin);
         String path = "src/main/resources/templates/ETUDIANTS.xlsx";
         File file = ResourceUtils.getFile(path);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

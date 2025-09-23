@@ -1,9 +1,16 @@
 package com.pigierbackend.eleves;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -97,18 +104,29 @@ public class EleveController {
     // }
     @GetMapping(value = "/getPromotionsEleves", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EleveRecordDTO>> getPromotionsEleves(@RequestParam List<String> promotions,
-            @RequestParam List<String> etablissements, @RequestParam String anneeScolaire) throws Exception {
+            @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
+            @RequestParam String startStr, @RequestParam String endStr) throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate startDate = LocalDate.parse(startStr, formatter);
+        LocalDate endDate = LocalDate.parse(endStr, formatter);
         List<EleveRecordDTO> promotionEleves = eleveService.getPromotionsEleves(promotions, etablissements,
-                anneeScolaire);
+                anneeScolaire, startDate, endDate);
         return ResponseEntity.ok(promotionEleves);
     }
 
     @GetMapping(value = "/getPromotionsElevesExcel")
     public ResponseEntity<byte[]> getPromotionsElevesExcel(@RequestParam List<String> promotions,
-            @RequestParam List<String> etablissements, @RequestParam String anneeScolaire) throws Exception {
+            @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
+            @RequestParam String startStr,
+            @RequestParam String endStr) throws Exception {
 
         try {
-            byte[] excelData = eleveService.getPromotionsElevesExcel(promotions, etablissements, anneeScolaire);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate startDate = LocalDate.parse(startStr, formatter);
+            LocalDate endDate = LocalDate.parse(endStr, formatter);
+            log.info("Dates parsed for Excel: startDate={}, endDate={}", startDate, endDate);
+            byte[] excelData = eleveService.getPromotionsElevesExcel(promotions, etablissements, anneeScolaire,
+                    startDate, endDate);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.setContentDispositionFormData("filename", "promotions_eleves.xlsx");
