@@ -9,4 +9,5 @@ public interface UtilisateurService {
     void delete(Long id);
     Optional<UserResponse> findById(Long id);
     List<UserResponse> findAll();
+    UserResponse findByUsername(String username);
 }

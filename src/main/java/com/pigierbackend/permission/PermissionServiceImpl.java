@@ -1,6 +1,8 @@
 package com.pigierbackend.permission;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,25 +13,25 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class PermissionServiceImpl implements PermissionService {
 
     private final PermissionRepository permissionRepository;
 
     @Override
     public PermissionResponse create(PermissionRequest request) {
+        log.info("Création d'une nouvelle permission nom  : {}, description : {}, module : {}", request.getNomPermission(), request.getDescriptionPermission(), request.getModule());
         Permission permission = request.toPermission();
 
         return permissionRepository.save(permission).toPermissionResponse();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<PermissionResponse> findById(Long id) {
         return permissionRepository.findById(id).map(Permission::toPermissionResponse);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<PermissionResponse> findAll() {
         return permissionRepository.findAll()
                 .stream()

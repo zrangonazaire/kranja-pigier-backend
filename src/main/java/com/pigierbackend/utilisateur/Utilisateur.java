@@ -89,6 +89,7 @@ public class Utilisateur extends AbstractEntity implements UserDetails, Principa
         return UserResponse.builder()
                 .id(getId())
                 .username(getUsername())
+                .telephone(getTelephone())
                 .enable(getEnable())
                 .firstname(getUsername())
                 .lastname(getNomPrenoms())

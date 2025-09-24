@@ -2,6 +2,8 @@ package com.pigierbackend.role;
 
 import com.pigierbackend.permission.Permission;
 import com.pigierbackend.permission.PermissionRepository;
+import com.pigierbackend.utilisateur.UtilisateurRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +24,7 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
+    private final UtilisateurRepository utilisateurRepository;
 
     @Override
     public RoleResponse create(RoleRequest request) {
@@ -58,5 +61,21 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void delete(Long id) {
         roleRepository.deleteById(id);
+    }
+
+    @Override
+    public RoleResponse findByNomRole(String nomRole) {
+       return roleRepository.findByNomRole(nomRole)
+               .map(URole::toRoleResponse)
+               .orElseThrow(() -> new RuntimeException("Rôle non trouvé avec le nom " + nomRole));
+    }
+
+    @Override
+    public List<RoleResponse> findRoleByUser(Long idUser) {
+        return utilisateurRepository.findById(idUser)
+                .map(user -> user.getRoles().stream()
+                        .map(URole::toRoleResponse)
+                        .collect(Collectors.toList()))
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec l'id " + idUser));
     }
 }
