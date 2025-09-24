@@ -24,21 +24,22 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
-  private Long id;
+   Long id;
   String username;
   Boolean enable;
-  private String firstname;
-  private String lastname;
-  private String email;
-  private List<URole> roles;
+   String firstname;
+   String lastname;
+   String telephone;
+   String email;
+   List<URole> roles;
 
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-  private LocalDateTime createdDate;
+   LocalDateTime createdDate;
   
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime lastModifiedDate;
+     LocalDateTime lastModifiedDate;
 
  
 

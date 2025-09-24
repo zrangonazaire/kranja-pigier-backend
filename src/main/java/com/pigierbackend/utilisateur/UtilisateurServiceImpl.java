@@ -27,11 +27,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     @Override
     public UserResponse save(UserRequest userRequest) {
         // 1. Créer l'entité Utilisateur à partir du DTO
         Utilisateur newUser = userRequest.toUtilisateur();
+        newUser.setId(userRequest.getId());
 
         // 2. Récupérer les entités URole et les associer
         if (userRequest.getRoleIds() != null && !userRequest.getRoleIds().isEmpty()) {
@@ -87,5 +87,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         return utilisateurRepository.findAll().stream()
                 .map(Utilisateur::toUserResponse)
                 .toList();
+    }
+
+    @Override
+    public UserResponse findByUsername(String username) {
+        return utilisateurRepository.findByUsername(username)
+                .map(Utilisateur::toUserResponse)
+                .orElseThrow(
+                        () -> new RuntimeException("Utilisateur non trouvé avec le nom d'utilisateur " + username));
     }
 }

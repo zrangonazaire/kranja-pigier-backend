@@ -26,6 +26,7 @@ Long id;
     public Utilisateur toUtilisateur() {
         
         Utilisateur utilisateur =  Utilisateur.builder()
+            
                 .username(this.username)
                 .password(this.password)
                 .nomPrenoms(this.nomPrenoms)

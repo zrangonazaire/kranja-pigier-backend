@@ -43,6 +43,11 @@ public class Permission extends AbstractEntity implements GrantedAuthority {
                 .descriptionPermission(getDescriptionPermission())
                 .createdDate(this.getCreationDate())
                 .lastModifiedDate(this.getModificationDate())
+                .module(this.getModule())
+                .canRead(this.isCanRead())
+                .canWrite(this.isCanWrite())
+                .canEdit(this.isCanEdit())
+                .canDelete(this.isCanDelete())
                 .build();
     }
 

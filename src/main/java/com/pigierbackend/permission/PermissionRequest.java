@@ -24,7 +24,14 @@ public class PermissionRequest {
     boolean canDelete;
 
     public Permission toPermission() {
-        return new Permission(this.nomPermission, this.descriptionPermission, this.module, this.canRead, this.canWrite,
-                this.canEdit, this.canDelete);
+        return  Permission.builder()
+                .nomPermission(this.nomPermission)
+                .descriptionPermission(this.descriptionPermission)
+                .module(this.module)
+                .canRead(this.canRead)
+                .canWrite(this.canWrite)
+                .canEdit(this.canEdit)
+                .canDelete(this.canDelete)
+                .build();
     }
 }

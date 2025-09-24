@@ -38,4 +38,8 @@ public class UtilisateurController {
         utilisateurService.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping(value = "/username/{username}", produces = "application/json")
+    public ResponseEntity<UserResponse> getByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(utilisateurService.findByUsername(username));
+    }
 }
