@@ -219,7 +219,8 @@ public class EleveServiceImpl implements EleveService {
         if (promotions == null || promotions.isEmpty() || etablissements == null || etablissements.isEmpty()) {
             return List.of(); // renvoie une liste vide pour éviter erreur SQL
         }
-        log.info("Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
+        log.info(
+                "Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
                 promotions, etablissements, annSco, dateDebut, dateFin);
         try (Stream<ELEVE> stream = eleveRepository.findValidElevesAsStream(promotions, etablissements, annSco,
                 dateDebut, dateFin)) {
@@ -234,15 +235,19 @@ public class EleveServiceImpl implements EleveService {
                         e.getSexeElev(),
                         e.getUnivmetiers(),
                         e.getCodeDetcla(),
+                        e.getCeletud().isEmpty()?e.getTeletud():e.getCeletud(),
+                        e.getTelBurRespElev().isEmpty()?e.getTelDomRespElev():e.getTelBurRespElev(),
                         e.getDateInscriEleve());
             }).toList();
         }
     }
 
     @Override
-    public byte[] getPromotionsElevesExcel(List<String> promotions, List<String> etablissements, String anneeScolaire, LocalDate dateDebut, LocalDate dateFin)
+    public byte[] getPromotionsElevesExcel(List<String> promotions, List<String> etablissements, String anneeScolaire,
+            LocalDate dateDebut, LocalDate dateFin)
             throws Exception {
-        List<EleveRecordDTO> etudiants = getPromotionsEleves(promotions, etablissements, anneeScolaire,dateDebut,dateFin);
+        List<EleveRecordDTO> etudiants = getPromotionsEleves(promotions, etablissements, anneeScolaire, dateDebut,
+                dateFin);
         String path = "src/main/resources/templates/ETUDIANTS.xlsx";
         File file = ResourceUtils.getFile(path);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -306,6 +311,14 @@ public class EleveServiceImpl implements EleveService {
                     cellDest.setCellValue("0");
                 }
 
+                Cell cellTelEleve = row.getCell(7);
+                if (cellTelEleve == null)
+                    cellTelEleve = row.createCell(7);
+                cellTelEleve.setCellValue(etudiant.getTelEleve());
+                Cell cellTelParent = row.getCell(8);
+                if (cellTelParent == null)
+                    cellTelParent = row.createCell(8);
+                cellTelParent.setCellValue(etudiant.getTelParent());
                 i++;
             }
 
