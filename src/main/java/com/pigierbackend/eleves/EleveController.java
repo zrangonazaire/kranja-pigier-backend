@@ -113,6 +113,17 @@ public class EleveController {
                 anneeScolaire, startDate, endDate);
         return ResponseEntity.ok(promotionEleves);
     }
+   @GetMapping(value = "/getPromotionsElevesPayer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<EleveRecordAvecPayerDto>> getPromotionsElevesPayer(@RequestParam List<String> promotions,
+            @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
+            @RequestParam String startStr, @RequestParam String endStr, @RequestParam int montantpayer) throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startStr, formatter);
+        LocalDate endDate = LocalDate.parse(endStr, formatter);
+        List<EleveRecordAvecPayerDto> promotionEleves = eleveService.getPromotionsElevesAvecMontantPayer(promotions, etablissements,
+                anneeScolaire, startDate, endDate, montantpayer);
+        return ResponseEntity.ok(promotionEleves);
+    }
 
     @GetMapping(value = "/getPromotionsElevesExcel")
     public ResponseEntity<byte[]> getPromotionsElevesExcel(@RequestParam List<String> promotions,

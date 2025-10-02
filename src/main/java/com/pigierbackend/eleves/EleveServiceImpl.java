@@ -338,4 +338,41 @@ public class EleveServiceImpl implements EleveService {
         }
     }
 
+    @Override
+    public List<EleveRecordAvecPayerDto> getPromotionsElevesAvecMontantPayer(List<String> promotions,
+            List<String> etablissements, String anneeScolaire, LocalDate dateDebut, LocalDate dateFin, int montantDu)
+            throws Exception {
+        String annSco = anneeScolaire.replace("-", "/");
+        if (promotions == null || promotions.isEmpty() || etablissements == null || etablissements.isEmpty()) {
+            return List.of(); // renvoie une liste vide pour éviter erreur SQL
+        }
+        log.info(
+                "Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
+                promotions, etablissements, annSco, dateDebut, dateFin);
+        try (Stream<ELEVE> stream = eleveRepository.findValidElevesAvecMontantAsStream(promotions, etablissements, annSco,
+                dateDebut, dateFin, montantDu)) {
+            return stream.map(e -> {
+                String[] parts = e.getNomElev().trim().split("\\s+", 2);
+                String nom = parts.length > 0 ? parts[0] : "";
+                String prenoms = parts.length > 1 ? parts[1] : "";
+                // Correction ici : conversion en BigDecimal
+                java.math.BigDecimal montantScoElev = java.math.BigDecimal.valueOf(e.getMontantScoElev());
+                java.math.BigDecimal droitInscription = java.math.BigDecimal.valueOf(e.getDroitinscription());
+                java.math.BigDecimal soldScoElev = java.math.BigDecimal.valueOf(e.getSoldScoElev());
+                int montantPayer = montantScoElev.add(droitInscription).subtract(soldScoElev).intValue();
+                return new EleveRecordAvecPayerDto(
+                        nom,
+                        prenoms,
+                        e.getDatenaisElev(),
+                        e.getSexeElev(),
+                        e.getUnivmetiers(),
+                        e.getCodeDetcla(),
+                        e.getCeletud().isEmpty()?e.getTeletud():e.getCeletud(),
+                        e.getTelBurRespElev().isEmpty()?e.getTelDomRespElev():e.getTelBurRespElev(),
+                        montantPayer,
+                        e.getDateInscriEleve());
+            }).toList();
+        }
+    }
+
 }

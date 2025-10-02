@@ -22,13 +22,13 @@ import lombok.Setter;
 public class ELEVE {
 
     @Id
-    @Column(name = "Matri_Elev", length = 10, nullable = false,columnDefinition = "nvarchar(10)")
+    @Column(name = "Matri_Elev", length = 10, nullable = false, columnDefinition = "nvarchar(10)")
     private String matriElev;
 
     @Column(name = "Code_Grp")
     private Short codeGrp;
 
-    @Column(name = "Nom_Elev", length = 50,columnDefinition = "nvarchar(50)")
+    @Column(name = "Nom_Elev", length = 50, columnDefinition = "nvarchar(50)")
     private String nomElev;
 
     @Column(name = "Sexe_Elev", length = 1, columnDefinition = "nvarchar(1)")
@@ -153,7 +153,7 @@ public class ELEVE {
     private byte[] photo;
 
     @Lob
-    @Column(name = "Comment",columnDefinition = "NVARCHAR(MAX)")
+    @Column(name = "Comment", columnDefinition = "NVARCHAR(MAX)")
     private String comment;
 
     @Column(name = "Condition_Elev", length = 50)
@@ -177,7 +177,7 @@ public class ELEVE {
     @Column(name = "idPreinscription", length = 12)
     private String idPreinscription;
 
-    @Column(name = "Reservation",columnDefinition = "nvarchar(10)")
+    @Column(name = "Reservation", columnDefinition = "nvarchar(10)")
     private String reservation;
 
     @Column(name = "numtabl", length = 20)
@@ -287,7 +287,7 @@ public class ELEVE {
 
     @Column(name = "droitinscription")
     private int droitinscription;
-@OneToMany(mappedBy = "eleve")
+    @OneToMany(mappedBy = "eleve")
     private List<EncaissementElevePL> encaissements;
     // Ajoutez ici les getters et setters
 }
