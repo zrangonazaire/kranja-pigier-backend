@@ -18,6 +18,6 @@ public interface EtatEleveRepository extends JpaRepository<Eleve, String> {
             @Param("anneeSco") String anneeSco,
             @Param("etabSource") String etabSource,
             @Param("niveau") String niveau,
-            @Param("startDate") Date startDate,
-            @Param("endDate") Date endDate);
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate);
 }

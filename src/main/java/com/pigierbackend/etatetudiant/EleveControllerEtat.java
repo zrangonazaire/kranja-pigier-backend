@@ -29,8 +29,10 @@ public class EleveControllerEtat {
             @RequestParam String anneeSco,
             @RequestParam String etabSource,
             @RequestParam String niveau,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+             @RequestParam String startDate,
+            @RequestParam String endDate) {
+           // @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+           // @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
         
         try {
             // Validation des paramètres
@@ -50,9 +52,9 @@ public class EleveControllerEtat {
                 return ResponseEntity.badRequest().body(createErrorResponse("Les dates de début et de fin sont requises"));
             }
             
-            if (startDate.after(endDate)) {
-                return ResponseEntity.badRequest().body(createErrorResponse("La date de début doit être antérieure à la date de fin"));
-            }
+            //if (startDate is not isEmpty){
+         //       return ResponseEntity.badRequest().body(createErrorResponse("La date de début doit être antérieure à la date de fin"));
+          //  }
             
             logger.info("Génération Excel - Année: {}, Campus: {}, Niveau: {}, Période: {} à {}", 
                        anneeSco, etabSource, niveau, startDate, endDate);

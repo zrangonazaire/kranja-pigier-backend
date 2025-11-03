@@ -15,7 +15,7 @@ public class ExcelService {
     private EtatEleveRepository eleveRepository;
     
     public byte[] generateExcelFile(String anneeSco, String etabSource, String niveau, 
-                                  Date startDate, Date endDate) throws Exception {
+                                  String startDate, String endDate) throws Exception {
         
         List<Eleve> eleves = eleveRepository.findElevesByCriteria(anneeSco, etabSource, niveau, startDate, endDate);
         
