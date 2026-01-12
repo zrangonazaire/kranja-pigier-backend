@@ -12,6 +12,8 @@ import com.pigierbackend.abstractentity.AbstractEntity;
 import com.pigierbackend.role.URole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -41,6 +43,10 @@ public class Utilisateur extends AbstractEntity implements UserDetails, Principa
     String telephone;
     String email;
     Boolean enable;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    StatutUtilisateur statut = StatutUtilisateur.ACTIVE;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "UTILISATEUR_ROLE", joinColumns = @JoinColumn(name = "utilisateur_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<URole> roles = new HashSet<>();
@@ -91,6 +97,7 @@ public class Utilisateur extends AbstractEntity implements UserDetails, Principa
                 .username(getUsername())
                 .telephone(getTelephone())
                 .enable(getEnable())
+                .statut(getStatut())
                 .firstname(getUsername())
                 .lastname(getNomPrenoms())
                 .email(getEmail())

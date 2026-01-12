@@ -22,6 +22,7 @@ Long id;
     String nomPrenoms;
     String telephone;
     String email;
+    StatutUtilisateur statut;
     Set<Long> roleIds;
     public Utilisateur toUtilisateur() {
         
@@ -32,6 +33,7 @@ Long id;
                 .nomPrenoms(this.nomPrenoms)
                 .telephone(this.telephone)
                 .email(this.email)
+                .statut(this.statut)
                 .build();
        
         return utilisateur;

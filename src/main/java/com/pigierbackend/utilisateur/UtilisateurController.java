@@ -13,6 +13,7 @@ public class UtilisateurController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<UserResponse> create(@RequestBody UserRequest utilisateur) {
+        utilisateur.setStatut(StatutUtilisateur.ACTIVE);
         return ResponseEntity.ok(utilisateurService.save(utilisateur));
     }
 

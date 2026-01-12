@@ -32,6 +32,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         // 1. Créer l'entité Utilisateur à partir du DTO
         Utilisateur newUser = userRequest.toUtilisateur();
         newUser.setId(userRequest.getId());
+        if (newUser.getStatut() == null) {
+            newUser.setStatut(StatutUtilisateur.ACTIVE);
+        }
 
         // 2. Récupérer les entités URole et les associer
         if (userRequest.getRoleIds() != null && !userRequest.getRoleIds().isEmpty()) {
@@ -62,6 +65,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         existingUser.setEmail(userRequest.getEmail());
         existingUser.setTelephone(userRequest.getTelephone());
         existingUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        if (userRequest.getStatut() != null) {
+            if (userRequest.getStatut() == StatutUtilisateur.DESACTIVE) {
+                throw new RuntimeException("Le statut DESACTIVE n'est pas autorise via la modification.");
+            }
+            existingUser.setStatut(userRequest.getStatut());
+        }
 
         // Mettre à jour les rôles
         if (userRequest.getRoleIds() != null) {
@@ -74,7 +83,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public void delete(Long id) {
-        utilisateurRepository.deleteById(id);
+        Utilisateur existingUser = utilisateurRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouv\u00e9 avec l'id " + id));
+        existingUser.setStatut(StatutUtilisateur.DESACTIVE);
+        utilisateurRepository.save(existingUser);
     }
 
     @Override
