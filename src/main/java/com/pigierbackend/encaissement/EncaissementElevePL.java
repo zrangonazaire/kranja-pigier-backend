@@ -23,7 +23,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Entity
-@Table(name = "Encaissements des Elèves Pl")
+@Table(name = "Encaissements des El\u00e8ves Pl")
 @Data
 @Builder
 public class EncaissementElevePL {
@@ -60,7 +60,7 @@ public class EncaissementElevePL {
     @Column(name = "Nouveau_Sold")
     private Integer nouveauSold;
 
-    @Column(name = "CodeMotifEnc", columnDefinition = "NVARCHAR(1)")
+    @Column(name = "CodeMotifEnc", columnDefinition = "NCHAR(1)")
     private String codeMotifEnc;
 
     @Column(name = "caissiaire")
@@ -167,7 +167,12 @@ public class EncaissementElevePL {
     private ELEVE eleve;
 
     @ManyToOne
-    @JoinColumn(name = "Num_Fol", referencedColumnName = "Num_Fol", insertable = false, updatable = false)
+    @JoinColumn(
+            name = "Num_Fol",
+            referencedColumnName = "Num_Fol",
+            insertable = false,
+            updatable = false,
+            foreignKey = @ForeignKey(name = "FK_Encaissements des El\u00e8ves Pl_Folios Pl"))
     private FolioPL folio;
 
     @ManyToOne
@@ -175,7 +180,7 @@ public class EncaissementElevePL {
     private Reglement reglement;
 
 
-    @Column(name = "CodeMotifEnc", columnDefinition = "nvarchar(1)",insertable=false, updatable=false)
+    @Column(name = "CodeMotifEnc", columnDefinition = "NCHAR(1)", insertable = false, updatable = false)
     private String motifEncaissement;
 
     @ManyToOne
@@ -186,3 +191,5 @@ public class EncaissementElevePL {
     @JoinColumn(name = "CodeTarif", referencedColumnName = "CodeTarif", insertable = false, updatable = false)
     private Timbre timbre;
 }
+
+

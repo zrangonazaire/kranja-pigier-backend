@@ -1,5 +1,6 @@
 package com.pigierbackend.permission;
 
+import jakarta.persistence.Column;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.pigierbackend.abstractentity.AbstractEntity;
@@ -23,6 +24,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor // Ajout du constructeur par défaut requis par JPA
 @Builder
 public class Permission extends AbstractEntity implements GrantedAuthority {
+    @Column(unique = true)
     String nomPermission;
     String descriptionPermission;
     String module; // Employé, Client, Commande, etc.

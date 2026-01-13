@@ -13,7 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Entity
-@Table(name = "Règlements")
+@Table(name = "R\u00e8glements")
 @Builder
 @Data
 public class Reglement {
