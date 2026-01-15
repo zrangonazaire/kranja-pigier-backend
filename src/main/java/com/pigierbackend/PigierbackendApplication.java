@@ -1,5 +1,6 @@
 package com.pigierbackend;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.pigierbackend.permission.Permission;
@@ -87,6 +88,9 @@ public class PigierbackendApplication extends SpringBootServletInitializer { // 
             URole roleAdmin = roleRepository.findByNomRole("ROLE_ADMIN")
                     .orElseGet(() -> roleRepository.save(new URole("ROLE_ADMIN", "Administrateur",
                             Set.of(lirePreinscription, ecrirePreinscription, modifPreinscription))));
+            Set<Permission> allPermissions = new HashSet<>(permissionRepository.findAll());
+            roleAdmin.setPermission(allPermissions);
+            roleRepository.save(roleAdmin);
             URole roleCommerciale = roleRepository.findByNomRole("ROLE_COMMERCIALE").orElseGet(() -> {
                 URole role = new URole("ROLE_COMMERCIALE", "Commerciale",
                         Set.of(lirePreinscription, ecrirePreinscription, modifPreinscription));
