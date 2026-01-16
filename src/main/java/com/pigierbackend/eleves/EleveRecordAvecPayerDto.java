@@ -12,9 +12,11 @@ import lombok.Setter;
 @Setter
 @Builder
 public class EleveRecordAvecPayerDto {
+    private String matriElev;
     private String nom;
     private String prenoms;
     private LocalDateTime dateNaissance;
+    private String lieunaisElev;
     private String sexe;
     private String emailPersonnel;
     private String codeDetcla;

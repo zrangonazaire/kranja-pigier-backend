@@ -162,4 +162,36 @@ public class EleveController {
         }
     }
 
+    @GetMapping("/getPromotionsElevesExcels")
+    public ResponseEntity<byte[]> getPromotionsElevesExcels(
+            @RequestParam List<String> promotions,
+            @RequestParam List<String> etablissements,
+            @RequestParam String anneeScolaire,
+            @RequestParam String startStr,
+            @RequestParam String endStr) throws Exception {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startStr, formatter);
+        LocalDate endDate = LocalDate.parse(endStr, formatter);
+
+        byte[] excelData = eleveService.getPromotionsElevesExcels(
+                promotions, etablissements, anneeScolaire, startDate, endDate
+        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(
+                MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+        );
+        headers.setContentDispositionFormData(
+                "attachment", "promotions_eleves.xlsx"
+        );
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(excelData);
+    }
+
+
 }

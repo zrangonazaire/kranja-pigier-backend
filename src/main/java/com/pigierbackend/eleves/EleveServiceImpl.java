@@ -229,9 +229,11 @@ public class EleveServiceImpl implements EleveService {
                 String nom = parts.length > 0 ? parts[0] : "";
                 String prenoms = parts.length > 1 ? parts[1] : "";
                 return new EleveRecordDTO(
+                        e.getMatriElev(),
                         nom,
                         prenoms,
                         e.getDatenaisElev(),
+                        e.getLieunaisElev(),
                         e.getSexeElev(),
                         e.getUnivmetiers(),
                         e.getCodeDetcla(),
@@ -243,92 +245,112 @@ public class EleveServiceImpl implements EleveService {
     }
 
     @Override
-    public byte[] getPromotionsElevesExcel(List<String> promotions, List<String> etablissements, String anneeScolaire,
-            LocalDate dateDebut, LocalDate dateFin)
-            throws Exception {
-        List<EleveRecordDTO> etudiants = getPromotionsEleves(promotions, etablissements, anneeScolaire, dateDebut,
-                dateFin);
+    public byte[] getPromotionsElevesExcel(List<String> promotions,
+                                           List<String> etablissements,
+                                           String anneeScolaire,
+                                           LocalDate dateDebut,
+                                           LocalDate dateFin) throws Exception {
+
+        List<EleveRecordDTO> etudiants = getPromotionsEleves(
+                promotions, etablissements, anneeScolaire, dateDebut, dateFin
+        );
+
         String path = "src/main/resources/templates/ETUDIANTS.xlsx";
         File file = ResourceUtils.getFile(path);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         try (InputStream inputStream = new FileInputStream(file);
-                Workbook workbook = new XSSFWorkbook(inputStream); // ← plus robuste que new XSSFWorkbook
-                ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+             Workbook workbook = new XSSFWorkbook(inputStream);
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            int i = 3; // ligne de départ
+            int i = 3; // ligne de départ (après l'entête)
+
             for (EleveRecordDTO etudiant : etudiants) {
+
                 Row row = sheet.getRow(i);
                 if (row == null) {
                     row = sheet.createRow(i);
                 }
 
-                // colonne 0 → Nom
-                Cell cellNom = row.getCell(0);
-                if (cellNom == null)
-                    cellNom = row.createCell(0);
+                // 0 → Matricule
+                Cell cellMatricule = row.getCell(0);
+                if (cellMatricule == null) cellMatricule = row.createCell(0);
+                cellMatricule.setCellValue(
+                        etudiant.getMatriElev() != null ? etudiant.getMatriElev() : ""
+                );
+
+                // 1 → Nom
+                Cell cellNom = row.getCell(1);
+                if (cellNom == null) cellNom = row.createCell(1);
                 cellNom.setCellValue(etudiant.getNom());
 
-                // colonne 1 → Prénoms
-                Cell cellPrenom = row.getCell(1);
-                if (cellPrenom == null)
-                    cellPrenom = row.createCell(1);
+                // 2 → Prénoms
+                Cell cellPrenom = row.getCell(2);
+                if (cellPrenom == null) cellPrenom = row.createCell(2);
                 cellPrenom.setCellValue(etudiant.getPrenoms());
 
-                // colonne 2 → Date de naissance (convertir en texte ou en date Excel)
-                Cell cellDate = row.getCell(2);
-                if (cellDate == null)
-                    cellDate = row.createCell(2);
+                // 3 → Date de naissance
+                Cell cellDateNaiss = row.getCell(3);
+                if (cellDateNaiss == null) cellDateNaiss = row.createCell(3);
                 if (etudiant.getDateNaissance() != null) {
-                    cellDate.setCellValue(etudiant.getDateNaissance().format(formatter).toString());
+                    cellDateNaiss.setCellValue(
+                            etudiant.getDateNaissance().format(formatter)
+                    );
                 }
 
-                // colonne 3 → Sexe
-                Cell cellSexe = row.getCell(3);
-                if (cellSexe == null)
-                    cellSexe = row.createCell(3);
+                // 4 → Lieu de naissance
+                Cell cellLieuNaiss = row.getCell(4);
+                if (cellLieuNaiss == null) cellLieuNaiss = row.createCell(4);
+                cellLieuNaiss.setCellValue(
+                        etudiant.getLieunaisElev() != null ? etudiant.getLieunaisElev() : ""
+                );
+
+                // 5 → Sexe
+                Cell cellSexe = row.getCell(5);
+                if (cellSexe == null) cellSexe = row.createCell(5);
                 cellSexe.setCellValue(etudiant.getSexe());
 
-                // colonne 4 → CodeDetcla
-                Cell cellCode = row.getCell(4);
-                if (cellCode == null)
-                    cellCode = row.createCell(4);
-                cellCode.setCellValue(etudiant.getCodeDetcla());
+                // 6 → Promotions
+                Cell cellPromo = row.getCell(6);
+                if (cellPromo == null) cellPromo = row.createCell(6);
+                cellPromo.setCellValue(etudiant.getCodeDetcla());
 
-                // colonne 5 → Email personnel
-                Cell cellEmail = row.getCell(5);
-                if (cellEmail == null)
-                    cellEmail = row.createCell(5);
-                cellEmail.setCellValue(etudiant.getEmailPersonnel());
+                // 7 → E-mail institutionnel
+                Cell cellEmail = row.getCell(7);
+                if (cellEmail == null) cellEmail = row.createCell(7);
+                cellEmail.setCellValue(
+                        etudiant.getEmailPersonnel() != null ? etudiant.getEmailPersonnel() : ""
+                );
 
-                Cell cellDest = row.getCell(6);
-                if (cellDest == null)
-                    cellDest = row.createCell(6);
-                if (etudiant.getEmailPersonnel().length() > 0) {
-                    cellDest.setCellValue("1");
-                } else {
-                    cellDest.setCellValue("0");
-                }
+                // 8 → Numéro étudiant
+                Cell cellTelEleve = row.getCell(8);
+                if (cellTelEleve == null) cellTelEleve = row.createCell(8);
+                cellTelEleve.setCellValue(
+                        etudiant.getTelEleve() != null ? etudiant.getTelEleve() : ""
+                );
 
-                Cell cellTelEleve = row.getCell(7);
-                if (cellTelEleve == null)
-                    cellTelEleve = row.createCell(7);
-                cellTelEleve.setCellValue(etudiant.getTelEleve());
-                Cell cellTelParent = row.getCell(8);
-                if (cellTelParent == null)
-                    cellTelParent = row.createCell(8);
-                cellTelParent.setCellValue(etudiant.getTelParent());
+                // 9 → Numéro parent
+                Cell cellTelParent = row.getCell(9);
+                if (cellTelParent == null) cellTelParent = row.createCell(9);
+                cellTelParent.setCellValue(
+                        etudiant.getTelParent() != null ? etudiant.getTelParent() : ""
+                );
+
                 i++;
             }
 
-            // Recalcul des formules (si tu en as)
-            workbook.getCreationHelper().createFormulaEvaluator().evaluateAll();
+            workbook.getCreationHelper()
+                    .createFormulaEvaluator()
+                    .evaluateAll();
 
             workbook.write(out);
             return out.toByteArray();
         }
     }
+
 
     @Override
     public List<String> getAllClasses(String anneeScolaire) throws Exception {
@@ -361,9 +383,11 @@ public class EleveServiceImpl implements EleveService {
                 java.math.BigDecimal soldScoElev = java.math.BigDecimal.valueOf(e.getSoldScoElev());
                 int montantPayer = montantScoElev.add(droitInscription).subtract(soldScoElev).intValue();
                 return new EleveRecordAvecPayerDto(
+                        e.getMatriElev(),
                         nom,
                         prenoms,
                         e.getDatenaisElev(),
+                        e.getLieunaisElev(),
                         e.getSexeElev(),
                         e.getUnivmetiers(),
                         e.getCodeDetcla(),
@@ -374,5 +398,108 @@ public class EleveServiceImpl implements EleveService {
             }).toList();
         }
     }
+
+    public byte[] getPromotionsElevesExcels(List<String> promotions,
+                                           List<String> etablissements,
+                                           String anneeScolaire,
+                                           LocalDate dateDebut,
+                                           LocalDate dateFin) throws Exception {
+
+        List<EleveRecordDTO> etudiants = getPromotionsEleves(
+                promotions, etablissements, anneeScolaire, dateDebut, dateFin
+        );
+
+        try (Workbook workbook = new XSSFWorkbook();
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
+            Sheet sheet = workbook.createSheet("Élèves");
+
+            // =========================
+            // Styles
+            // =========================
+            CellStyle headerStyle = workbook.createCellStyle();
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerStyle.setFont(headerFont);
+            headerStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerStyle.setBorderBottom(BorderStyle.THIN);
+
+            CellStyle dataStyle = workbook.createCellStyle();
+            dataStyle.setBorderBottom(BorderStyle.THIN);
+
+            CellStyle dateStyle = workbook.createCellStyle();
+            CreationHelper creationHelper = workbook.getCreationHelper();
+            dateStyle.setDataFormat(
+                    creationHelper.createDataFormat().getFormat("dd/MM/yyyy")
+            );
+
+            // =========================
+            // Entêtes
+            // =========================
+            String[] headers = {
+                    "Matricule",
+                    "Nom",
+                    "Prénom",
+                    "Né(e) le",
+                    "Lieu de naissance",
+                    "Sexe",
+                    "Promotion",
+                    "E-mail institutionnel",
+                    "Téléphone étudiant",
+                    "Téléphone parent"
+            };
+
+            Row headerRow = sheet.createRow(0);
+            for (int col = 0; col < headers.length; col++) {
+                Cell cell = headerRow.createCell(col);
+                cell.setCellValue(headers[col]);
+                cell.setCellStyle(headerStyle);
+            }
+
+            // =========================
+            // Données
+            // =========================
+            int rowIdx = 1;
+            for (EleveRecordDTO e : etudiants) {
+
+                Row row = sheet.createRow(rowIdx++);
+
+                row.createCell(0).setCellValue(nullSafe(e.getMatriElev()));
+                row.createCell(1).setCellValue(nullSafe(e.getNom()));
+                row.createCell(2).setCellValue(nullSafe(e.getPrenoms()));
+
+                // Date de naissance
+                Cell dateCell = row.createCell(3);
+                if (e.getDateNaissance() != null) {
+                    dateCell.setCellValue(
+                            java.sql.Timestamp.valueOf(e.getDateNaissance())
+                    );
+                    dateCell.setCellStyle(dateStyle);
+                }
+
+                row.createCell(4).setCellValue(nullSafe(e.getLieunaisElev()));
+                row.createCell(5).setCellValue(nullSafe(e.getSexe()));
+                row.createCell(6).setCellValue(nullSafe(e.getCodeDetcla()));
+                row.createCell(7).setCellValue(nullSafe(e.getEmailPersonnel()));
+                row.createCell(8).setCellValue(nullSafe(e.getTelEleve()));
+                row.createCell(9).setCellValue(nullSafe(e.getTelParent()));
+            }
+
+            // =========================
+            // Auto-size
+            // =========================
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            workbook.write(out);
+            return out.toByteArray();
+        }
+    }
+
+    private String nullSafe(String value) {
+        return value == null ? "" : value;
+    }
+
 
 }

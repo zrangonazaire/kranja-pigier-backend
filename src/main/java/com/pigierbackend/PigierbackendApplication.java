@@ -85,13 +85,13 @@ public class PigierbackendApplication extends SpringBootServletInitializer { // 
                                     .canEdit(true)
                                     .canDelete(false)
                                     .build()));
-            URole roleAdmin = roleRepository.findByNomRole("ROLE_ADMIN")
+            URole roleAdmin = roleRepository.findFirstByNomRoleOrderByIdAsc("ROLE_ADMIN")
                     .orElseGet(() -> roleRepository.save(new URole("ROLE_ADMIN", "Administrateur",
                             Set.of(lirePreinscription, ecrirePreinscription, modifPreinscription))));
             Set<Permission> allPermissions = new HashSet<>(permissionRepository.findAll());
             roleAdmin.setPermission(allPermissions);
             roleRepository.save(roleAdmin);
-            URole roleCommerciale = roleRepository.findByNomRole("ROLE_COMMERCIALE").orElseGet(() -> {
+            URole roleCommerciale = roleRepository.findFirstByNomRoleOrderByIdAsc("ROLE_COMMERCIALE").orElseGet(() -> {
                 URole role = new URole("ROLE_COMMERCIALE", "Commerciale",
                         Set.of(lirePreinscription, ecrirePreinscription, modifPreinscription));
                 return roleRepository.save(role);

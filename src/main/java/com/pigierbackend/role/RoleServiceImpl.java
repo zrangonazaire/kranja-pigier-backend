@@ -65,7 +65,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleResponse findByNomRole(String nomRole) {
-       return roleRepository.findByNomRole(nomRole)
+       return roleRepository.findFirstByNomRoleOrderByIdAsc(nomRole)
                .map(URole::toRoleResponse)
                .orElseThrow(() -> new RuntimeException("Rôle non trouvé avec le nom " + nomRole));
     }

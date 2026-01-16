@@ -12,16 +12,18 @@ import lombok.Setter;
 @Setter
 @Builder
 public class EleveRecordDTO {
+    private String matriElev;
     private String nom;
     private String prenoms;
     private LocalDateTime dateNaissance;
+    private String lieunaisElev;
     private String sexe;
     private String emailPersonnel;
     private String codeDetcla;
     private String telEleve;
     private String telParent;
-    
-   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateIns;
 
 }
