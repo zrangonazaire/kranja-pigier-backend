@@ -27,9 +27,9 @@ public interface EleveRepository extends JpaRepository<ELEVE, String> {
                 SELECT e
                 FROM ELEVE e
                 WHERE e.codeDetcla <> ''
-                  AND e.codeDetcla NOT LIKE 'aban%'
-                  AND e.codeDetcla IN :promotions
-                  AND e.etabSource IN :etablissements
+                  AND UPPER(TRIM(e.codeDetcla)) NOT LIKE 'ABAN%'
+                  AND UPPER(TRIM(e.codeDetcla)) IN :promotions
+                  AND UPPER(TRIM(e.etabSource)) IN :etablissements
                   AND e.anneeScoElev = :anneeScolaire
                   AND CAST(e.dateInscriEleve AS date) BETWEEN :startDate AND :endDate
                 ORDER BY e.codeDetcla, e.nomElev
@@ -40,6 +40,24 @@ public interface EleveRepository extends JpaRepository<ELEVE, String> {
             @Param("anneeScolaire") String anneeScolaire,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate);
+
+//    @Query("""
+//                SELECT e
+//                FROM ELEVE e
+//                WHERE e.codeDetcla <> ''
+//                  AND UPPER(TRIM(e.codeDetcla)) NOT LIKE 'ABAN%'
+//                  AND UPPER(TRIM(e.codeDetcla)) LIKE :promotionPattern
+//                  AND UPPER(TRIM(e.etabSource)) IN :etablissements
+//                  AND e.anneeScoElev = :anneeScolaire
+//                  AND CAST(e.dateInscriEleve AS date) BETWEEN :startDate AND :endDate
+//                ORDER BY e.codeDetcla, e.nomElev
+//            """)
+//    Stream<ELEVE> findValidElevesByPromotionPatternAsStream(
+//            @Param("promotionPattern") String promotionPattern,
+//            @Param("etablissements") List<String> etablissements,
+//            @Param("anneeScolaire") String anneeScolaire,
+//            @Param("startDate") LocalDate startDate,
+//            @Param("endDate") LocalDate endDate);
 
     @Query("""
                 SELECT DISTINCT e.codeDetcla
@@ -74,4 +92,116 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
     @Param("endDate") LocalDate endDate,
     @Param("montantDu") int montantDu
 );
+
+    @Query("""
+        SELECT e
+        FROM ELEVE e
+        WHERE e.codeDetcla <> ''
+          AND UPPER(TRIM(e.codeDetcla)) NOT LIKE 'ABAN%'
+          AND UPPER(TRIM(e.codeDetcla)) IN :promotions
+          AND UPPER(TRIM(e.etabSource)) IN :etablissements
+          AND e.anneeScoElev = :anneeScolaire
+          AND (
+                CASE
+                    WHEN EXISTS (
+                        SELECT 1 FROM EncaissementElevePL encR
+                        WHERE encR.matriElev = e.matriElev
+                          AND encR.objetEncais = 'R'
+                    )
+                    THEN (
+                        SELECT MAX(encR2.dateEncais) FROM EncaissementElevePL encR2
+                        WHERE encR2.matriElev = e.matriElev
+                          AND encR2.objetEncais = 'R'
+                    )
+                    ELSE (
+                        SELECT MAX(encI.dateEncais) FROM EncaissementElevePL encI
+                        WHERE encI.matriElev = e.matriElev
+                          AND encI.objetEncais = 'I'
+                    )
+                END
+          ) IS NOT NULL
+          AND CAST((
+                CASE
+                    WHEN EXISTS (
+                        SELECT 1 FROM EncaissementElevePL encR
+                        WHERE encR.matriElev = e.matriElev
+                          AND encR.objetEncais = 'R'
+                    )
+                    THEN (
+                        SELECT MAX(encR2.dateEncais) FROM EncaissementElevePL encR2
+                        WHERE encR2.matriElev = e.matriElev
+                          AND encR2.objetEncais = 'R'
+                    )
+                    ELSE (
+                        SELECT MAX(encI.dateEncais) FROM EncaissementElevePL encI
+                        WHERE encI.matriElev = e.matriElev
+                          AND encI.objetEncais = 'I'
+                    )
+                END
+          ) AS date) BETWEEN :startDate AND :endDate
+        ORDER BY e.codeDetcla, e.nomElev
+    """)
+    Stream<ELEVE> findValidElevesAsStreamByEncaissementDate(
+            @Param("promotions") List<String> promotions,
+            @Param("etablissements") List<String> etablissements,
+            @Param("anneeScolaire") String anneeScolaire,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
+    @Query("""
+        SELECT e
+        FROM ELEVE e
+        WHERE e.codeDetcla <> ''
+          AND UPPER(TRIM(e.codeDetcla)) NOT LIKE 'ABAN%'
+          AND UPPER(TRIM(e.codeDetcla)) LIKE :promotionPattern
+          AND UPPER(TRIM(e.etabSource)) IN :etablissements
+          AND e.anneeScoElev = :anneeScolaire
+          AND (
+                CASE
+                    WHEN EXISTS (
+                        SELECT 1 FROM EncaissementElevePL encR
+                        WHERE encR.matriElev = e.matriElev
+                          AND encR.objetEncais = 'R'
+                    )
+                    THEN (
+                        SELECT MAX(encR2.dateEncais) FROM EncaissementElevePL encR2
+                        WHERE encR2.matriElev = e.matriElev
+                          AND encR2.objetEncais = 'R'
+                    )
+                    ELSE (
+                        SELECT MAX(encI.dateEncais) FROM EncaissementElevePL encI
+                        WHERE encI.matriElev = e.matriElev
+                          AND encI.objetEncais = 'I'
+                    )
+                END
+          ) IS NOT NULL
+          AND CAST((
+                CASE
+                    WHEN EXISTS (
+                        SELECT 1 FROM EncaissementElevePL encR
+                        WHERE encR.matriElev = e.matriElev
+                          AND encR.objetEncais = 'R'
+                    )
+                    THEN (
+                        SELECT MAX(encR2.dateEncais) FROM EncaissementElevePL encR2
+                        WHERE encR2.matriElev = e.matriElev
+                          AND encR2.objetEncais = 'R'
+                    )
+                    ELSE (
+                        SELECT MAX(encI.dateEncais) FROM EncaissementElevePL encI
+                        WHERE encI.matriElev = e.matriElev
+                          AND encI.objetEncais = 'I'
+                    )
+                END
+          ) AS date) BETWEEN :startDate AND :endDate
+        ORDER BY e.codeDetcla, e.nomElev
+    """)
+    Stream<ELEVE> findValidElevesByPromotionPatternAsStreamByEncaissementDate(
+            @Param("promotionPattern") String promotionPattern,
+            @Param("etablissements") List<String> etablissements,
+            @Param("anneeScolaire") String anneeScolaire,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
 }
