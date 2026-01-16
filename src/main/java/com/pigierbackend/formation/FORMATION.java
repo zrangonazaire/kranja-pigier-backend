@@ -22,3 +22,4 @@ public class FORMATION extends AbstractEntity {
     String nomFormation;
 
 }
+    

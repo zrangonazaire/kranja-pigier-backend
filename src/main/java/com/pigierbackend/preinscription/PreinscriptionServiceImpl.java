@@ -135,7 +135,7 @@ public class PreinscriptionServiceImpl implements PreinscriptionService {
                     p.setDecision(preinscriptionYakroRequestDto.getDecision());
                     p.setMaladies(preinscriptionYakroRequestDto.getMaladies());
                     p.setCommuneResponsable(preinscriptionYakroRequestDto.getCommuneResponsable());
-                    p.setEmployeurResponsable(preinscriptionYakroRequestDto.getEmployeurResponsable());
+                    // p.setEmployeurResponsable(preinscriptionYakroRequestDto.getEmployeurResponsable());
                     p.setInterventionsChirurgicales(preinscriptionYakroRequestDto.getInterventionsChirurgicales());
                     p.setLieuNaissance(preinscriptionYakroRequestDto.getLieuNaissance());
                     p.setNomClinique(preinscriptionYakroRequestDto.getNomClinique());

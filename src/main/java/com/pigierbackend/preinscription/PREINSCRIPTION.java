@@ -26,6 +26,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class PREINSCRIPTION {
         @Id
     @Column(name = "id", length = 12, nullable = false)

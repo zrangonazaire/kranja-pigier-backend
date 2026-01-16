@@ -22,6 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import java.io.ObjectInputFilter; // Ajouté: filtre global pour la désérialisation (mitigation CVE)
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +40,16 @@ public class PigierbackendApplication extends SpringBootServletInitializer { // 
     }
 
     public static void main(String[] args) {
+        // Mitigation: apply a conservative deserialization filter to block unsafe classes
+        // This reduces risk from libraries (ex: JasperReports) that may perform deserialization
+        // See: CVE-2025-10492 (JasperReports) — apply filtering until an upstream patch is available
+        var baseFilter = ObjectInputFilter.Config.createFilter("java.base/*;com.pigierbackend.*;org.springframework.*;!*");
+        var rejectDangerous = ObjectInputFilter.rejectFilter(cl ->
+                cl == java.lang.Runtime.class || cl == java.lang.ProcessBuilder.class || cl == java.lang.Class.class,
+                ObjectInputFilter.Status.REJECTED);
+        var combined = ObjectInputFilter.merge(rejectDangerous, baseFilter);
+        ObjectInputFilter.Config.setSerialFilter(ObjectInputFilter.rejectUndecidedClass(combined));
+
         SpringApplication.run(PigierbackendApplication.class, args);
     }
 
