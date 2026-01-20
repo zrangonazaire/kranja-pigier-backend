@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,11 +68,11 @@ public class EleveServiceImpl implements EleveService {
             return JasperExportManager.exportReportToPdf(jasperPrint);
 
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du rapport : " + e.getMessage());
             e.printStackTrace();
             throw new Exception("Erreur: " + e.getMessage());
         } finally {
-            // Fermer les ressources si nécessaire
+            // Fermer les ressources si nÃ©cessaire
             if (dataSource != null) {
                 try {
                     dataSource.getConnection().close();
@@ -94,11 +96,11 @@ public class EleveServiceImpl implements EleveService {
             conn = dataSource.getConnection();
             stmt = conn.createStatement();
 
-            // Exécuter la requête SQL (adaptez-la selon vos besoins)
+            // ExÃ©cuter la requÃªte SQL (adaptez-la selon vos besoins)
             String sql = "SELECT e.Matri_Elev, e.Nom_Elev, e.Lieunais_Elev, e.Datenais_Elev, " +
                     "e.Sexe_Elev, e.celetud, n.Des_Nat, e.Code_Detcla, e.DateInscri_Eleve " +
-                    "FROM \"Nationalité\" n " +
-                    "INNER JOIN \"Elèves\" e ON e.\"Code_Nat\" = n.\"Code_Nat\" " +
+                    "FROM \"NationalitÃ©\" n " +
+                    "INNER JOIN \"ElÃ¨ves\" e ON e.\"Code_Nat\" = n.\"Code_Nat\" " +
                     "WHERE e.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
                     "AND e.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
                     "AND e.\"DateInscri_Eleve\" BETWEEN '" + parameters.get("PARAMDATEDEBUT") + "' " +
@@ -106,7 +108,7 @@ public class EleveServiceImpl implements EleveService {
                     "UNION " +
                     "SELECT h.\"Matri_Elev\", h.\"Nom_Elev\", h.\"Lieunais_Elev\", h.\"Datenais_Elev\", " +
                     "h.\"Sexe_Elev\", h.celetud, n.\"Des_Nat\", h.\"Code_Detcla\", h.\"DateInscri_Eleve\" " +
-                    "FROM \"Nationalité\" n " +
+                    "FROM \"NationalitÃ©\" n " +
                     "INNER JOIN \"Historique\" h ON h.\"Code_Nat\" = n.\"Code_Nat\" " +
                     "WHERE h.\"AnneeSco_Elev\" = '" + parameters.get("PARAMEANNE") + "' " +
                     "AND h.\"Code_Detcla\" LIKE '%" + parameters.get("PARAMCLASSE") + "%' " +
@@ -116,11 +118,11 @@ public class EleveServiceImpl implements EleveService {
 
             rs = stmt.executeQuery(sql);
 
-            // Créer un nouveau workbook Excel
+            // CrÃ©er un nouveau workbook Excel
             workbook = new XSSFWorkbook();
-            Sheet sheet = workbook.createSheet("Liste des Élèves");
+            Sheet sheet = workbook.createSheet("Liste des Ã‰lÃ¨ves");
 
-            // Créer le style pour l'en-tête
+            // CrÃ©er le style pour l'en-tÃªte
             CellStyle headerStyle = workbook.createCellStyle();
             headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
             headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -129,10 +131,10 @@ public class EleveServiceImpl implements EleveService {
             headerFont.setColor(IndexedColors.WHITE.getIndex());
             headerStyle.setFont(headerFont);
 
-            // Créer la ligne d'en-tête
+            // CrÃ©er la ligne d'en-tÃªte
             Row headerRow = sheet.createRow(0);
             String[] headers = { "Matricule", "Nom", "Lieu de naissance", "Date de naissance",
-                    "Sexe", "Téléphone", "Nationalité", "Classe" };
+                    "Sexe", "TÃ©lÃ©phone", "NationalitÃ©", "Classe" };
 
             for (int i = 0; i < headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
@@ -140,7 +142,7 @@ public class EleveServiceImpl implements EleveService {
                 cell.setCellStyle(headerStyle);
             }
 
-            // Remplir les données
+            // Remplir les donnÃ©es
             int rowNum = 1;
             while (rs.next()) {
                 Row row = sheet.createRow(rowNum++);
@@ -169,14 +171,14 @@ public class EleveServiceImpl implements EleveService {
                 sheet.autoSizeColumn(i);
             }
 
-            // Écrire le workbook dans le ByteArrayOutputStream
+            // Ã‰crire le workbook dans le ByteArrayOutputStream
             workbook.write(out);
             return out.toByteArray();
 
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du fichier Excel : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du fichier Excel : " + e.getMessage());
             e.printStackTrace();
-            throw new Exception("Erreur lors de la génération Excel: " + e.getMessage());
+            throw new Exception("Erreur lors de la gÃ©nÃ©ration Excel: " + e.getMessage());
         } finally {
             // Fermer les ressources
             try {
@@ -212,123 +214,228 @@ public class EleveServiceImpl implements EleveService {
         }
     }
 
+//    @Override
+//    public List<EleveRecordDTO> getPromotionsEleves(List<String> promotions, List<String> etablissements,
+//            String anneeScolaire, LocalDate dateDebut, LocalDate dateFin) throws Exception {
+//        String annSco = anneeScolaire.replace("-", "/").trim();
+//        List<String> normalizedPromotions = promotions == null ? List.of()
+//                : promotions.stream()
+//                        .filter(Objects::nonNull)
+//                        .map(String::trim)
+//                        .filter(value -> !value.isEmpty())
+//                        .map(value -> value.toUpperCase(Locale.ROOT))
+//                        .toList();
+//        List<String> normalizedEtablissements = etablissements == null ? List.of()
+//                : etablissements.stream()
+//                        .filter(Objects::nonNull)
+//                        .map(String::trim)
+//                        .filter(value -> !value.isEmpty())
+//                        .map(value -> value.toUpperCase(Locale.ROOT))
+//                        .toList();
+//        if (normalizedPromotions.isEmpty() || normalizedEtablissements.isEmpty()) {
+//            return List.of(); // renvoie une liste vide pour Ç¸viter erreur SQL
+//        }
+//        log.info(
+//                "Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
+//                normalizedPromotions, normalizedEtablissements, annSco, dateDebut, dateFin);
+//        if (normalizedPromotions.size() == 1) {
+//            String promotion = normalizedPromotions.get(0);
+//            if (promotion.contains("*") || promotion.contains("%")) {
+//                String likePattern = promotion.replace("*", "%");
+//                try (Stream<ELEVE> stream = eleveRepository.findValidElevesByPromotionPatternAsStream(likePattern,
+//                        normalizedEtablissements, annSco, dateDebut, dateFin)) {
+//                    return mapEleves(stream);
+//                }
+//            }
+//        }
+//        try (Stream<ELEVE> stream = eleveRepository.findValidElevesAsStream(normalizedPromotions,
+//                normalizedEtablissements, annSco, dateDebut, dateFin)) {
+//            return mapEleves(stream);
+//        }
+//    }
+
     @Override
-    public List<EleveRecordDTO> getPromotionsEleves(List<String> promotions, List<String> etablissements,
-            String anneeScolaire, LocalDate dateDebut, LocalDate dateFin) throws Exception {
-        String annSco = anneeScolaire.replace("-", "/");
-        if (promotions == null || promotions.isEmpty() || etablissements == null || etablissements.isEmpty()) {
-            return List.of(); // renvoie une liste vide pour éviter erreur SQL
+    public List<EleveRecordDTO> getPromotionsEleves(List<String> promotions,
+                                                    List<String> etablissements,
+                                                    String anneeScolaire,
+                                                    LocalDate dateDebut,
+                                                    LocalDate dateFin) throws Exception {
+
+        String annSco = anneeScolaire.replace("-", "/").trim();
+
+        List<String> normalizedPromotions = promotions == null ? List.of()
+                : promotions.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(v -> !v.isEmpty())
+                .map(v -> v.toUpperCase(Locale.ROOT))
+                .toList();
+
+        List<String> normalizedEtablissements = etablissements == null ? List.of()
+                : etablissements.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(v -> !v.isEmpty())
+                .map(v -> v.toUpperCase(Locale.ROOT))
+                .toList();
+
+        if (normalizedPromotions.isEmpty() || normalizedEtablissements.isEmpty()) {
+            return List.of();
         }
-        log.info(
-                "Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
-                promotions, etablissements, annSco, dateDebut, dateFin);
-        try (Stream<ELEVE> stream = eleveRepository.findValidElevesAsStream(promotions, etablissements, annSco,
-                dateDebut, dateFin)) {
-            return stream.map(e -> {
-                String[] parts = e.getNomElev().trim().split("\\s+", 2);
-                String nom = parts.length > 0 ? parts[0] : "";
-                String prenoms = parts.length > 1 ? parts[1] : "";
-                return new EleveRecordDTO(
-                        nom,
-                        prenoms,
-                        e.getDatenaisElev(),
-                        e.getSexeElev(),
-                        e.getUnivmetiers(),
-                        e.getCodeDetcla(),
-                        e.getCeletud().isEmpty()?e.getTeletud():e.getCeletud(),
-                        e.getTelBurRespElev().isEmpty()?e.getTelDomRespElev():e.getTelBurRespElev(),
-                        e.getDateInscriEleve());
-            }).toList();
+
+        log.info("Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
+                normalizedPromotions, normalizedEtablissements, annSco, dateDebut, dateFin);
+
+        // Gestion wildcard si une seule promotion
+        if (normalizedPromotions.size() == 1) {
+            String promotion = normalizedPromotions.get(0);
+            if (promotion.contains("*") || promotion.contains("%")) {
+                String likePattern = promotion.replace("*", "%");
+                try (Stream<ELEVE> stream =
+                             eleveRepository.findValidElevesByPromotionPatternAsStreamByEncaissementDate(
+                                     likePattern, normalizedEtablissements, annSco, dateDebut, dateFin
+                             )) {
+                    return mapEleves(stream);
+                }
+            }
+        }
+
+        try (Stream<ELEVE> stream =
+                     eleveRepository.findValidElevesAsStreamByEncaissementDate(
+                             normalizedPromotions, normalizedEtablissements, annSco, dateDebut, dateFin
+                     )) {
+            return mapEleves(stream);
         }
     }
 
+
+    private List<EleveRecordDTO> mapEleves(Stream<ELEVE> stream) {
+        return stream.map(e -> {
+            String[] parts = e.getNomElev().trim().split("\\s+", 2);
+            String nom = parts.length > 0 ? parts[0] : "";
+            String prenoms = parts.length > 1 ? parts[1] : "";
+            return new EleveRecordDTO(
+                    e.getMatriElev(),
+                    nom,
+                    prenoms,
+                    e.getDatenaisElev(),
+                    e.getLieunaisElev(),
+                    e.getSexeElev(),
+                    e.getUnivmetiers(),
+                    e.getCodeDetcla(),
+                    e.getCeletud().isEmpty() ? e.getTeletud() : e.getCeletud(),
+                    e.getTelBurRespElev().isEmpty() ? e.getTelDomRespElev() : e.getTelBurRespElev(),
+                    e.getDateInscriEleve());
+        }).toList();
+    }
+
     @Override
-    public byte[] getPromotionsElevesExcel(List<String> promotions, List<String> etablissements, String anneeScolaire,
-            LocalDate dateDebut, LocalDate dateFin)
-            throws Exception {
-        List<EleveRecordDTO> etudiants = getPromotionsEleves(promotions, etablissements, anneeScolaire, dateDebut,
-                dateFin);
+    public byte[] getPromotionsElevesExcel(List<String> promotions,
+                                           List<String> etablissements,
+                                           String anneeScolaire,
+                                           LocalDate dateDebut,
+                                           LocalDate dateFin) throws Exception {
+
+        List<EleveRecordDTO> etudiants = getPromotionsEleves(
+                promotions, etablissements, anneeScolaire, dateDebut, dateFin
+        );
+
         String path = "src/main/resources/templates/ETUDIANTS.xlsx";
         File file = ResourceUtils.getFile(path);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         try (InputStream inputStream = new FileInputStream(file);
-                Workbook workbook = new XSSFWorkbook(inputStream); // ← plus robuste que new XSSFWorkbook
-                ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+             Workbook workbook = new XSSFWorkbook(inputStream);
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 
             Sheet sheet = workbook.getSheetAt(0);
 
-            int i = 3; // ligne de départ
+            int i = 3; // ligne de dÃ©part (aprÃ¨s l'entÃªte)
+
             for (EleveRecordDTO etudiant : etudiants) {
+
                 Row row = sheet.getRow(i);
                 if (row == null) {
                     row = sheet.createRow(i);
                 }
 
-                // colonne 0 → Nom
-                Cell cellNom = row.getCell(0);
-                if (cellNom == null)
-                    cellNom = row.createCell(0);
+                // 0 â†’ Matricule
+                Cell cellMatricule = row.getCell(0);
+                if (cellMatricule == null) cellMatricule = row.createCell(0);
+                cellMatricule.setCellValue(
+                        etudiant.getMatriElev() != null ? etudiant.getMatriElev() : ""
+                );
+
+                // 1 â†’ Nom
+                Cell cellNom = row.getCell(1);
+                if (cellNom == null) cellNom = row.createCell(1);
                 cellNom.setCellValue(etudiant.getNom());
 
-                // colonne 1 → Prénoms
-                Cell cellPrenom = row.getCell(1);
-                if (cellPrenom == null)
-                    cellPrenom = row.createCell(1);
+                // 2 â†’ PrÃ©noms
+                Cell cellPrenom = row.getCell(2);
+                if (cellPrenom == null) cellPrenom = row.createCell(2);
                 cellPrenom.setCellValue(etudiant.getPrenoms());
 
-                // colonne 2 → Date de naissance (convertir en texte ou en date Excel)
-                Cell cellDate = row.getCell(2);
-                if (cellDate == null)
-                    cellDate = row.createCell(2);
+                // 3 â†’ Date de naissance
+                Cell cellDateNaiss = row.getCell(3);
+                if (cellDateNaiss == null) cellDateNaiss = row.createCell(3);
                 if (etudiant.getDateNaissance() != null) {
-                    cellDate.setCellValue(etudiant.getDateNaissance().format(formatter).toString());
+                    cellDateNaiss.setCellValue(
+                            etudiant.getDateNaissance().format(formatter)
+                    );
                 }
 
-                // colonne 3 → Sexe
-                Cell cellSexe = row.getCell(3);
-                if (cellSexe == null)
-                    cellSexe = row.createCell(3);
+                // 4 â†’ Lieu de naissance
+                Cell cellLieuNaiss = row.getCell(4);
+                if (cellLieuNaiss == null) cellLieuNaiss = row.createCell(4);
+                cellLieuNaiss.setCellValue(
+                        etudiant.getLieunaisElev() != null ? etudiant.getLieunaisElev() : ""
+                );
+
+                // 5 â†’ Sexe
+                Cell cellSexe = row.getCell(5);
+                if (cellSexe == null) cellSexe = row.createCell(5);
                 cellSexe.setCellValue(etudiant.getSexe());
 
-                // colonne 4 → CodeDetcla
-                Cell cellCode = row.getCell(4);
-                if (cellCode == null)
-                    cellCode = row.createCell(4);
-                cellCode.setCellValue(etudiant.getCodeDetcla());
+                // 6 â†’ Promotions
+                Cell cellPromo = row.getCell(6);
+                if (cellPromo == null) cellPromo = row.createCell(6);
+                cellPromo.setCellValue(etudiant.getCodeDetcla());
 
-                // colonne 5 → Email personnel
-                Cell cellEmail = row.getCell(5);
-                if (cellEmail == null)
-                    cellEmail = row.createCell(5);
-                cellEmail.setCellValue(etudiant.getEmailPersonnel());
+                // 7 â†’ E-mail institutionnel
+                Cell cellEmail = row.getCell(7);
+                if (cellEmail == null) cellEmail = row.createCell(7);
+                cellEmail.setCellValue(
+                        etudiant.getEmailPersonnel() != null ? etudiant.getEmailPersonnel() : ""
+                );
 
-                Cell cellDest = row.getCell(6);
-                if (cellDest == null)
-                    cellDest = row.createCell(6);
-                if (etudiant.getEmailPersonnel().length() > 0) {
-                    cellDest.setCellValue("1");
-                } else {
-                    cellDest.setCellValue("0");
-                }
+                // 8 â†’ NumÃ©ro Ã©tudiant
+                Cell cellTelEleve = row.getCell(8);
+                if (cellTelEleve == null) cellTelEleve = row.createCell(8);
+                cellTelEleve.setCellValue(
+                        etudiant.getTelEleve() != null ? etudiant.getTelEleve() : ""
+                );
 
-                Cell cellTelEleve = row.getCell(7);
-                if (cellTelEleve == null)
-                    cellTelEleve = row.createCell(7);
-                cellTelEleve.setCellValue(etudiant.getTelEleve());
-                Cell cellTelParent = row.getCell(8);
-                if (cellTelParent == null)
-                    cellTelParent = row.createCell(8);
-                cellTelParent.setCellValue(etudiant.getTelParent());
+                // 9 â†’ NumÃ©ro parent
+                Cell cellTelParent = row.getCell(9);
+                if (cellTelParent == null) cellTelParent = row.createCell(9);
+                cellTelParent.setCellValue(
+                        etudiant.getTelParent() != null ? etudiant.getTelParent() : ""
+                );
+
                 i++;
             }
 
-            // Recalcul des formules (si tu en as)
-            workbook.getCreationHelper().createFormulaEvaluator().evaluateAll();
+            workbook.getCreationHelper()
+                    .createFormulaEvaluator()
+                    .evaluateAll();
 
             workbook.write(out);
             return out.toByteArray();
         }
     }
+
 
     @Override
     public List<String> getAllClasses(String anneeScolaire) throws Exception {
@@ -344,7 +451,7 @@ public class EleveServiceImpl implements EleveService {
             throws Exception {
         String annSco = anneeScolaire.replace("-", "/");
         if (promotions == null || promotions.isEmpty() || etablissements == null || etablissements.isEmpty()) {
-            return List.of(); // renvoie une liste vide pour éviter erreur SQL
+            return List.of(); // renvoie une liste vide pour Ã©viter erreur SQL
         }
         log.info(
                 "Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
@@ -361,9 +468,11 @@ public class EleveServiceImpl implements EleveService {
                 java.math.BigDecimal soldScoElev = java.math.BigDecimal.valueOf(e.getSoldScoElev());
                 int montantPayer = montantScoElev.add(droitInscription).subtract(soldScoElev).intValue();
                 return new EleveRecordAvecPayerDto(
+                        e.getMatriElev(),
                         nom,
                         prenoms,
                         e.getDatenaisElev(),
+                        e.getLieunaisElev(),
                         e.getSexeElev(),
                         e.getUnivmetiers(),
                         e.getCodeDetcla(),
@@ -375,4 +484,108 @@ public class EleveServiceImpl implements EleveService {
         }
     }
 
+    public byte[] getPromotionsElevesExcels(List<String> promotions,
+                                           List<String> etablissements,
+                                           String anneeScolaire,
+                                           LocalDate dateDebut,
+                                           LocalDate dateFin) throws Exception {
+
+        List<EleveRecordDTO> etudiants = getPromotionsEleves(
+                promotions, etablissements, anneeScolaire, dateDebut, dateFin
+        );
+
+        try (Workbook workbook = new XSSFWorkbook();
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
+            Sheet sheet = workbook.createSheet("Ã‰lÃ¨ves");
+
+            // =========================
+            // Styles
+            // =========================
+            CellStyle headerStyle = workbook.createCellStyle();
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerStyle.setFont(headerFont);
+            headerStyle.setAlignment(HorizontalAlignment.CENTER);
+            headerStyle.setBorderBottom(BorderStyle.THIN);
+
+            CellStyle dataStyle = workbook.createCellStyle();
+            dataStyle.setBorderBottom(BorderStyle.THIN);
+
+            CellStyle dateStyle = workbook.createCellStyle();
+            CreationHelper creationHelper = workbook.getCreationHelper();
+            dateStyle.setDataFormat(
+                    creationHelper.createDataFormat().getFormat("dd/MM/yyyy")
+            );
+
+            // =========================
+            // EntÃªtes
+            // =========================
+            String[] headers = {
+                    "Matricule",
+                    "Nom",
+                    "PrÃ©nom",
+                    "NÃ©(e) le",
+                    "Lieu de naissance",
+                    "Sexe",
+                    "Promotion",
+                    "E-mail institutionnel",
+                    "TÃ©lÃ©phone Ã©tudiant",
+                    "TÃ©lÃ©phone parent"
+            };
+
+            Row headerRow = sheet.createRow(0);
+            for (int col = 0; col < headers.length; col++) {
+                Cell cell = headerRow.createCell(col);
+                cell.setCellValue(headers[col]);
+                cell.setCellStyle(headerStyle);
+            }
+
+            // =========================
+            // DonnÃ©es
+            // =========================
+            int rowIdx = 1;
+            for (EleveRecordDTO e : etudiants) {
+
+                Row row = sheet.createRow(rowIdx++);
+
+                row.createCell(0).setCellValue(nullSafe(e.getMatriElev()));
+                row.createCell(1).setCellValue(nullSafe(e.getNom()));
+                row.createCell(2).setCellValue(nullSafe(e.getPrenoms()));
+
+                // Date de naissance
+                Cell dateCell = row.createCell(3);
+                if (e.getDateNaissance() != null) {
+                    dateCell.setCellValue(
+                            java.sql.Timestamp.valueOf(e.getDateNaissance())
+                    );
+                    dateCell.setCellStyle(dateStyle);
+                }
+
+                row.createCell(4).setCellValue(nullSafe(e.getLieunaisElev()));
+                row.createCell(5).setCellValue(nullSafe(e.getSexe()));
+                row.createCell(6).setCellValue(nullSafe(e.getCodeDetcla()));
+                row.createCell(7).setCellValue(nullSafe(e.getEmailPersonnel()));
+                row.createCell(8).setCellValue(nullSafe(e.getTelEleve()));
+                row.createCell(9).setCellValue(nullSafe(e.getTelParent()));
+            }
+
+            // =========================
+            // Auto-size
+            // =========================
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            workbook.write(out);
+            return out.toByteArray();
+        }
+    }
+
+    private String nullSafe(String value) {
+        return value == null ? "" : value;
+    }
+
+
 }
+

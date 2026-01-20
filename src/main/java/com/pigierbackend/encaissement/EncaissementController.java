@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
@@ -31,7 +32,7 @@ public class EncaissementController {
     final EncaissementService encaissementService;
 
     @GetMapping("/journalEncaissementsBetweenDates")
-    // @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
+@PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
     public ResponseEntity<byte[]> generateJournalEncaissementsBetweenDatesReport(
             @RequestParam List<String> modeRegParam,
             @RequestParam List<String> etablissementSourceParam,
@@ -56,13 +57,13 @@ public class EncaissementController {
                     .headers(headers)
                     .body(reportBytes);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/journalDroitInscBetweenDates")
-    // @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
+@PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
     public ResponseEntity<byte[]> generateJournalEncaissementsDroitInscriBetweenDatesReport(
             @RequestParam List<String> modeRegParam,
             @RequestParam List<String> etablissementSourceParam,
@@ -88,7 +89,7 @@ public class EncaissementController {
                     .headers(headers)
                     .body(reportBytes);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -107,7 +108,7 @@ public class EncaissementController {
             List<EncaissementDTO> reportData = encaissementService.getEncaissementsEntreDeuxPeriodeEtabSource(params);
             return ResponseEntity.ok(reportData);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -133,7 +134,7 @@ public class EncaissementController {
                     .headers(headers)
                     .body(reportBytes);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -159,7 +160,7 @@ public class EncaissementController {
                     .headers(headers)
                     .body(reportBytes);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -177,7 +178,7 @@ public class EncaissementController {
             List<EncaissementDTO> reportData = encaissementService.getEncaissementsChiffreAffaireEntreDeuxPeriodeEtabSource(params);
             return ResponseEntity.ok(reportData);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -195,7 +196,7 @@ public class EncaissementController {
             List<EncaissementDTO> reportData = encaissementService.getEncaissementsEntreDeuxPeriodeEtabSource(params);
             return ResponseEntity.ok(reportData);
         } catch (Exception e) {
-            System.out.println("Erreur lors de la génération du rapport : " + e.getMessage());
+            System.out.println("Erreur lors de la gÃ©nÃ©ration du rapport : " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
@@ -34,7 +35,7 @@ public class EleveController {
     final EleveService eleveService;
 
     @GetMapping(value = "/etatListeEtudiant", produces = MediaType.APPLICATION_PDF_VALUE)
-    // @PreAuthorize("hasAuthority('READ_ELEVE')")
+@PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab)
             throws Exception {
@@ -56,7 +57,7 @@ public class EleveController {
                     .body(reportBytes);
 
         } catch (Exception e) {
-            log.error("Erreur lors de la génération du rapport PDF : {}", e.getMessage(), e);
+            log.error("Erreur lors de la gÃ©nÃ©ration du rapport PDF : {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -64,7 +65,7 @@ public class EleveController {
     }
 
     @GetMapping("/etatListeEtudiantExcel")
-    // @PreAuthorize("hasAuthority('READ_ELEVE')")
+@PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiantExcel(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab)
             throws Exception {
@@ -86,7 +87,7 @@ public class EleveController {
                     .body(reportBytes);
 
         } catch (Exception e) {
-            log.error("Erreur lors de la génération du rapport Excel : {}", e.getMessage(), e);
+            log.error("Erreur lors de la gÃ©nÃ©ration du rapport Excel : {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -140,7 +141,7 @@ public class EleveController {
                     .headers(headers)
                     .body(excelData);
         } catch (Exception e) {
-            log.error("Erreur lors de la génération du rapport Excel pour les promotions : {}", e.getMessage(), e);
+            log.error("Erreur lors de la gÃ©nÃ©ration du rapport Excel pour les promotions : {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -151,9 +152,41 @@ public class EleveController {
             List<String> classes = eleveService.getAllClasses(anneeScolaire);
             return ResponseEntity.ok(classes);
         } catch (Exception e) {
-            log.error("Erreur lors de la récupération des classes : {}", e.getMessage(), e);
+            log.error("Erreur lors de la rÃ©cupÃ©ration des classes : {}", e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/getPromotionsElevesExcels")
+    public ResponseEntity<byte[]> getPromotionsElevesExcels(
+            @RequestParam List<String> promotions,
+            @RequestParam List<String> etablissements,
+            @RequestParam String anneeScolaire,
+            @RequestParam String startStr,
+            @RequestParam String endStr) throws Exception {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startStr, formatter);
+        LocalDate endDate = LocalDate.parse(endStr, formatter);
+
+        byte[] excelData = eleveService.getPromotionsElevesExcels(
+                promotions, etablissements, anneeScolaire, startDate, endDate
+        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(
+                MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+        );
+        headers.setContentDispositionFormData(
+                "attachment", "promotions_eleves.xlsx"
+        );
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(excelData);
+    }
+
 
 }

@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Elèves")
+@Table(name = "El\u00e8ves")
 @Getter
 @Setter
 public class ELEVE {
@@ -231,7 +231,7 @@ public class ELEVE {
     @Column(name = "Extrait_naissance")
     private Boolean extraitNaissance;
 
-    @Column(name = "Photocopie_diplômes")
+    @Column(name = "Photocopie_dipl\u00f4mes")
     private Boolean photocopieDiplomes;
 
     @Column(name = "Photocopie_Legalise_BAC")
@@ -240,13 +240,13 @@ public class ELEVE {
     @Column(name = "Photocopie_Bulletins")
     private Boolean photocopieBulletins;
 
-    @Column(name = "Photo_identité")
+    @Column(name = "Photo_identit\u00e9")
     private Boolean photoIdentite;
 
     @Column(name = "Fiche_demande_inscription")
     private Boolean ficheDemandeInscription;
 
-    @Column(name = "Fiche_médicale")
+    @Column(name = "Fiche_m\u00e9dicale")
     private Boolean ficheMedicale;
 
     @Column(name = "Cinq_enveloppes")

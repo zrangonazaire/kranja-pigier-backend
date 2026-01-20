@@ -43,8 +43,15 @@ public class PermissionServiceImpl implements PermissionService {
     public PermissionResponse update(Long id, PermissionRequest request) {
         Permission permission = permissionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Permission non trouvée avec l'id " + id));
+
         permission.setNomPermission(request.getNomPermission());
         permission.setDescriptionPermission(request.getDescriptionPermission());
+        permission.setModule(request.getModule());
+        permission.setCanRead(request.isCanRead());
+        permission.setCanWrite(request.isCanWrite());
+        permission.setCanEdit(request.isCanEdit());
+        permission.setCanDelete(request.isCanDelete());
+
         return permissionRepository.save(permission).toPermissionResponse();
     }
 
