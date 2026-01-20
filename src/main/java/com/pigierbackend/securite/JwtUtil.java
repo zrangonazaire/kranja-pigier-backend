@@ -69,14 +69,17 @@ public class JwtUtil {
 
             return roleMap;
         }));
-  
+
+        claims.putAll(extraClaims);
+
         return Jwts.builder()
-                .claims(extraClaims)
+                .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), Jwts.SIG.HS256)
                 .compact();
+
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -101,7 +104,9 @@ public class JwtUtil {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        String key = secretKey == null ? "" : secretKey.trim();  // <- IMPORTANT
+        byte[] keyBytes = Decoders.BASE64.decode(key);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
 }
