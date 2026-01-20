@@ -36,7 +36,13 @@ public class AuthenticationService {
     @Autowired
     JwtUtil jwtService;
 
+
+
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws Exception {
+        log.error("AUTH REQUEST = {}", request);
+        log.error("USERNAME = {}", request.getUsername());
+        log.error("PASSWORD = {}", request.getPassword());
+
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
