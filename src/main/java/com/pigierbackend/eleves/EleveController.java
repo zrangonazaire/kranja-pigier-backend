@@ -104,6 +104,7 @@ public class EleveController {
     // return ResponseEntity.ok(new ExampleResponse("Hello, World!"));
     // }
     @GetMapping(value = "/getPromotionsEleves", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('LIRE_ELEVE')")
     public ResponseEntity<List<EleveRecordDTO>> getPromotionsEleves(@RequestParam List<String> promotions,
             @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
             @RequestParam String startStr, @RequestParam String endStr) throws Exception {
