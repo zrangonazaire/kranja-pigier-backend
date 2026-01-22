@@ -49,7 +49,9 @@ public class SecurityConfig {
                         .httpStrictTransportSecurity(withDefaults()) // Désactiver le cache
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/v1/auth/**")
+                        .requestMatchers("/api/auth/**", "/api/v1/auth/**", "/auth/login", "/preinscription/**",
+                                "/api/v1/preinscription/**", "/encaissement/**", "/eleves/**","/api/v1/eleves/**", "/utilisateurs/**",
+                                "/permissions/**", "/roles/**","/annees-academiques/**","/recapinscri/**","/reports/**","/etateleveexcel/**")
                         .permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll()
