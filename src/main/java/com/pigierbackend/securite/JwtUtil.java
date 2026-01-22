@@ -70,10 +70,8 @@ public class JwtUtil {
             return roleMap;
         }));
 
-        claims.putAll(extraClaims);
-
         return Jwts.builder()
-                .claims(claims)
+                .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
