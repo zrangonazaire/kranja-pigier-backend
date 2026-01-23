@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class EtudiantController {
     @Autowired
     private EtudiantExcelService excelService;
 
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
     @GetMapping(value ="/export-excel", produces = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     public ResponseEntity<?> exportEtudiantsToExcel(
             @RequestParam String annee,

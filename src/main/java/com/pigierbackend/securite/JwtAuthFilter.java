@@ -59,12 +59,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (Exception e) {
-            // IMPORTANT: voir l'erreur dans la console
-            System.out.println("JWT ERROR: " + e.getClass().getName() + " - " + e.getMessage());
-            e.printStackTrace();
-
-            // On laisse Spring gérer le 401
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            SecurityContextHolder.clearContext();
+            filterChain.doFilter(request, response);
         }
+
     }
 }
