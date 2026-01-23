@@ -48,15 +48,23 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public RoleResponse update(Long id, RoleRequest request) {
         URole role = roleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rôle non trouvé avec l'id " + id));
-        Set<Permission> permissions = new HashSet<>(permissionRepository.findAllById(request.getPermissionIds()));
+                .orElseThrow(() -> new RuntimeException("Rôle introuvable"));
+
         role.setNomRole(request.getNomRole());
         role.setDescriptionRole(request.getDescriptionRole());
+
+        Set<Permission> permissions =
+                permissionRepository.findAllById(request.getPermissionIds())
+                        .stream().collect(Collectors.toSet());
+
         role.setPermission(permissions);
+
         return roleRepository.save(role).toRoleResponse();
     }
+
 
     @Override
     public void delete(Long id) {

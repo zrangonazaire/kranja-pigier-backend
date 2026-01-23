@@ -2,6 +2,7 @@ package com.pigierbackend.utilisateur;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -11,12 +12,14 @@ public class UtilisateurController {
     @Autowired
     private UtilisateurService utilisateurService;
 
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<UserResponse> create(@RequestBody UserRequest utilisateur) {
         utilisateur.setStatut(StatutUtilisateur.ACTIVE);
         return ResponseEntity.ok(utilisateurService.save(utilisateur));
     }
 
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<UserResponse> getById(@PathVariable Long id) {
         return utilisateurService.findById(id)
@@ -24,21 +27,26 @@ public class UtilisateurController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(produces = "application/json")
     public List<UserResponse> getAll() {
         return utilisateurService.findAll();
     }
 
+//    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody UserRequest utilisateur) {
         return ResponseEntity.ok(utilisateurService.update(id, utilisateur));
     }
 
+//    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         utilisateurService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(value = "/username/{username}", produces = "application/json")
     public ResponseEntity<UserResponse> getByUsername(@PathVariable String username) {
         return ResponseEntity.ok(utilisateurService.findByUsername(username));

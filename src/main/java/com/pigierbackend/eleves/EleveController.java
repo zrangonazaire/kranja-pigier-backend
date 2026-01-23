@@ -34,8 +34,8 @@ public class EleveController {
 
     final EleveService eleveService;
 
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
     @GetMapping(value = "/etatListeEtudiant", produces = MediaType.APPLICATION_PDF_VALUE)
-@PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiant(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab)
             throws Exception {
@@ -64,8 +64,8 @@ public class EleveController {
         // return eleveService.listeEtudiant(params);
     }
 
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
     @GetMapping("/etatListeEtudiantExcel")
-@PreAuthorize("hasAuthority('READ_ELEVE')")
     public ResponseEntity<byte[]> etatListeEtudiantExcel(@RequestParam String paramClasse,
             @RequestParam String paramAnneDebut, @RequestParam String paramAnneFin, @RequestParam String paramEtab)
             throws Exception {
@@ -98,8 +98,8 @@ public class EleveController {
     // public ResponseEntity<ExampleResponse> getExample() {
     // return ResponseEntity.ok(new ExampleResponse("Hello, World!"));
     // }
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
     @GetMapping(value = "/getPromotionsEleves", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasAuthority('LIRE_ELEVE')")
     public ResponseEntity<List<EleveRecordDTO>> getPromotionsEleves(@RequestParam List<String> promotions,
             @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
             @RequestParam String startStr, @RequestParam String endStr) throws Exception {
@@ -110,6 +110,8 @@ public class EleveController {
                 anneeScolaire, startDate, endDate);
         return ResponseEntity.ok(promotionEleves);
     }
+
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
    @GetMapping(value = "/getPromotionsElevesPayer", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EleveRecordAvecPayerDto>> getPromotionsElevesPayer(@RequestParam List<String> promotions,
             @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
@@ -122,6 +124,7 @@ public class EleveController {
         return ResponseEntity.ok(promotionEleves);
     }
 
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
     @GetMapping(value = "/getPromotionsElevesExcel")
     public ResponseEntity<byte[]> getPromotionsElevesExcel(@RequestParam List<String> promotions,
             @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
@@ -147,6 +150,7 @@ public class EleveController {
         }
     }
 
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
     @GetMapping(value = "/getAllClasses", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getAllClasses(@RequestParam String anneeScolaire) throws Exception {
         try {
@@ -158,6 +162,7 @@ public class EleveController {
         }
     }
 
+//    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
     @GetMapping("/getPromotionsElevesExcels")
     public ResponseEntity<byte[]> getPromotionsElevesExcels(
             @RequestParam List<String> promotions,

@@ -40,22 +40,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PreinscriptionController {
     final PreinscriptionService preinscriptionYakroService;
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('WRITE_PREINSCRIPTION')")
     @PostMapping(value = "/creerOrUpdatePreinsc", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('WRITE_PREINSCRIPTION')")
     public ResponseEntity<PreinscriptionResponseDto> creerOrUpdatePreinsc(
             @RequestBody PreinscriptionRequestDto dto) {
         return new ResponseEntity<PreinscriptionResponseDto>(
                 preinscriptionYakroService.createOrUpdatePreinscription(dto), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @GetMapping(value = "/findAllPreinscsansparam", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('READ_PREINSCRIPTION')")
     public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinscSansParam() {
         return new ResponseEntity<List<PreinscriptionResponseDto>>(
                 preinscriptionYakroService.getAllPreinscription(),
                 HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @GetMapping(value = "/findAllPreinscEntreDeuxDate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinscEntreDeuxDate(
             @RequestParam  String debut,
@@ -69,8 +70,8 @@ public class PreinscriptionController {
                 HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @GetMapping(value = "/findAllPreinsc/{size}", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasAuthority('READ_PREINSCRIPTION')")
     public ResponseEntity<List<PreinscriptionResponseDto>> findAllPreinsc(
             @PathVariable int size) {
         return new ResponseEntity<List<PreinscriptionResponseDto>>(
@@ -78,30 +79,30 @@ public class PreinscriptionController {
                 HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @DeleteMapping("/deletePreinsc/{id}")
-@PreAuthorize("hasAuthority('DELETE_PREINSCRIPTION')")
     public ResponseEntity<Boolean> deletePreinscYakro(@PathVariable String id) {
         return new ResponseEntity<Boolean>(preinscriptionYakroService.deletePreinscription(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @GetMapping("/findPreinscById/{id}")
-@PreAuthorize("hasAuthority('READ_PREINSCRIPTION')")
     public ResponseEntity<PreinscriptionResponseDto> findPreinscYakroById(@PathVariable String id) {
         return new ResponseEntity<PreinscriptionResponseDto>(
                 preinscriptionYakroService.getPreinscriptionById(id),
                 HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @GetMapping("/findPreinscByNomEleve/{nomEleve}")
-@PreAuthorize("hasAuthority('READ_PREINSCRIPTION')")
     public ResponseEntity<List<PreinscriptionResponseDto>> findPreinscYakroByNomEleve(
             @PathVariable String nomEleve) {
         return new ResponseEntity<List<PreinscriptionResponseDto>>(
                 preinscriptionYakroService.getPreinscriptionByNomEleve(nomEleve), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @GetMapping("/impressionPreinscription/{id}")
-@PreAuthorize("hasAuthority('READ_PREINSCRIPTION')")
     public ResponseEntity<byte[]> impressionPreinscriptionYakro(@PathVariable String id)
             throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionPreinscription(id);
@@ -115,8 +116,8 @@ public class PreinscriptionController {
                 .body(reportBytes);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @GetMapping("/impressionInscription/{id}")
-@PreAuthorize("hasAuthority('READ_PREINSCRIPTION')")
     public ResponseEntity<byte[]> impressionInscriptionYakro(@PathVariable String id)
             throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionInscription(id);
@@ -130,8 +131,8 @@ public class PreinscriptionController {
                 .body(reportBytes);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasAuthority('READ_PREINSCRIPTION')")
     @GetMapping("/impressionFicheMedicale/{id}")
-@PreAuthorize("hasAuthority('READ_PREINSCRIPTION')")
     public ResponseEntity<byte[]> impressionFicheMedicaleyakro(@PathVariable String id)
             throws FileNotFoundException, JRException, SQLException {
         byte[] reportBytes = preinscriptionYakroService.impressionFicheMedicale(id);
