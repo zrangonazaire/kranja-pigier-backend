@@ -31,6 +31,20 @@ import lombok.experimental.FieldDefaults;
 public class EncaissementController {
     final EncaissementService encaissementService;
 
+    private final DashboardEncaissementBIService dashboardService;
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<DashboardEncaissementBIDTO> getDashboard(
+            @RequestParam(required = false) String annee,
+            @RequestParam(required = false) Integer mois,
+            @RequestParam(required = false) String niveau
+    ) {
+        DashboardEncaissementBIDTO dto =
+                dashboardService.getDashboard(annee, mois, niveau);
+
+        return ResponseEntity.ok(dto);
+    }
+
     @GetMapping("/journalEncaissementsBetweenDates")
 @PreAuthorize("hasAuthority('READ_ENCAISSEMENT')")
     public ResponseEntity<byte[]> generateJournalEncaissementsBetweenDatesReport(

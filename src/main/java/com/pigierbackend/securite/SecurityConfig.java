@@ -43,6 +43,7 @@ public class SecurityConfig {
                         // AUTH UNIQUEMENT
                         .requestMatchers("/auth/**", "/api/v1/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/v1/encaissement/**").authenticated()
 
                         // TOUT LE RESTE PROTÉGÉ
                         .anyRequest().authenticated()
