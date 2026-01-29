@@ -8,9 +8,17 @@ import java.util.Optional;
 @Repository
 public interface DelibererRepository extends JpaRepository<Deliberer, Long> {
 
-    Optional<Deliberer> findByIdGroupeAndMatriElevAndCodeUE(
+    Optional<Deliberer> findByIdGroupeAndCodeUEAndMatriElev(
             String idGroupe,
-            String matriElev,
-            String codeUE
+            String codeUE,
+            String matriElev
+    );
+
+    boolean existsByIdGroupeAndCodeUEAndMatriElev(
+            String idGroupe,
+            String codeUE,
+            String matriElev
     );
 }
+
+

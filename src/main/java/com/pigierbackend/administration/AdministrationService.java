@@ -1,5 +1,6 @@
 package com.pigierbackend.administration;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -87,8 +89,18 @@ public class AdministrationService {
                         .nomPrenoms(a.getNomPrenoms())
                         .groupe(a.getGroupe())
                         .codeUE(a.getCodeUE())
+                        .ecue1(a.getEcue1())
+                        .ecue2(a.getEcue2())
+                        .dteDeliber(a.getDteDeliber())
+                        .moyenneCC(a.getMoyenneCC())
+                        .moyenneExam(a.getMoyenneExam())
                         .moyenneGle(a.getMoyenneGle())
                         .decision(a.getDecision())
+                        .annee(a.getAnnee())
+                        .dateOperation(a.getDateOperation())
+                        .creditUE(a.getCreditUE())
+                        .classActu(a.getClassActu())
+                        .classExam(a.getClassExam())
                         .traitement(a.getTraitement())
                         .build())
                 .toList();
@@ -124,32 +136,43 @@ public class AdministrationService {
         return val == null ? null : val.intValue();
     }
 
-
+    @Transactional
     public void traiterAdministrationTempo() {
 
         List<AdministrationTempo> lignes =
-                repository.findAll().stream()
-                        .filter(a -> a.getTraitement() == AdministrationEnum.NON_TRAITE)
-                        .toList();
+                repository.findByTraitement(AdministrationEnum.NON_TRAITE);
 
         for (AdministrationTempo tempo : lignes) {
 
-            String codeVerification = resolveCodeUE(tempo);
+            if (isBlank(tempo.getMatriElev())
+                    || isBlank(tempo.getGroupe())
+                    || isBlank(resolveCodeUE(tempo))) {
+
+                tempo.setTraitement(AdministrationEnum.TRAITE);
+                repository.save(tempo);
+                continue;
+            }
+
+            String codeUE = resolveCodeUE(tempo);
 
             Optional<Deliberer> delibererOpt =
-                    delibererRepository.findByIdGroupeAndMatriElevAndCodeUE(
+                    delibererRepository.findByIdGroupeAndCodeUEAndMatriElev(
                             tempo.getGroupe(),
-                            tempo.getMatriElev(),
-                            codeVerification
+                            codeUE,
+                            tempo.getMatriElev()
                     );
 
             if (delibererOpt.isPresent()) {
                 Deliberer deliberer = delibererOpt.get();
-
                 boolean changed = false;
 
                 if (!equalsDouble(deliberer.getMoyenne(), tempo.getMoyenneGle())) {
                     deliberer.setMoyenne(tempo.getMoyenneGle());
+                    changed = true;
+                }
+
+                if (!safeEquals(deliberer.getDesDeliber(), tempo.getDecision())) {
+                    deliberer.setDesDeliber(tempo.getDecision());
                     changed = true;
                 }
 
@@ -163,6 +186,32 @@ public class AdministrationService {
                     changed = true;
                 }
 
+                if (!safeEquals(deliberer.getAnnee(), tempo.getAnnee())) {
+                    deliberer.setAnnee(tempo.getAnnee());
+                    changed = true;
+                }
+
+                if (!safeEquals(deliberer.getDteDeliber(), tempo.getDteDeliber())) {
+                    deliberer.setDteDeliber(tempo.getDteDeliber());
+                    changed = true;
+                }
+
+                if (!safeEquals(deliberer.getDateOperation(), tempo.getDateOperation())) {
+                    deliberer.setDateOperation(tempo.getDateOperation());
+                    changed = true;
+                }
+
+                if (!safeEquals(deliberer.getNomPrenoms(), tempo.getNomPrenoms())) {
+                    deliberer.setNomPrenoms(tempo.getNomPrenoms());
+                    changed = true;
+                }
+
+                if (tempo.getCreditUE() != null
+                        && !tempo.getCreditUE().equals(deliberer.getCreditUE())) {
+                    deliberer.setCreditUE(tempo.getCreditUE());
+                    changed = true;
+                }
+
                 if (changed) {
                     delibererRepository.save(deliberer);
                 }
@@ -170,7 +219,7 @@ public class AdministrationService {
             } else {
                 Deliberer deliberer = Deliberer.builder()
                         .idGroupe(tempo.getGroupe())
-                        .codeUE(codeVerification)
+                        .codeUE(codeUE)
                         .matriElev(tempo.getMatriElev())
                         .nomPrenoms(tempo.getNomPrenoms())
                         .moyenne(tempo.getMoyenneGle())
@@ -189,6 +238,11 @@ public class AdministrationService {
             tempo.setTraitement(AdministrationEnum.TRAITE);
             repository.save(tempo);
         }
+    }
+
+
+    private boolean isBlank(String s) {
+        return s == null || s.isBlank();
     }
 
     private String resolveCodeUE(AdministrationTempo tempo) {

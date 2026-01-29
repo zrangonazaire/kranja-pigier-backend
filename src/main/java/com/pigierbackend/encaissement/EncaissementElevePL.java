@@ -23,7 +23,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Entity
-@Table(name = "Encaissements des Eleves Pl")
+@Table(name = "Encaissements des El\u00e8ves Pl")
 @Data
 @Builder
 public class EncaissementElevePL {
