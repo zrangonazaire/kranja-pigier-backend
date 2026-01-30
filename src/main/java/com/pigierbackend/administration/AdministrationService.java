@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +22,6 @@ public class AdministrationService {
     private final AdministrationRepository repository;
     private final DelibererRepository delibererRepository;
 
-    /** IMPORT EXCEL */
     public void importExcel(MultipartFile file) throws Exception {
 
         if (file.isEmpty()) {
@@ -57,9 +58,9 @@ public class AdministrationService {
                         .ecue1(getString(row, 4))
                         .ecue2(getString(row, 5))
                         .dteDeliber(getString(row, 6))
-                        .moyenneCC(getDouble(row, 7))
-                        .moyenneExam(getDouble(row, 8))
-                        .moyenneGle(getDouble(row, 9))
+                        .moyenneCC(round2(getDouble(row, 7)))
+                        .moyenneExam(round2(getDouble(row, 8)))
+                        .moyenneGle(round2(getDouble(row, 9)))
                         .decision(getString(row, 10))
                         .annee(getString(row, 11))
                         .dateOperation(getString(row, 12))
@@ -80,7 +81,6 @@ public class AdministrationService {
         }
     }
 
-    /** LISTE POUR LE FRONT */
     public List<AdministrationTempoDto> findAll() {
         return repository.findAll().stream()
                 .map(a -> AdministrationTempoDto.builder()
@@ -111,23 +111,26 @@ public class AdministrationService {
         return cell == null ? null : cell.toString();
     }
 
+    private Double round2(Double value) {
+        if (value == null) return null;
+        return BigDecimal.valueOf(value)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
+
     private Double getDouble(Row row, int index) {
         Cell cell = row.getCell(index);
         if (cell == null) return null;
 
-        switch (cell.getCellType()) {
-            case NUMERIC:
-                return cell.getNumericCellValue();
-            case STRING:
-                try {
-                    return Double.parseDouble(cell.getStringCellValue());
-                } catch (NumberFormatException e) {
-                    return null; // ou throw new RuntimeException("Valeur non numérique")
-                }
-            case FORMULA:
-                return cell.getNumericCellValue();
-            default:
-                return null;
+        try {
+            return switch (cell.getCellType()) {
+                case NUMERIC -> cell.getNumericCellValue();
+                case STRING -> Double.parseDouble(cell.getStringCellValue().replace(",", "."));
+                case FORMULA -> cell.getNumericCellValue();
+                default -> null;
+            };
+        } catch (Exception e) {
+            return null;
         }
     }
 
@@ -239,7 +242,6 @@ public class AdministrationService {
             repository.save(tempo);
         }
     }
-
 
     private boolean isBlank(String s) {
         return s == null || s.isBlank();

@@ -1,6 +1,7 @@
 {
   "dependencies": {
+    "@angular/animations": "^21.1.2",
     "@types/xlsx": "^0.0.35",
-    "xlsx": "^0.18.7"
+    "xlsx": "^0.18.5"
   }
 }
