@@ -172,7 +172,7 @@ public class ELEVE {
     private int scolFDFP;
 
     @Column(name = "idFDFP")
-    private int idFDFP;
+    private Integer idFDFP;
 
     @Column(name = "idPreinscription", length = 12)
     private String idPreinscription;
