@@ -43,11 +43,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/**", "/api/v1/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-<<<<<<< HEAD
                         .requestMatchers("/api/v1/administration/**", "/administration/**").permitAll()
-=======
-                        .requestMatchers("/api/v1/encaissement/**").authenticated()
->>>>>>> d3e6021 (dashboardEncaissementBI)
+                        .requestMatchers("/api/v1/encaissement/dashboard", "/encaissement/dashboard").permitAll()
+                        .requestMatchers("/api/v1/encaissement/**", "/encaissement/**").authenticated()
 
                         .anyRequest().authenticated()
                 )

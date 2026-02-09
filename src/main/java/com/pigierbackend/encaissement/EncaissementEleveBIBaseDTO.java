@@ -13,12 +13,9 @@ public class EncaissementEleveBIBaseDTO {
 
     private String matricule;
     private String nomPrenom;
-
-    private String niveau;      // BTS / LICENCE / MASTER
-    private String filiere;     // nomCla ou codeDetcla
-
-    private Integer montantAttendu;     // scolarité + droits + cotisation + examen
+    private String niveau;
+    private String filiere;
+    private Integer montantAttendu;
     private Integer montantEncaisse;
-
-    private Integer solde;      // solde global élève
+    private Integer solde;
 }

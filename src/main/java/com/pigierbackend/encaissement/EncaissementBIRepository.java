@@ -14,7 +14,7 @@ public interface EncaissementBIRepository extends JpaRepository<ELEVE, String> {
 SELECT 
     el.Matri_Elev AS matricule,
     CONCAT(el.Nom_Elev, ' ', el.Prenom_Elev) AS nomPrenom,
-    el.Cycle_Elev AS niveau,
+    lvl.niveau AS niveau,
     el.Nom_Cla AS filiere,
 
     (COALESCE(el.MontantSco_Elev,0)
@@ -33,18 +33,26 @@ SELECT
     (COALESCE(el.SoldSco_Elev,0) + COALESCE(el.SoldFraisExam,0)) AS solde
 
 FROM [Elèves] el
+CROSS APPLY (
+    SELECT CASE 
+             WHEN UPPER(el.Nom_Cla) LIKE '%BTS%' THEN 'BTS'
+             WHEN UPPER(el.Nom_Cla) LIKE '%LICENCE%' OR UPPER(el.Nom_Cla) LIKE '%LICENSE%' THEN 'LICENCE'
+             WHEN UPPER(el.Nom_Cla) LIKE '%MASTER%' OR UPPER(el.Nom_Cla) LIKE '%MASTERE%' THEN 'MASTER'
+             ELSE 'AUTRE'
+           END AS niveau
+) lvl
 LEFT JOIN [Encaissements des Elèves Pl] e
        ON e.Matri_Elev = el.Matri_Elev
       AND (:annee IS NULL OR e.anneeScolEncaissElevPL = :annee)
 
 WHERE (:annee IS NULL OR el.AnneeSco_Elev = :annee)
-  AND (:niveau IS NULL OR el.Cycle_Elev = :niveau)
+  AND (:niveau IS NULL OR lvl.niveau = :niveau)
 
 GROUP BY 
     el.Matri_Elev,
     el.Nom_Elev,
     el.Prenom_Elev,
-    el.Cycle_Elev,
+    lvl.niveau,
     el.Nom_Cla,
     el.MontantSco_Elev,
     el.droitinscription,
@@ -60,4 +68,3 @@ GROUP BY
     );
 
 }
-
