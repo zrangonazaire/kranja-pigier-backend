@@ -259,9 +259,13 @@ public class EleveServiceImpl implements EleveService {
                                                     List<String> etablissements,
                                                     String anneeScolaire,
                                                     LocalDate dateDebut,
-                                                    LocalDate dateFin) throws Exception {
+                                                    LocalDate dateFin,
+                                                    String nomElev,
+                                                    String matriElev) throws Exception {
 
-        String annSco = anneeScolaire.replace("-", "/").trim();
+        String annSco = (anneeScolaire == null || anneeScolaire.isBlank())
+                ? null
+                : anneeScolaire.replace("-", "/").trim();
 
         List<String> normalizedPromotions = promotions == null ? List.of()
                 : promotions.stream()
@@ -279,21 +283,28 @@ public class EleveServiceImpl implements EleveService {
                 .map(v -> v.toUpperCase(Locale.ROOT))
                 .toList();
 
-        if (normalizedPromotions.isEmpty() || normalizedEtablissements.isEmpty()) {
-            return List.of();
+        // si listes vides, on les passe à null pour rendre les filtres optionnels dans la requête
+        if (normalizedPromotions.isEmpty()) {
+            normalizedPromotions = null;
+        }
+        if (normalizedEtablissements.isEmpty()) {
+            normalizedEtablissements = null;
         }
 
-        log.info("Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}",
-                normalizedPromotions, normalizedEtablissements, annSco, dateDebut, dateFin);
+        String normalizedNomElev = nomElev == null || nomElev.isBlank() ? null : nomElev.trim().toUpperCase(Locale.ROOT);
+        String normalizedMatriElev = matriElev == null || matriElev.isBlank() ? null : matriElev.trim().toUpperCase(Locale.ROOT);
+
+        log.info("Fetching students for promotions: {}, etablissements: {}, anneeScolaire: {}, dateDebut: {}, dateFin: {}, nomElev: {}, matriElev: {}",
+                normalizedPromotions, normalizedEtablissements, annSco, dateDebut, dateFin, normalizedNomElev, normalizedMatriElev);
 
         // Gestion wildcard si une seule promotion
-        if (normalizedPromotions.size() == 1) {
+        if (normalizedPromotions != null && normalizedPromotions.size() == 1) {
             String promotion = normalizedPromotions.get(0);
             if (promotion.contains("*") || promotion.contains("%")) {
                 String likePattern = promotion.replace("*", "%");
                 try (Stream<ELEVE> stream =
                              eleveRepository.findValidElevesByPromotionPatternAsStreamByEncaissementDate(
-                                     likePattern, normalizedEtablissements, annSco, dateDebut, dateFin
+                                     likePattern, normalizedEtablissements, annSco, dateDebut, dateFin, normalizedNomElev, normalizedMatriElev
                              )) {
                     return mapEleves(stream);
                 }
@@ -302,7 +313,7 @@ public class EleveServiceImpl implements EleveService {
 
         try (Stream<ELEVE> stream =
                      eleveRepository.findValidElevesAsStreamByEncaissementDate(
-                             normalizedPromotions, normalizedEtablissements, annSco, dateDebut, dateFin
+                             normalizedPromotions, normalizedEtablissements, annSco, dateDebut, dateFin, normalizedNomElev, normalizedMatriElev
                      )) {
             return mapEleves(stream);
         }
@@ -337,7 +348,7 @@ public class EleveServiceImpl implements EleveService {
                                            LocalDate dateFin) throws Exception {
 
         List<EleveRecordDTO> etudiants = getPromotionsEleves(
-                promotions, etablissements, anneeScolaire, dateDebut, dateFin
+                promotions, etablissements, anneeScolaire, dateDebut, dateFin, null, null
         );
 
         String path = "src/main/resources/templates/ETUDIANTS.xlsx";
@@ -491,7 +502,7 @@ public class EleveServiceImpl implements EleveService {
                                            LocalDate dateFin) throws Exception {
 
         List<EleveRecordDTO> etudiants = getPromotionsEleves(
-                promotions, etablissements, anneeScolaire, dateDebut, dateFin
+                promotions, etablissements, anneeScolaire, dateDebut, dateFin, null, null
         );
 
         try (Workbook workbook = new XSSFWorkbook();

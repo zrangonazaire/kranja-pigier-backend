@@ -11,7 +11,7 @@ public interface EleveService {
     byte[] listeEtudiantExcel(Map<String, Object> parameters) throws Exception;
 
     List<EleveRecordDTO> getPromotionsEleves(List<String> promotions, List<String> etablissements, String anneeScolaire,
-            LocalDate dateDebut, LocalDate dateFin) throws Exception;
+            LocalDate dateDebut, LocalDate dateFin, String nomElev, String matriElev) throws Exception;
 
     byte[] getPromotionsElevesExcel(List<String> promotions, List<String> etablissements, String anneeScolaire,
             LocalDate dateDebut, LocalDate dateFin) throws Exception;

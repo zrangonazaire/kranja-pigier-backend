@@ -1,7 +1,6 @@
 package com.pigierbackend.eleves;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -64,15 +63,12 @@ public interface EleveRepository extends JpaRepository<ELEVE, String> {
                 FROM ELEVE e
                 WHERE e.codeDetcla <> ''
                   AND e.codeDetcla NOT LIKE 'aban%'
-
                   AND e.anneeScoElev = :anneeScolaire
                 ORDER BY e.codeDetcla
             """)
-    Stream<String> findValidCodeDetclaAsStream(
+    Stream<String> findValidCodeDetclaAsStream(@Param("anneeScolaire") String anneeScolaire);
 
-            @Param("anneeScolaire") String anneeScolaire);
-
-             @Query("""
+    @Query("""
     SELECT e
     FROM ELEVE e
     WHERE e.codeDetcla <> ''
@@ -98,9 +94,9 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
         FROM ELEVE e
         WHERE e.codeDetcla <> ''
           AND UPPER(TRIM(e.codeDetcla)) NOT LIKE 'ABAN%'
-          AND UPPER(TRIM(e.codeDetcla)) IN :promotions
-          AND UPPER(TRIM(e.etabSource)) IN :etablissements
-          AND e.anneeScoElev = :anneeScolaire
+          AND (:promotions IS NULL OR UPPER(TRIM(e.codeDetcla)) IN :promotions)
+          AND (:etablissements IS NULL OR UPPER(TRIM(e.etabSource)) IN :etablissements)
+          AND (:anneeScolaire IS NULL OR e.anneeScoElev = :anneeScolaire)
           AND (
                 CASE
                     WHEN EXISTS (
@@ -120,7 +116,7 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
                     )
                 END
           ) IS NOT NULL
-          AND CAST((
+          AND (:startDate IS NULL OR :endDate IS NULL OR CAST((
                 CASE
                     WHEN EXISTS (
                         SELECT 1 FROM EncaissementElevePL encR
@@ -138,7 +134,9 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
                           AND encI.objetEncais = 'I'
                     )
                 END
-          ) AS date) BETWEEN :startDate AND :endDate
+          ) AS date) BETWEEN :startDate AND :endDate)
+          AND (:nomElev IS NULL OR UPPER(TRIM(e.nomElev)) LIKE CONCAT('%', :nomElev, '%'))
+          AND (:matriElev IS NULL OR UPPER(TRIM(e.matriElev)) LIKE CONCAT('%', :matriElev, '%'))
         ORDER BY e.codeDetcla, e.nomElev
     """)
     Stream<ELEVE> findValidElevesAsStreamByEncaissementDate(
@@ -146,7 +144,9 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
             @Param("etablissements") List<String> etablissements,
             @Param("anneeScolaire") String anneeScolaire,
             @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate
+            @Param("endDate") LocalDate endDate,
+            @Param("nomElev") String nomElev,
+            @Param("matriElev") String matriElev
     );
 
     @Query("""
@@ -154,9 +154,9 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
         FROM ELEVE e
         WHERE e.codeDetcla <> ''
           AND UPPER(TRIM(e.codeDetcla)) NOT LIKE 'ABAN%'
-          AND UPPER(TRIM(e.codeDetcla)) LIKE :promotionPattern
-          AND UPPER(TRIM(e.etabSource)) IN :etablissements
-          AND e.anneeScoElev = :anneeScolaire
+          AND (:promotionPattern IS NULL OR UPPER(TRIM(e.codeDetcla)) LIKE :promotionPattern)
+          AND (:etablissements IS NULL OR UPPER(TRIM(e.etabSource)) IN :etablissements)
+          AND (:anneeScolaire IS NULL OR e.anneeScoElev = :anneeScolaire)
           AND (
                 CASE
                     WHEN EXISTS (
@@ -176,7 +176,7 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
                     )
                 END
           ) IS NOT NULL
-          AND CAST((
+          AND (:startDate IS NULL OR :endDate IS NULL OR CAST((
                 CASE
                     WHEN EXISTS (
                         SELECT 1 FROM EncaissementElevePL encR
@@ -194,7 +194,9 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
                           AND encI.objetEncais = 'I'
                     )
                 END
-          ) AS date) BETWEEN :startDate AND :endDate
+          ) AS date) BETWEEN :startDate AND :endDate)
+          AND (:nomElev IS NULL OR UPPER(TRIM(e.nomElev)) LIKE CONCAT('%', :nomElev, '%'))
+          AND (:matriElev IS NULL OR UPPER(TRIM(e.matriElev)) LIKE CONCAT('%', :matriElev, '%'))
         ORDER BY e.codeDetcla, e.nomElev
     """)
     Stream<ELEVE> findValidElevesByPromotionPatternAsStreamByEncaissementDate(
@@ -202,6 +204,8 @@ Stream<ELEVE> findValidElevesAvecMontantAsStream(
             @Param("etablissements") List<String> etablissements,
             @Param("anneeScolaire") String anneeScolaire,
             @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate
+            @Param("endDate") LocalDate endDate,
+            @Param("nomElev") String nomElev,
+            @Param("matriElev") String matriElev
     );
 }

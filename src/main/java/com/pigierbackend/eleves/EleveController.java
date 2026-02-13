@@ -100,14 +100,29 @@ public class EleveController {
     // }
 //    @PreAuthorize("hasRole('ADMIN') or hasAuthority('LIRE_ELEVE')")
     @GetMapping(value = "/getPromotionsEleves", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<EleveRecordDTO>> getPromotionsEleves(@RequestParam List<String> promotions,
-            @RequestParam List<String> etablissements, @RequestParam String anneeScolaire,
-            @RequestParam String startStr, @RequestParam String endStr) throws Exception {
+    public ResponseEntity<List<EleveRecordDTO>> getPromotionsEleves(
+            @RequestParam(required = false) List<String> promotions,
+            @RequestParam(required = false) List<String> etablissements,
+            @RequestParam String anneeScolaire,
+            @RequestParam(required = false) String startStr,
+            @RequestParam(required = false) String endStr,
+            @RequestParam(required = false) String nomElev,
+            @RequestParam(required = false) String matriElev) throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate startDate = LocalDate.parse(startStr, formatter);
-        LocalDate endDate = LocalDate.parse(endStr, formatter);
-        List<EleveRecordDTO> promotionEleves = eleveService.getPromotionsEleves(promotions, etablissements,
-                anneeScolaire, startDate, endDate);
+
+        LocalDate startDate = (startStr == null || startStr.isBlank()) ? null : LocalDate.parse(startStr, formatter);
+        LocalDate endDate   = (endStr == null || endStr.isBlank())   ? null : LocalDate.parse(endStr, formatter);
+
+        // Nettoyage des listes vides envoyées comme "" dans l'URL
+        if (promotions != null && promotions.size() == 1 && promotions.get(0).isBlank()) {
+            promotions = null;
+        }
+        if (etablissements != null && etablissements.size() == 1 && etablissements.get(0).isBlank()) {
+            etablissements = null;
+        }
+
+        List<EleveRecordDTO> promotionEleves = eleveService.getPromotionsEleves(
+                promotions, etablissements, anneeScolaire, startDate, endDate, nomElev, matriElev);
         return ResponseEntity.ok(promotionEleves);
     }
 
